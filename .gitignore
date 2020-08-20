@@ -119,3 +119,4 @@ build/
 coverage/
 
 package-lock.json
+.idea/
