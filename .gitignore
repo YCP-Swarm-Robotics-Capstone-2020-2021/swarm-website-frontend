@@ -117,3 +117,5 @@ build/
 
 # testing
 coverage/
+
+package-lock.json
