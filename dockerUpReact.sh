@@ -1,4 +1,5 @@
 #!/bin/bash
+sh createNetwork.sh
 docker build -t swarmreact .
 docker run -d --name swarmreact \
     -it \
