@@ -9,6 +9,8 @@
     * Docker Desktop  
         * Run the relevant docker desktop installer for your OS, available from https://www.docker.com/products/docker-desktop  
     * For Windows, you also need a unix console emulator. Cmder is a good, lightweight option: https://cmder.net/  
+    * If you have Windows Pro, Enterprise, or Education, please make sure the Hyper-V and Containers features are enabled. More information here: https://docs.docker.com/docker-for-windows/install/  
+    * If you have Windows 10 Home, please make sure you have WSL2 enabled. More information here: https://docs.docker.com/docker-for-windows/install-windows-home/
 
 * Linux
     * Docker Engine  
