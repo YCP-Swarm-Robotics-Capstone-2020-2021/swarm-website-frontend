@@ -3,6 +3,7 @@ body{
 }
 
 #loginBox{
+    border-radius: 25px;
     background-color: aquamarine;
     height: 25rem;
     width: 20rem;
