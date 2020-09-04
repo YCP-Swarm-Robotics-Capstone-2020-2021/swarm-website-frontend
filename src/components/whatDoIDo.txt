@@ -1,0 +1,35 @@
+To solve the issue of readability in the editor, we put the component itself in component-name.js and
+ have index.js simply export { default } from './component-name.js. For testing purposes, I recommend
+ putting the entire hook state for that component into a single useComponentName hook. You can find more
+ detail about testing hooks in Writing testable React components with hooks.
+
+Your end result looks something like this:
+my-app
+└── src
+    └── components
+        ├── component-name
+        │   ├── hooks
+        │   │   ├── index.js
+        │   │   └── use-component-name.js
+        │   ├── component-name.css
+        │   ├── component-name.scss
+        │   ├── component-name-styles.js
+        │   ├── component-name.js
+        │   └── index.js
+        └── index.js
+
+To summarize, we end up with the above structure.
+
+    hooks/index.js is an entry file that merely re-exports its siblings.
+
+    hooks/use-component-name.js is a single hook that calls all other hooks used by the component.
+
+    component-name.css is a straight-forward CSS file imported by your stateless view component.
+
+    component-name.scss is a straight-forward SASS file imported by your stateless view component.
+    
+    component-name-styles.js is your JSS. I’ve used this file extensively for storing Material UI withStyles
+        higher-order-components and JSS.
+
+    index.js is your entry point for importing your component. It contains nothing but export
+    { default as ComponentName } from './component-name'; and any TypeScript types needed to mount your component

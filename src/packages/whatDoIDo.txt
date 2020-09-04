@@ -1,0 +1,5 @@
+Finally, the project needs a directory that represents standalone modules that can
+hypothetically be exported from the project entirely. These modules do not contain business
+logic related to the application itself. Think open-source code that isn’t open-source
+ yet. Ask yourself, “Can another team benefit from this code?”
+  Like utilities, you may call this directory whatever makes sense for you and your team
