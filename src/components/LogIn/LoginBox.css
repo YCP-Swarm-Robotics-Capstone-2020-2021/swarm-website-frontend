@@ -11,7 +11,7 @@
     transform: translate(-50%, -50%);
 
     /* rounding/color/size */
-    border-radius: 35px;
+    border-radius: 15px;
     background-color: #3e4749;
     height: 25rem;
     width: 19rem;
@@ -43,6 +43,6 @@ input{
     height: 2.5rem;
     width: 8rem;
     margin-left: 5.7rem;
-    margin-top: 1rem;
+    margin-top: 2rem;
     font-size: 14pt;
 }
