@@ -1,6 +1,6 @@
 #loginBox{
     opacity: 0;
-    transition: 2s opacity;
+    transition: 1.5s opacity;
 
     /* center hor/ver */
     margin: 0;
@@ -14,7 +14,7 @@
     border-radius: 35px;
     background-color: #3e4749;
     height: 25rem;
-    width: 20rem;
+    width: 19rem;
 
     /* box shadow */
     -webkit-box-shadow: 2px 6px 49px 0px rgba(0,0,0,0.75);
@@ -28,4 +28,12 @@
 
 #logo{
     height: 10rem;
+    margin-left: 4.6rem;
+    margin-top: 1rem;
+    margin-bottom: .7rem;
+}
+
+.TextField{
+    margin-top: .3rem;
+    margin-left: 3.3rem;
 }

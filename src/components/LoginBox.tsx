@@ -3,6 +3,7 @@ import './styles/LoginBox.css';
 
 import {Image} from "./Image";
 import {TextField} from "./TextField";
+import {Button} from "./Button";
 
 //require any images
 const logo = require('../images/swarmLogoIcon.png');
@@ -20,6 +21,7 @@ export const LoginBox: React.FC = () => {
             <Image id='logo' src={String(logo)} alt='Swarm Robotics Logo'/>
             <TextField placeholder='Username'/>
             <TextField placeholder='Password'/>
+            <Button />
         </div>
     );
 };
