@@ -33,7 +33,15 @@
     margin-bottom: .7rem;
 }
 
-.TextField{
+input{
     margin-top: .3rem;
     margin-left: 3.3rem;
+}
+
+#loginButton{
+    background-color: #2d7536;
+    height: 2.5rem;
+    width: 8rem;
+    margin-left: 5.7rem;
+    margin-top: 1rem;
 }

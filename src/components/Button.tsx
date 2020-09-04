@@ -1,7 +1,17 @@
 import React from 'react';
+import './styles/Button.css';
 
-export const Button: React.FC = () => {
+//props for component to use
+interface Props{
+    id: string,
+    type: "button" | "submit" | "reset",
+    text: string
+}
+
+export const Button: React.FC<Props> = ({id, type, text}) => {
     return(
-        <p>hello</p>
+        <div>
+            <button id={id} type={type} className={'fontFamily'}>{text}</button>
+        </div>
     );
 };

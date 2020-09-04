@@ -4,13 +4,14 @@ import './styles/TextField.css';
 //props for component to use
 interface Props{
     placeholder: string;
+    type: string
 }
 
 //TextField component(function component)
-export const TextField: React.FC<Props> = ({placeholder}) => {
+export const TextField: React.FC<Props> = ({placeholder, type}) => {
     return(
       <div>
-          <input placeholder={placeholder} className='TextField'/>
+          <input type={type} placeholder={placeholder} className='fontFamily'/>
       </div>
     );
 };

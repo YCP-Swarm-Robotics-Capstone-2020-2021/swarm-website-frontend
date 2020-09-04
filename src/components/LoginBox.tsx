@@ -19,9 +19,9 @@ export const LoginBox: React.FC = () => {
     return(
         <div id='loginBox'>
             <Image id='logo' src={String(logo)} alt='Swarm Robotics Logo'/>
-            <TextField placeholder='Username'/>
-            <TextField placeholder='Password'/>
-            <Button />
+            <TextField type={'text'} placeholder='Username'/>
+            <TextField type={'password'} placeholder='Password'/>
+            <Button id={'loginButton'} type={"button"} text={"Log In"}/>
         </div>
     );
 };

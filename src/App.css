@@ -3,3 +3,7 @@ body{
     overflow: hidden;
     margin: 0;
 }
+
+.fontFamily{
+    font-family: monospace;
+}
