@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
-import './styles/LoginBox.css';
+import './LoginBox.css';
 
 import {Image} from "./Image";
 import {TextField} from "./TextField";
 import {Button} from "./Button";
 
 //require any images
-const logo = require('../images/swarmLogoIcon.png');
+const logo = require('../../images/swarmLogoIcon.png');
 
 export const LoginBox: React.FC = () => {
 

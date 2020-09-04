@@ -1,5 +1,5 @@
 import React from 'react';
-import './styles/TextField.css';
+import './TextField.css';
 
 //props for component to use
 interface Props{

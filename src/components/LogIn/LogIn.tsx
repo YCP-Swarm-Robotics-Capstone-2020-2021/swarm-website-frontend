@@ -1,14 +1,14 @@
 import React from 'react';
-import './App.css';
+import './LogIn.css';
 
 //components
-import {LoginBox} from "./components/LoginBox";
+import {LoginBox} from "./LoginBox";
 
 //choose random background
 let bgNum = Math.floor(Math.random() * 5) + 1
 
 const sectionStyle = {
-    backgroundImage: "url(" + require('./images/loginbgs/bg'+bgNum+'.jpg') + ")",
+    backgroundImage: "url(" + require('../../images/loginbgs/bg'+bgNum+'.jpg') + ")",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     minHeight: "100vh",
@@ -16,7 +16,7 @@ const sectionStyle = {
 };
 
 
-const App: React.FC = () => {
+const LogIn: React.FC = () => {
     return(
         <section style={sectionStyle}>
             <LoginBox />
@@ -24,4 +24,4 @@ const App: React.FC = () => {
     );
 };
 
-export default App;
+export default LogIn;
