@@ -2,11 +2,9 @@ import React from 'react';
 import './App.css';
 
 //components
-import {TextField} from "./components/TextField";
-import {Image} from "./components/Image";
+import {LoginBox} from "./components/LoginBox";
 
-//images
-const logo = require('./images/swarmLogoIcon.png');
+//choose random background
 let bgNum = Math.floor(Math.random() * 5) + 1
 
 const sectionStyle = {
@@ -21,11 +19,7 @@ const sectionStyle = {
 const App: React.FC = () => {
     return(
         <section style={sectionStyle}>
-            <div id='loginBox'>
-                <Image id='logo' src={String(logo)} alt='Swarm Robotics Logo'/>
-                <TextField placeholder='Username'/>
-                <TextField placeholder='Password'/>
-            </div>
+            <LoginBox />
         </section>
     );
 };
