@@ -1,12 +1,18 @@
 body{
     background-color: black;
+    overflow: hidden;
+    margin: 0;
 }
 
 #loginBox{
-    border-radius: 25px;
-    background-color: aquamarine;
+    border-radius: 35px;
+    background-color: #3e4749;
     height: 25rem;
     width: 20rem;
+
+    -webkit-box-shadow: 2px 6px 49px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 2px 6px 49px 0px rgba(0,0,0,0.75);
+    box-shadow: 2px 6px 49px 0px rgba(0,0,0,0.75);
 }
 
 #logo{
