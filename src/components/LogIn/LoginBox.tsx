@@ -25,7 +25,6 @@ export const LoginBox: React.FC = () => {
                 <TextField name={'username'} type={'text'} placeholder='Username'/>
                 <TextField name={'password'} type={'password'} placeholder='Password'/>
                 <Button id={'loginButton'} type={"button"} text={"Log In"}/>
-                <Link to={'/home'}>test</Link>
             </form>
         </div>
     );
