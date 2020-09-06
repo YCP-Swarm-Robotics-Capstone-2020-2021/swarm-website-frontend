@@ -1,5 +1,7 @@
 import React, {useEffect} from 'react';
+import { Link } from "react-router-dom";
 import './LoginBox.css';
+
 
 import {Image} from "./Image";
 import {TextField} from "./TextField";
@@ -23,6 +25,7 @@ export const LoginBox: React.FC = () => {
                 <TextField name={'username'} type={'text'} placeholder='Username'/>
                 <TextField name={'password'} type={'password'} placeholder='Password'/>
                 <Button id={'loginButton'} type={"button"} text={"Log In"}/>
+                <Link to={'/home'}>test</Link>
             </form>
         </div>
     );
