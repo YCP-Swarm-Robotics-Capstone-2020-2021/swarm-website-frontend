@@ -1,0 +1,49 @@
+webpackHotUpdate("main",{
+
+/***/ "./src/utils/TextField.tsx":
+/*!*********************************!*\
+  !*** ./src/utils/TextField.tsx ***!
+  \*********************************/
+/*! exports provided: TextField */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TextField", function() { return TextField; });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+var _jsxFileName = "/app/src/utils/TextField.tsx";
+ //props for component to use
+
+//TextField component(function component)
+const TextField = ({
+  placeholder,
+  type,
+  name,
+  id
+}) => {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 14,
+      columnNumber: 7
+    }
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+    name: name,
+    type: type,
+    placeholder: placeholder,
+    className: "fontFamily",
+    __self: undefined,
+    __source: {
+      fileName: _jsxFileName,
+      lineNumber: 15,
+      columnNumber: 11
+    }
+  }));
+};
+
+/***/ })
+
+})
+//# sourceMappingURL=main.c34f48d25f825d641d9c.hot-update.js.map
