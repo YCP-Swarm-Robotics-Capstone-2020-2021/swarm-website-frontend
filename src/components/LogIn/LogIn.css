@@ -45,6 +45,13 @@
     font-size: 12pt;
     line-height: 2;
     font-family: monospace;
+    border-radius: 0.5rem;
+    background-color: #54534d;
+    padding-left: .5rem;
+}
+
+.loginText:focus{
+    outline: 0;
 }
 
 #loginButton{
@@ -56,4 +63,5 @@
     font-size: 14pt;
     border: 0;
     font-family: monospace;
+    border-radius: 0.5rem
 }
