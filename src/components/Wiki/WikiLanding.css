@@ -6,6 +6,36 @@
     border-radius: 0.5rem;
     position: relative;
     width: 83%;
+    overflow: auto;
+}
+
+#wikiLanding::-webkit-scrollbar {
+    width: 14px;
+}
+
+/* Track */
+#wikiLanding::-webkit-scrollbar-track {
+    background: #4a4a4a;
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* Handle */
+#wikiLanding::-webkit-scrollbar-thumb {
+    background: #676767;
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* Handle on hover */
+#wikiLanding::-webkit-scrollbar-thumb:hover {
+    background: #2f2f2f;
+}
+
+#test{
+    position: absolute;
+    height: 10px;
+    width: 100%;
+    background-color: darkred;
+    top: 10000px;
 }
 
 @media (max-width: 1200px) {
