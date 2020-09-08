@@ -3,6 +3,7 @@ import React from 'react';
 import './Wiki.css';
 
 import EntryMenu from "./EntryMenu";
+import WikiLanding from "./WikiLanding";
 
 class Wiki extends React.Component{
     componentDidMount() {
@@ -14,6 +15,7 @@ class Wiki extends React.Component{
         return(
           <div id='content'>
               <EntryMenu />
+              <WikiLanding />
           </div>
         );
     }

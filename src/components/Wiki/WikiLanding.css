@@ -1,0 +1,17 @@
+#wikiLanding{
+    background-color: #879499;
+    height: 96%;
+    margin-left: 15%;
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+    position: relative;
+    width: 83%;
+}
+
+@media (max-width: 1200px) {
+    #wikiLanding{
+        margin-left: 1rem;
+        margin-right: 1rem;
+        width: 96%;
+    }
+}
