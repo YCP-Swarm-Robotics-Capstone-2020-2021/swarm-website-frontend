@@ -5,10 +5,8 @@ import './WikiLanding.css';
 class WikiLanding extends React.Component{
     render(){
         return(
-            <div id='wikiLanding'>
-                <div id='test'>
+            <div id='test'>
 
-                </div>
             </div>
         );
     }

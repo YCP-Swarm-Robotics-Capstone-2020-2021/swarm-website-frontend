@@ -5,6 +5,8 @@ import './Wiki.css';
 import EntryMenu from "./EntryMenu";
 import WikiLanding from "./WikiLanding";
 
+/*use states to switch between WikiLanding/WikiContent components in the rightPane div*/
+
 class Wiki extends React.Component{
     componentDidMount() {
         // @ts-ignore, object could possibly be null
@@ -15,7 +17,9 @@ class Wiki extends React.Component{
         return(
           <div id='content'>
               <EntryMenu />
-              <WikiLanding />
+              <div id='rightPane'>
+                  <WikiLanding />
+              </div>
           </div>
         );
     }

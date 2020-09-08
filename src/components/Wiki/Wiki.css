@@ -14,3 +14,43 @@
     overflow: hidden;
 }
 
+#rightPane{
+    background-color: #879499;
+    height: 96%;
+    margin-left: 15%;
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+    position: relative;
+    width: 83%;
+    overflow: auto;
+}
+
+#rightPane::-webkit-scrollbar {
+    width: 14px;
+}
+
+/* Track */
+#rightPane::-webkit-scrollbar-track {
+    background: #4a4a4a;
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* Handle */
+#rightPane::-webkit-scrollbar-thumb {
+    background: #676767;
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* Handle on hover */
+#rightPane::-webkit-scrollbar-thumb:hover {
+    background: #2f2f2f;
+}
+
+@media (max-width: 1200px) {
+    #rightPane{
+        margin-left: 1rem;
+        margin-right: 1rem;
+        width: 96%;
+    }
+}
+
