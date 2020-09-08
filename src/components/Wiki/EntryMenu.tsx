@@ -17,7 +17,7 @@ class EntryMenu extends React.Component{
                         <li>1st Milestone</li>
                         <li>2nd Milestone</li>
                         <li>Final Milestone</li>
-                        <li>Technical Report that was hard</li>
+                        <li>Technical Report</li>
                     </ul>
                 </div>
                 <div id='lastUpdated'>
