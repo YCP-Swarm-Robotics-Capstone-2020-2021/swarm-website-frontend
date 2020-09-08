@@ -1,0 +1,54 @@
+#entryMenu{
+    background-color: #879499;
+    height: 95%;
+    width: 12%;
+    margin-left: 1rem;
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+    position: relative;
+}
+
+#entryMenu hr{
+    border: 1px solid #181a1b;
+    width: 80%;
+}
+
+#menuWikiTitle{
+    margin: auto;
+    overflow: hidden;
+}
+
+#menuWikiTitle h1{
+    text-align: center;
+    padding-left: 4%;
+    padding-right: 4%;
+}
+
+#entryList{
+    font-size: 12pt;
+    overflow: hidden;
+}
+
+#entryList li{
+    margin-top: 5%;
+}
+
+#lastUpdated{
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    position: absolute;
+    bottom: 0;
+}
+
+#lastUpdated h4{
+    text-align: center;
+    margin-top: 0 ;
+    margin-bottom: 0;
+}
+
+@media (max-width: 1200px) {
+    #entryMenu{
+        display: none;
+    }
+}

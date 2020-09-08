@@ -1,7 +1,8 @@
- import React from 'react';
- import {Switch, Route} from "react-router";
+import React from 'react';
+import {Switch, Route} from "react-router";
 
- import LogIn from './components/LogIn/LogIn';
+import LogIn from './components/LogIn/LogIn';
+import Wiki from './components/Wiki/Wiki';
 import Error from './components/Error/Error';
 
 function  App(){
@@ -9,6 +10,7 @@ function  App(){
         <main>
             <Switch>
                 <Route path='/' component={LogIn} exact/>
+                <Route path='/wiki' component={Wiki} />
                 <Route component={Error} />
             </Switch>
         </main>
