@@ -22,7 +22,7 @@ class HomePage extends React.Component{
         return(
 
             <section style={background}>
-                <div> I hate myself</div>
+                <div> ADD FONT HERE</div>
             </section>
 
         )
