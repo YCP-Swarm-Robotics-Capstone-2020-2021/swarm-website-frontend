@@ -6,6 +6,7 @@ import Button from '../../utils/Button';
 import backgroundImageStyling from '../../styles/backgroundImageStyling'
 
 import './LogIn.css';
+import {Link} from "react-router-dom";
 
 //require any images
 const logo = require('../../images/swarmLogoIcon.png');
@@ -30,7 +31,9 @@ class LogIn extends React.Component {
                         <Image id='logo' src={String(logo)} alt='Swarm Robotics Logo'/>
                         <TextField id={'username'} class={'loginText'} name={'username'} type={'text'} placeholder='Username'/>
                         <TextField id={'password'} class={'loginText'} name={'password'} type={'password'} placeholder='Password'/>
-                        <Button class={''} id={'loginButton'} type={"button"} text={"Log In"}/>
+                        <Link to="/home">
+                            <Button class={''} id={'loginButton'} type={"button"} text={"Log In"}/>
+                        </Link>
                     </form>
                 </div>
             </section>
