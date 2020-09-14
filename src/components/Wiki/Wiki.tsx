@@ -27,7 +27,6 @@ class Wiki extends React.Component{
             <section style={background}>
                 <MainNavbar logo={logo} />
                 <div id='content'>
-
                   <EntryMenu />
                   <div id='rightPane'>
                       <WikiLanding />
