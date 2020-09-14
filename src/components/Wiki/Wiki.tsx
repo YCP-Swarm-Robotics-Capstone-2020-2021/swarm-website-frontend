@@ -1,15 +1,20 @@
 import React from 'react';
 
 import './Wiki.css';
+import backgroundImageStyling from "../../styles/backgroundImageStyling";
 
 import MainNavbar from "../../utils/MainNavbar";
 import EntryMenu from "./EntryMenu";
 import WikiLanding from "./WikiLanding";
 
-/*use states to switch between WikiLanding/WikiContent components in the rightPane div*/
+//TODO:
+// [] remake with bootstrap components
+// [] use states to switch between WikiLanding/WikiContent components in the rightPane div
+// [] add crud interactions
 
 //get navbar logo
 const logo = require('../../images/swarmLogoIcon.png');
+const background = backgroundImageStyling();
 
 class Wiki extends React.Component{
     componentDidMount() {
@@ -19,16 +24,16 @@ class Wiki extends React.Component{
 
     render(){
         return(
-            <div>
+            <section style={background}>
                 <MainNavbar logo={logo} />
                 <div id='content'>
-                  
+
                   <EntryMenu />
                   <div id='rightPane'>
                       <WikiLanding />
                   </div>
                 </div>
-            </div>
+            </section>
         );
     }
 }
