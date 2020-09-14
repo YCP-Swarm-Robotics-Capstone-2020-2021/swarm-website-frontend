@@ -3,21 +3,14 @@ import React from 'react';
 import Image from "../../utils/Image";
 import TextField from '../../utils/TextField';
 import Button from '../../utils/Button';
+import backgroundImageStyling from '../../styles/backgroundImageStyling'
 
 import './LogIn.css';
+import {Link} from "react-router-dom";
 
 //require any images
 const logo = require('../../images/swarmLogoIcon.png');
-
-//choose random background
-let bgNum = Math.floor(Math.random() * 5) + 1
-const sectionStyle = {
-    backgroundImage: "url(" + require('../../images/loginbgs/bg'+bgNum+'.jpg') + ")",
-    backgroundRepeat: "no-repeat",
-    backgroundSize: "cover",
-    minHeight: "100vh",
-    overflow: "hidden"
-};
+const background = backgroundImageStyling();
 
 class LogIn extends React.Component {
     componentDidMount() {
@@ -32,13 +25,15 @@ class LogIn extends React.Component {
 
     render() {
         return(
-            <section style={sectionStyle}>
+            <section style={background}>
                 <div id='loginBox'>
                     <form>
                         <Image id='logo' src={String(logo)} alt='Swarm Robotics Logo'/>
                         <TextField id={'username'} class={'loginText'} name={'username'} type={'text'} placeholder='Username'/>
                         <TextField id={'password'} class={'loginText'} name={'password'} type={'password'} placeholder='Password'/>
-                        <Button class={''} id={'loginButton'} type={"button"} text={"Log In"}/>
+                        <Link to="/home">
+                            <Button class={''} id={'loginButton'} type={"button"} text={"Log In"}/>
+                        </Link>
                     </form>
                 </div>
             </section>
