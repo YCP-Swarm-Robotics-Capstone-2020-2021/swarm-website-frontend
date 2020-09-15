@@ -15,6 +15,7 @@
 }
 
 #entryMenu .list-group{
+    border-bottom: none;
     height: 75%;
     overflow: auto;
 }

@@ -29,7 +29,7 @@ class Wiki extends React.Component{
                 <MainNavbar logo={logo} />
                 <div id='content'>
                   <EntryMenu />
-                  <div id='rightPane'>
+                  <div id='rightPane' className="bg-dark">
                       {/*<Landing />*/}
                       <Entry />
                   </div>
