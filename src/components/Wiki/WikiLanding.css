@@ -1,48 +1,16 @@
-/*#test{*/
-/*    position: absolute;*/
-/*    height: 10px;*/
-/*    width: 100%;*/
-/*    background-color: darkred;*/
-/*    top: 10000px;*/
-/*}*/
-
-#statDiv{
-    margin-left: 40%;
-    margin-right: 40%;
+#wikiLanding{
+    height: 100%;
 }
 
-#statDiv h1{
-    text-align: center;
+#wikiLanding .card{
+    height: 100%;
 }
 
 #statList{
-    font-size: 12pt;
     list-style-type: none;
-    padding-inline-start: 0px;
 }
 
-#graphDiv{
+#graph{
     background-color: darkred;
-    height: 57vh;
-    width: 96%;
-    margin-left: 2%;
-}
-
-/*placeholder text*/
-#graphDiv h4{
-    margin-left: 40%;
-    padding-top: 20%;
-}
-
-@media (max-width: 540px) {
-    #statDiv{
-        margin-left: 20%;
-        margin-right: 20%;
-    }
-}
-
-@media (max-width: 375px) {
-    #graphDiv{
-        display: none;
-    }
+    height: 100%;
 }
