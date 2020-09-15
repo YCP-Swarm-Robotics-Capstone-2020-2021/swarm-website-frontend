@@ -1,5 +1,5 @@
 import React from 'react';
-import {Card} from 'react-bootstrap';
+import {Card, Image, ListGroup} from 'react-bootstrap';
 
 import './PersonalPage.css';
 import backgroundImageStyling from '../../styles/backgroundImageStyling';
@@ -20,9 +20,26 @@ class PersonalPage extends React.Component {
                     <MainNavbar logo={logo}></MainNavbar>
                 </div>
                 <Card id="profileCard" bg="dark" text="white">
-                    <Card.Img id="profilePic" variant="top" src={logo}></Card.Img>
+                    {/*Currently the src is the logo but will have to be changed to profile pic for engineer/sponsor*/}
+                    <Image id="profilePic" src={logo} rounded ></Image>
+                    <Card.Title id="profileName" style={{textAlign:"center"}}>Test Testineer</Card.Title>
+                    {/*If dev display this */}
+                    <Card.Text id="gradYear" style={{textAlign:"center"}}>Graduating 2021 with a degree in Electrical Engineering</Card.Text>
                     <Card.Body>
-                        <Card.Title id="engineerName">Engineer Name Here</Card.Title>
+                        
+                        {/*Dev attributes*/}
+                        {/* <Card.Title id="bioHeader">Biography</Card.Title>
+                        <Card.Text id="bio">I am a fictional student studying Electrical Engineering at YCP.</Card.Text>
+                        /* If contributions is not null display this *
+                        <Card.Title id="contributionHeader">Here are some of my contributions</Card.Title>
+                        <ListGroup id="contributions">
+                            <ListGroup.Item variant="Dark">
+                                <Card.Link className="contributionLink" href="#">My First Contribution</Card.Link>
+                            </ListGroup.Item>
+                        </ListGroup> */}
+
+                        {/*Sponsor attributes*/}
+                        
                     </Card.Body>
                 </Card>
             </section>
