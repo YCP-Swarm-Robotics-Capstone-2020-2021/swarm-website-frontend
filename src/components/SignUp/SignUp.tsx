@@ -17,31 +17,47 @@ class SignUp extends React.Component {
     componentDidMount() {
         setTimeout(function () {
             // @ts-ignore, object could possibly be null
-            document.getElementById('loginBox').classList.add('fade-in');
+            document.getElementById('signUpBox').classList.add('fade-in');
         }, 1)
     }
 
     render() {
         return(
             <section style={background}>
-                <div id="loginBox">
+                <div id="signUpBox">
                     <Form>
-                        <Image id='logo' src={String(logo)} alt='Swarm Robotics Logo'/>
+                        <Image id='signUplogo' src={String(logo)} alt='Swarm Robotics Logo'/>
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Text className={'text-center loginText'}>Email address</Form.Text>
-                            <Form.Control className={'loginTextInput text-center'} type="email" placeholder="Enter email" />
+                            <Form.Text className={'text-center signUpText'}>First Name</Form.Text>
+                            <Form.Control className={'signUpTextInput text-center'} type="email" placeholder="First Name" />
+                        </Form.Group>
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Text className={'text-center signUpText'}>Last Name</Form.Text>
+                            <Form.Control className={'signUpTextInput text-center'} type="email" placeholder="Last Name" />
+                        </Form.Group>
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Text className={'text-center signUpText'}>Email address</Form.Text>
+                            <Form.Control className={'signUpTextInput text-center'} type="email" placeholder="Enter email" />
                         </Form.Group>
 
                         <Form.Group controlId="formBasicPassword">
-                            <Form.Text className={'loginText text-center'}>Password</Form.Text>
-                            <Form.Control className={'loginTextInput text-center'} type="password" placeholder="Password" />
+                            <Form.Text className={'signUpText text-center'}>Password</Form.Text>
+                            <Form.Control className={'signUpTextInput text-center'} type="password" placeholder="Password" />
                         </Form.Group>
-
-                        <Button id={'loginButton'} variant="primary" type="submit">
-                            Submit
+                        <Form.Group controlId="formBasicPassword">
+                            <Form.Text className={'signUpText text-center'}>Verify Password</Form.Text>
+                            <Form.Control className={'signUpTextInput text-center'} type="password" placeholder="Verify Passowrd" />
+                        </Form.Group>
+                        <Button id={'signUpButton'} variant="primary" type="submit">
+                            Sign Up
                         </Button>
-                        <Form.Text className={"text-muted loginText text-center"}>
-                           Forgot Password?
+                        <Link to="/">
+                            <Form.Text className={"text-muted text-center"}>
+                                Login
+                            </Form.Text>
+                        </Link>
+                        <Form.Text className={"text-muted text-center"}>
+                           Forgot Password
                         </Form.Text>
                     </Form>
                 </div>

@@ -7,7 +7,7 @@ import {Link} from "react-router-dom";
 
 
 //require any images
-const logo = require('../../images/swarmLogoIcon.png');
+const loginLogo = require('../../images/swarmLogoIcon.png');
 const background = backgroundImageStyling();
 
 class LogIn extends React.Component {
@@ -26,7 +26,7 @@ class LogIn extends React.Component {
             <section style={background}>
                 <div id="loginBox">
                     <Form>
-                        <Image id='logo' src={String(logo)} alt='Swarm Robotics Logo'/>
+                        <Image id='loginLogo' src={String(loginLogo)} alt='Swarm Robotics Logo'/>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Text className={'text-center loginText'}>Email address</Form.Text>
                             <Form.Control className={'loginTextInput text-center'} type="email" placeholder="Enter email" />
@@ -38,7 +38,7 @@ class LogIn extends React.Component {
                         </Form.Group>
 
                         <Button id={'loginButton'} variant="primary" type="submit">
-                            Submit
+                            Login
                         </Button>
                         <Link to="/signUp">
                             <Form.Text className={"text-muted text-center"}>

@@ -27,7 +27,7 @@
     opacity: 1 !important;
 }
 
-#logo{
+#loginLogo{
     height: 8rem;
     margin-left: 4rem;
     margin-bottom: .7rem;
@@ -44,7 +44,7 @@
     color: white;
 }
 
-.loginText:focus{
+.signUpText:focus{
     outline: 0;
 }
 
