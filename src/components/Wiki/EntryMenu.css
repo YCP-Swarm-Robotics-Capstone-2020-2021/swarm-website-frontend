@@ -14,11 +14,45 @@
     flex: none;
 }
 
+#entryMenu .list-group{
+    height: 75%;
+    overflow: auto;
+}
+
 #entryMenu .card-footer{
+    position: absolute;
+    bottom: 0;
+}
+
+#entryMenu .list-group::-webkit-scrollbar {
+    width: 14px;
+}
+
+/* Track */
+#entryMenu .list-group::-webkit-scrollbar-track {
+    background: #4a4a4a;
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* Handle */
+#entryMenu .list-group::-webkit-scrollbar-thumb {
+    background: #676767;
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* Handle on hover */
+#entryMenu .list-group::-webkit-scrollbar-thumb:hover {
+    background: #2f2f2f;
 }
 
 @media (max-width: 1200px) {
     #entryMenu{
+        display: none;
+    }
+}
+
+@media (max-height: 750px) {
+    #entryMenu .card-footer{
         display: none;
     }
 }
