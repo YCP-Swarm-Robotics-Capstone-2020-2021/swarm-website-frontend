@@ -37,7 +37,7 @@ class SignUp extends React.Component {
                             <Form.Control className={'loginTextInput text-center'} type="password" placeholder="Password" />
                         </Form.Group>
 
-                        <Button id={'loginButton'} variant="primary" type="submit" onClick={verifyLogin()}>
+                        <Button id={'loginButton'} variant="primary" type="submit">
                             Submit
                         </Button>
                         <Form.Text className={"text-muted loginText text-center"}>
