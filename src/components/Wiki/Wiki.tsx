@@ -8,7 +8,7 @@ import EntryMenu from "./EntryMenu";
 import WikiLanding from "./WikiLanding";
 
 //TODO:
-// [] remake with bootstrap components
+// [x] remake with bootstrap components
 // [] use states to switch between WikiLanding/WikiContent components in the rightPane div
 // [] add crud interactions
 
