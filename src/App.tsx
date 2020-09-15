@@ -4,6 +4,7 @@
  import LogIn from './components/LogIn/LogIn';
  import HomePage from "./components/Home/HomePage";
 import Error from './components/Error/Error';
+ import SignUp from "./components/SignUp/SignUp";
 
 function  App(){
     return(
@@ -11,6 +12,7 @@ function  App(){
             <Switch>
                 <Route path='/' component={LogIn} exact/>
                 <Route path='/home' component={HomePage} exact/>
+                <Route path='/signUp' component={SignUp}/>
                 <Route component={Error} />
             </Switch>
         </main>

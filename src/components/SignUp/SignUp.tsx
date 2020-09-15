@@ -1,7 +1,7 @@
 import React from 'react';
 import backgroundImageStyling from '../../styles/backgroundImageStyling'
 import {Button, Form} from "react-bootstrap";
-import './LogIn.css';
+import './SignUp.css';
 import Image from "../../utils/Image";
 import {Link} from "react-router-dom";
 
@@ -15,7 +15,7 @@ class SignUp extends React.Component {
         super(props);
     }
     componentDidMount() {
-        setTimeout(function (){
+        setTimeout(function () {
             // @ts-ignore, object could possibly be null
             document.getElementById('loginBox').classList.add('fade-in');
         }, 1)
@@ -37,7 +37,7 @@ class SignUp extends React.Component {
                             <Form.Control className={'loginTextInput text-center'} type="password" placeholder="Password" />
                         </Form.Group>
 
-                        <Button id={'loginButton'} variant="primary" type="submit">
+                        <Button id={'loginButton'} variant="primary" type="submit" onClick={verifyLogin()}>
                             Submit
                         </Button>
                         <Form.Text className={"text-muted loginText text-center"}>

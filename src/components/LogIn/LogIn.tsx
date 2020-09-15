@@ -40,9 +40,11 @@ class LogIn extends React.Component {
                         <Button id={'loginButton'} variant="primary" type="submit">
                             Submit
                         </Button>
-                        <Form.Text className={"text-muted text-center"}>
-                            Sign up
-                        </Form.Text>
+                        <Link to="/signUp">
+                            <Form.Text className={"text-muted text-center"}>
+                                Sign up
+                            </Form.Text>
+                        </Link>
                         <Form.Text className={"text-muted text-center"}>
                            Forgot Password
                         </Form.Text>
