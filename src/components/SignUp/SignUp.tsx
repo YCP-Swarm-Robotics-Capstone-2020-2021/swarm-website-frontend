@@ -10,7 +10,7 @@ import {Link} from "react-router-dom";
 const logo = require('../../images/swarmLogoIcon.png');
 const background = backgroundImageStyling();
 
-class LogIn extends React.Component {
+class SignUp extends React.Component {
     constructor(props: any) {
         super(props);
     }
@@ -40,11 +40,8 @@ class LogIn extends React.Component {
                         <Button id={'loginButton'} variant="primary" type="submit">
                             Submit
                         </Button>
-                        <Form.Text className={"text-muted text-center"}>
-                            Sign up
-                        </Form.Text>
-                        <Form.Text className={"text-muted text-center"}>
-                           Forgot Password
+                        <Form.Text className={"text-muted loginText text-center"}>
+                           Forgot Password?
                         </Form.Text>
                     </Form>
                 </div>
@@ -53,4 +50,4 @@ class LogIn extends React.Component {
     }
 }
 
-export default LogIn
+export default SignUp

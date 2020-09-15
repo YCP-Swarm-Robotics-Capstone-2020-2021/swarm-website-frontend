@@ -123,7 +123,7 @@ function checkValidServiceWorker(swUrl, config) {
     })
     .catch(() => {
       console.log(
-        'No internet connection found. LogIn is running in offline mode.'
+        'No internet connection found. SignUp is running in offline mode.'
       );
     });
 }
