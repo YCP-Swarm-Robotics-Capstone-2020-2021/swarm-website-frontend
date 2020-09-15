@@ -2,9 +2,9 @@ import React from 'react';
 
 import {Card} from 'react-bootstrap';
 
-import './WikiLanding.css';
+import './Landing.css';
 
-class WikiLanding extends React.Component{
+class Landing extends React.Component{
     render(){
         return(
             <div id="wikiLanding">
@@ -27,4 +27,4 @@ class WikiLanding extends React.Component{
     }
 }
 
-export default WikiLanding
+export default Landing

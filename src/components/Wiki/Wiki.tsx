@@ -5,11 +5,12 @@ import backgroundImageStyling from "../../styles/backgroundImageStyling";
 
 import MainNavbar from "../../utils/MainNavbar";
 import EntryMenu from "./EntryMenu";
-import WikiLanding from "./WikiLanding";
+import Landing from "./Landing";
+import Entry from "./Entry";
 
 //TODO:
 // [x] remake with bootstrap components
-// [] use states to switch between WikiLanding/WikiContent components in the rightPane div
+// [] use states to switch between Landing/Entry components in the rightPane div
 // [] add crud interactions
 
 //get navbar logo
@@ -29,7 +30,8 @@ class Wiki extends React.Component{
                 <div id='content'>
                   <EntryMenu />
                   <div id='rightPane'>
-                      <WikiLanding />
+                      {/*<Landing />*/}
+                      <Entry />
                   </div>
                 </div>
             </section>
