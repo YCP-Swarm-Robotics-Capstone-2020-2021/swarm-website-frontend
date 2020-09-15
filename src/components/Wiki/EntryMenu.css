@@ -1,89 +1,24 @@
 #entryMenu{
-    background-color: #879499;
-    height: 96%;
     width: 12%;
-    margin-left: 1rem;
-    margin-top: 1rem;
-    border-radius: 0.5rem;
-    position: relative;
+    height: 96%;
     float: left;
-
+    margin-left: 1.5rem;
+    margin-top: 1rem;
 }
 
-#entryMenu hr{
-    border: 1px solid #181a1b;
-    width: 80%;
+#entryMenu .card{
+    height: 100%;
 }
 
-#menuWikiTitle{
-    margin: auto;
-    overflow: hidden;
+#entryMenu .card-body{
+    flex: none;
 }
 
-#menuWikiTitle h1{
-    text-align: center;
-    padding-left: 4%;
-    padding-right: 4%;
-}
-
-#menuEntries{
-    height: 65%;
-    overflow: auto;
-}
-
-#menuEntries::-webkit-scrollbar {
-    width: 14px;
-}
-
-/* Track */
-#menuEntries::-webkit-scrollbar-track {
-    background: #4a4a4a;
-    border-radius: 0.5rem;
-}
-
-/* Handle */
-#menuEntries::-webkit-scrollbar-thumb {
-    background: #676767;
-    border-radius: 0.5rem;
-}
-
-/* Handle on hover */
-#menuEntries::-webkit-scrollbar-thumb:hover {
-    background: #2f2f2f;
-}
-
-#entryList{
-    font-size: 11pt;
-    overflow: hidden;
-}
-
-#entryList li{
-    margin-top: 5%;
-}
-
-#lastUpdated{
-    width: 100%;
-    overflow: hidden;
-    margin-bottom: 1rem;
-    position: absolute;
-    bottom: 0;
-
-}
-
-#lastUpdated h4{
-    text-align: center;
-    margin-top: 0 ;
-    margin-bottom: 0;
+#entryMenu .card-footer{
 }
 
 @media (max-width: 1200px) {
     #entryMenu{
-        display: none;
-    }
-}
-
-@media (max-height: 790px) {
-    #lastUpdated{
         display: none;
     }
 }
