@@ -29,7 +29,7 @@ class LogIn extends React.Component {
                         <Image id='loginLogo' src={String(loginLogo)} alt='Swarm Robotics Logo'/>
                         <Form.Group controlId="formBasicEmail">
                             <Form.Text className={'text-center loginText'}>Email address</Form.Text>
-                            <Form.Control className={'loginTextInput text-center'} type="email" placeholder="Enter email" />
+                            <Form.Control className={'loginTextInput text-center'} type="email" placeholder="Enter email"/>
                         </Form.Group>
 
                         <Form.Group controlId="formBasicPassword">
@@ -40,6 +40,7 @@ class LogIn extends React.Component {
                         <Button id={'loginButton'} variant="primary" type="submit">
                             Login
                         </Button>
+
                         <Link to="/signUp">
                             <Form.Text className={"text-muted text-center"}>
                                 Sign up
