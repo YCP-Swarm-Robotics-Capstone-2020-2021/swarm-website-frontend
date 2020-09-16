@@ -57,11 +57,7 @@
 
 #newCommentForm button{
     background-color: #2d7536;
-    border: none;
-}
-
-#newCommentForm button:focus{
-    box-shadow: 0 0 0 0.2rem rgba(13, 115, 35, .5);
+    border: none !important;
 }
 
 .comment{
@@ -80,6 +76,11 @@
     background-color: #181a1b;
     border-bottom: none;
     color: white;
+}
+
+#replyModal button:not(.close){
+    background-color: #2d7536;
+    border: none !important;
 }
 
 .toast-header .close{

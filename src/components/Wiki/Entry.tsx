@@ -1,11 +1,30 @@
 import React from 'react';
-import {Tab, Tabs, Card, Form, Button, Image, Toast} from "react-bootstrap";
+import {Tab, Tabs, Card, Form, Button, Image, Toast, Modal} from "react-bootstrap";
 
 import './Entry.css';
 
 const logo = require('../../images/swarmLogoIcon.png');
 
 class Entry extends React.Component<any, any>{
+    constructor(props: any) {
+        super(props);
+        this.state = {replyModalShow : false};
+        this.handleHide = this.handleHide.bind(this);
+        this.handleShow = this.handleShow.bind(this);
+    }
+
+    handleHide(){
+        this.setState({
+            replyModalShow: false
+        })
+    }
+
+    handleShow(){
+        this.setState({
+            replyModalShow: true
+        })
+    }
+
     render(){
         return(
             <Tabs id="tabs" defaultActiveKey="details" variant="pills" bg="dark">
@@ -41,19 +60,32 @@ class Entry extends React.Component<any, any>{
 
                 </Tab>
                 <Tab eventKey="comments" title="Comments">
+                    <Modal id="replyModal" show={this.state.replyModalShow} onHide={this.handleHide}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Reply</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Form>
+                                <Form.Group>
+                                    <Form.Control as="textarea" rows={5} />
+                                </Form.Group>
+                                <Button variant="success" type="submit">Comment</Button>
+                            </Form>
+                        </Modal.Body>
+                    </Modal>
                     <Form id="newCommentForm">
                         <Form.Group>
                             <Image id="newCommentProfPic" src={logo} roundedCircle width={50} height={50} />
                             <Form.Control as="textarea" rows={3} placeholder="Leave a comment" />
                         </Form.Group>
-                        <Button type="submit">Comment</Button>
+                        <Button variant="success" type="submit">Comment</Button>
                     </Form>
                     <Toast className='comment'>
                         <Toast.Header>
                             <Image src={logo} roundedCircle width={25} height={25}/>
                             <strong className="mr-auto ml-2">Tim Jefferson</strong>
                             <small className="mr-1">11 mins ago</small>
-                            <Button variant="success" className="replyButton ml-1" size="sm"><small>reply</small></Button>
+                            <Button variant="success" className="replyButton ml-1" size="sm" onClick={this.handleShow}><small>reply</small></Button>
                         </Toast.Header>
                         <Toast.Body>Hello, world! This is a toast message. I enjoy butter on my toast...</Toast.Body>
                     </Toast>
@@ -79,7 +111,7 @@ class Entry extends React.Component<any, any>{
                         <Toast.Header>
                             <Image src={logo} roundedCircle width={25} height={25}/>
                             <strong className="mr-auto ml-2">Collin Brandt</strong>
-                            <small className="mr-1">1 min ago</small>
+                            <small className="mr-1">25 min ago</small>
                             <Button variant="success" className="replyButton ml-1" size="sm"><small>reply</small></Button>
                         </Toast.Header>
                         <Toast.Body>Hello, world! This is a toast message. Just forget it.</Toast.Body>
