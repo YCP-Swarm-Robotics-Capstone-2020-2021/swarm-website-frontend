@@ -23,16 +23,18 @@
 }
 
 #companyPic{
-    padding-top: 2rem;
+    margin-top: 2rem;
     margin-left: auto;
     margin-right: auto;
-    /* width: 16rem;
-    height: 16rem; */
+    width: 16rem;
+    height: 16rem;
+    border-radius: 15px;
+    background-color: #3e4749;
 }
 
 #listItem{
     background-color: #353a3f;
     border-radius: 15px;
-    border: none;
-    width: 15rem;
+    
+    
 }

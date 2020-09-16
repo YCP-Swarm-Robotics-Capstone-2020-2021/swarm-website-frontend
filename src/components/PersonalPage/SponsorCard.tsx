@@ -1,15 +1,19 @@
 import React from 'react';
 import {Card, Image, ListGroup} from 'react-bootstrap';
 import "./SponsorCard.css"
-const logo = require('../../images/swarmLogoIcon.png');
+const companyLogo = require('../../images/bd.svg');
+const instagramLogo = require('../../images/socialMediaIcons/Instagram_Glyph_White-2.svg');
+const twitterLogo = require('../../images/socialMediaIcons/Twitter_Social_Icon_Rounded_Square_White.svg');
+
+const swarmLogo = require('../../images/swarmLogoIcon.png');
 
 class SponsorCard extends React.Component{
 
     render(){
         return(
         <Card id="profileCard" bg="dark" text="white">
-            <Image id="companyPic" src={logo} rounded ></Image>
-            <Card.Title id="companyName" style={{textAlign:"center"}}>Beckton Dickinson</Card.Title>
+            <Image id="companyPic" src={companyLogo} rounded ></Image>
+            <Card.Title id="companyName" style={{textAlign:"center"}}>Becton Dickinson</Card.Title>
             <Card.Body>
                  {/*Sponsor attributes*/}
                  <Card.Title id="companyMissionHeader">Our Mission Statement</Card.Title>
@@ -19,10 +23,10 @@ class SponsorCard extends React.Component{
                 <Card.Title id="socialMediaHeader">Check us out on social media</Card.Title>
                 <ListGroup id="socialMedia" horizontal>
                     <ListGroup.Item id="listItem" variant="secondary" style={{width: "6rem", height: "6rem"}}>
-                        <Card.Link className="contributionLink" href="#" ><Card.Img src={logo}></Card.Img></Card.Link>
+                        <Card.Link className="twitterLink" href="#" ><Card.Img src={twitterLogo}></Card.Img></Card.Link>
                     </ListGroup.Item>
                     <ListGroup.Item id="listItem" variant="secondary" style={{width: "6rem", height: "6rem"}}>
-                        <Card.Link className="contributionLink" href="#" ><Card.Img src={logo}></Card.Img></Card.Link>
+                        <Card.Link className="InstagramLink" href="#" ><Card.Img src={instagramLogo} style={{filter: "invert(100%)", backgroundColor: "black", borderRadius: "7px"}}></Card.Img></Card.Link>
                     </ListGroup.Item>
                     
                 </ListGroup>
