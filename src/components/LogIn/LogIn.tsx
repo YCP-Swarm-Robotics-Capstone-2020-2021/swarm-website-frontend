@@ -17,6 +17,17 @@ interface UserLoginInfo {
     }
 }
 
+async function postData(url = '', data = {}){
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    return response.json();
+}
+
 class LogIn extends React.Component<{}, UserLoginInfo> {
     constructor(props: any) {
         super(props);
@@ -44,14 +55,16 @@ class LogIn extends React.Component<{}, UserLoginInfo> {
                         <Form.Group controlId="formBasicEmail">
                             <Form.Text className={'text-center loginText'}>Email address</Form.Text>
                             <Form.Control className={'loginTextInput text-center'} value={this.state.loginInfo.email}
-                                          onChange={this.changeEmail} type="email" placeholder="Enter email"/>
+                                          onChange={this.changeEmail} type="email"
+                                          required placeholder="Enter email"/>
                         </Form.Group>
 
                         <Form.Group controlId="formBasicPassword">
                             <Form.Text className={'loginText text-center'}>Password</Form.Text>
                             <Form.Control className={'loginTextInput text-center'}
                                           onChange={this.changePassword} value={this.state.loginInfo.password}
-                                          type="password" placeholder="Password" />
+                                          required type="password"
+                                          placeholder="Password" />
                         </Form.Group>
 
                         <Button id={'loginButton'} variant="primary" type="submit" onClick={this.submitInfo}>
@@ -91,6 +104,12 @@ class LogIn extends React.Component<{}, UserLoginInfo> {
         this.setState({loginInfo: newLoginInfo})
     }
     submitInfo = (event: React.MouseEvent<HTMLButtonElement>): void => {
+        postData('https://localhost:8000/login', {loginInfo: this.state.loginInfo})
+            .then(data => {
+                console.log(data);
+            }).catch(
+                error => alert(error.message)
+            );
         console.log(this.state.loginInfo);
     }
 }
