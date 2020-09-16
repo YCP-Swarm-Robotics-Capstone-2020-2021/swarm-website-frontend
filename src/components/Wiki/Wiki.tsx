@@ -17,21 +17,39 @@ import Entry from "./Entry";
 const logo = require('../../images/swarmLogoIcon.png');
 const background = backgroundImageStyling();
 
-class Wiki extends React.Component{
+class Wiki extends React.Component<any, any>{
+    constructor(props: any) {
+        super(props)
+        this.handler = this.handler.bind(this);
+        this.state = {
+            view: "landing"
+        }
+    }
+
+    handler(entryId: any){
+        this.setState({
+            view: entryId
+        });
+    }
+
     componentDidMount() {
         // @ts-ignore, object could possibly be null
         document.getElementsByTagName("BODY")[0].classList.add('wikiBody');
     }
 
     render(){
+        let rightPaneComponent;
+        // @ts-ignore
+        this.state.view == "landing" ? rightPaneComponent = <Landing /> : rightPaneComponent = <Entry id={this.state.view}/>
+
         return(
             <section style={background}>
                 <MainNavbar logo={logo} />
                 <div id='content'>
-                  <EntryMenu />
+                  <EntryMenu action={this.handler}/>
+                  <div>{this.state.view}</div>
                   <div id='rightPane' className="bg-dark">
-                      {/*<Landing />*/}
-                      <Entry />
+                      {rightPaneComponent}
                   </div>
                 </div>
             </section>

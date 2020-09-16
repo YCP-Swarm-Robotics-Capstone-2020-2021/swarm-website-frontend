@@ -12,7 +12,7 @@ function  App(){
         <main>
             <Switch>
                 <Route path='/' component={LogIn} exact/>
-                <Route path='/wiki' component={Wiki} />
+                <Route path='/wiki/:id' component={Wiki} />
                 <Route path='/home' component={HomePage} exact/>
                 <Route component={Error} />
             </Switch>

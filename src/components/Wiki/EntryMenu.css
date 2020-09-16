@@ -25,6 +25,15 @@
     bottom: 0;
 }
 
+#entryMenu .list-group-item:hover{
+    cursor: pointer;
+    background-color: #868686;
+}
+
+#entryMenu .card-title:hover{
+    cursor: pointer;
+}
+
 #entryMenu .list-group::-webkit-scrollbar {
     width: 14px;
 }

@@ -3,7 +3,11 @@ import {Tab, Tabs, Card} from "react-bootstrap";
 
 import './Entry.css';
 
-class Entry extends React.Component{
+class Entry extends React.Component<any, any>{
+    constructor(props: any) {
+        super(props);
+    }
+
     render(){
         return(
             <Tabs id="tabs" defaultActiveKey="details" variant="pills" bg="dark">
@@ -23,7 +27,7 @@ class Entry extends React.Component{
                         </Card.Body>
                     </Card>
                     <Card id="detailsCard" bg="dark" text="white">
-                        <h2>Milestone 1</h2>
+                        <h2>Milestone {this.props.id}</h2>
                         <Card.Body>
                             <Card.Title>A heading</Card.Title>
                                 <Card.Text>The text that goes with the above heading. Crazy stuff
