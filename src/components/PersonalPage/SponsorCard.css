@@ -29,3 +29,10 @@
     /* width: 16rem;
     height: 16rem; */
 }
+
+#listItem{
+    background-color: #353a3f;
+    border-radius: 15px;
+    border: none;
+    width: 15rem;
+}

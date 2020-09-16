@@ -39,3 +39,10 @@
 .contributionLink{
     color: #389244;
 }
+
+#listItem{
+    background-color: #353a3f;
+    border-radius: 15px;
+    border: none;
+    width: 15rem;
+}
