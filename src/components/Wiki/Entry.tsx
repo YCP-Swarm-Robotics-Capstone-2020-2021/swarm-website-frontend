@@ -1,5 +1,5 @@
 import React from 'react';
-import {Tab, Tabs, Card, Form, Button, Image} from "react-bootstrap";
+import {Tab, Tabs, Card, Form, Button, Image, Toast} from "react-bootstrap";
 
 import './Entry.css';
 
@@ -48,6 +48,38 @@ class Entry extends React.Component<any, any>{
                         </Form.Group>
                         <Button type="submit">Comment</Button>
                     </Form>
+                    <Toast className='comment'>
+                        <Toast.Header>
+                            <Image src={logo} roundedCircle width={25} height={25}/>
+                            <strong className="mr-auto ml-2">Tim Jefferson</strong>
+                            <small>11 mins ago</small>
+                        </Toast.Header>
+                        <Toast.Body>Hello, world! This is a toast message. I enjoy butter on my toast...</Toast.Body>
+                    </Toast>
+                    <Toast className='comment'>
+                        <Toast.Header>
+                            <Image src={logo} roundedCircle width={25} height={25}/>
+                            <strong className="mr-auto ml-2">Thomas McAdams</strong>
+                            <small>15 mins ago</small>
+                        </Toast.Header>
+                        <Toast.Body>Hello, world! This is a toast message. I butter my bagels...</Toast.Body>
+                    </Toast>
+                    <Toast className='comment'>
+                        <Toast.Header>
+                            <Image src={logo} roundedCircle width={25} height={25}/>
+                            <strong className="mr-auto ml-2">Earl Kennedy</strong>
+                            <small>11 mins ago</small>
+                        </Toast.Header>
+                        <Toast.Body>Hello, world! This is a toast message. 86 errors? 100, take it or leave it</Toast.Body>
+                    </Toast>
+                    <Toast className='comment'>
+                        <Toast.Header>
+                            <Image src={logo} roundedCircle width={25} height={25}/>
+                            <strong className="mr-auto ml-2">Collin Brandt</strong>
+                            <small>1 min ago</small>
+                        </Toast.Header>
+                        <Toast.Body>Hello, world! This is a toast message. Just forget it.</Toast.Body>
+                    </Toast>
                 </Tab>
                 <Tab eventKey="edit" title="Edit">
                     <p>Edit tab</p>
