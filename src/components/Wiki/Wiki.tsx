@@ -47,7 +47,6 @@ class Wiki extends React.Component<any, any>{
                 <MainNavbar logo={logo} />
                 <div id='content'>
                   <EntryMenu action={this.rightPaneHandler}/>
-                  <div>{this.state.view}</div>
                   <div id='rightPane' className="bg-dark">
                       {rightPaneComponent}
                   </div>
