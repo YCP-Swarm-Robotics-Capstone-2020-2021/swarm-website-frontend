@@ -71,9 +71,19 @@
     margin-bottom: 2%;
 }
 
-.comment .toast-header{
+.comment button{
     background-color: #2d7536;
+    border: none !important;
+}
+
+.comment .toast-header{
+    background-color: #181a1b;
+    border-bottom: none;
     color: white;
+}
+
+.toast-header .close{
+    display: none;
 }
 
 /* Track */

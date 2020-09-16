@@ -52,7 +52,8 @@ class Entry extends React.Component<any, any>{
                         <Toast.Header>
                             <Image src={logo} roundedCircle width={25} height={25}/>
                             <strong className="mr-auto ml-2">Tim Jefferson</strong>
-                            <small>11 mins ago</small>
+                            <small className="mr-1">11 mins ago</small>
+                            <Button variant="success" className="replyButton ml-1" size="sm"><small>reply</small></Button>
                         </Toast.Header>
                         <Toast.Body>Hello, world! This is a toast message. I enjoy butter on my toast...</Toast.Body>
                     </Toast>
@@ -60,7 +61,8 @@ class Entry extends React.Component<any, any>{
                         <Toast.Header>
                             <Image src={logo} roundedCircle width={25} height={25}/>
                             <strong className="mr-auto ml-2">Thomas McAdams</strong>
-                            <small>15 mins ago</small>
+                            <small className="mr-1">15 mins ago</small>
+                            <Button variant="success" className="replyButton ml-1" size="sm"><small>reply</small></Button>
                         </Toast.Header>
                         <Toast.Body>Hello, world! This is a toast message. I butter my bagels...</Toast.Body>
                     </Toast>
@@ -68,7 +70,8 @@ class Entry extends React.Component<any, any>{
                         <Toast.Header>
                             <Image src={logo} roundedCircle width={25} height={25}/>
                             <strong className="mr-auto ml-2">Earl Kennedy</strong>
-                            <small>11 mins ago</small>
+                            <small className="mr-1">21 mins ago</small>
+                            <Button variant="success" className="replyButton ml-1" size="sm"><small>reply</small></Button>
                         </Toast.Header>
                         <Toast.Body>Hello, world! This is a toast message. 86 errors? 100, take it or leave it</Toast.Body>
                     </Toast>
@@ -76,7 +79,8 @@ class Entry extends React.Component<any, any>{
                         <Toast.Header>
                             <Image src={logo} roundedCircle width={25} height={25}/>
                             <strong className="mr-auto ml-2">Collin Brandt</strong>
-                            <small>1 min ago</small>
+                            <small className="mr-1">1 min ago</small>
+                            <Button variant="success" className="replyButton ml-1" size="sm"><small>reply</small></Button>
                         </Toast.Header>
                         <Toast.Body>Hello, world! This is a toast message. Just forget it.</Toast.Body>
                     </Toast>
