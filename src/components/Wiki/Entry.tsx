@@ -42,6 +42,9 @@ class Entry extends React.Component<any, any>{
                     </Card>
 
                 </Tab>
+                <Tab eventKey="comments" title="Comments">
+                    <p>Comments tab</p>
+                </Tab>
                 <Tab eventKey="edit" title="Edit">
                     <p>Edit tab</p>
                 </Tab>
