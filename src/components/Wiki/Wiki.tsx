@@ -20,13 +20,13 @@ const background = backgroundImageStyling();
 class Wiki extends React.Component<any, any>{
     constructor(props: any) {
         super(props)
-        this.handler = this.handler.bind(this);
+        this.rightPaneHandler = this.rightPaneHandler.bind(this);
         this.state = {
             view: "landing"
         }
     }
 
-    handler(entryId: any){
+    rightPaneHandler(entryId: any){
         this.setState({
             view: entryId
         });
@@ -46,7 +46,7 @@ class Wiki extends React.Component<any, any>{
             <section style={background}>
                 <MainNavbar logo={logo} />
                 <div id='content'>
-                  <EntryMenu action={this.handler}/>
+                  <EntryMenu action={this.rightPaneHandler}/>
                   <div>{this.state.view}</div>
                   <div id='rightPane' className="bg-dark">
                       {rightPaneComponent}
