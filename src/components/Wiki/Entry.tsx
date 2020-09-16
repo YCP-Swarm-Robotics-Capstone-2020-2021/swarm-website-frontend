@@ -8,7 +8,10 @@ const logo = require('../../images/swarmLogoIcon.png');
 class Entry extends React.Component<any, any>{
     constructor(props: any) {
         super(props);
-        this.state = {replyModalShow : false};
+        this.state = {
+            replyModalShow : false,
+            replyModalQuote: "test"
+        };
         this.handleHide = this.handleHide.bind(this);
         this.handleShow = this.handleShow.bind(this);
     }
@@ -19,9 +22,13 @@ class Entry extends React.Component<any, any>{
         })
     }
 
-    handleShow(){
+    handleShow(commentId: any){
+        //@ts-ignore
+        let commentText = document.getElementById("comment" + commentId).childNodes[1].textContent;
+
         this.setState({
-            replyModalShow: true
+            replyModalShow: true,
+            replyModalQuote: commentText
         })
     }
 
@@ -67,7 +74,7 @@ class Entry extends React.Component<any, any>{
                         <Modal.Body>
                             <Form>
                                 <Form.Group>
-                                    <Form.Control as="textarea" rows={5} />
+                                    <Form.Control as="textarea" rows={5} value={this.state.replyModalQuote}/>
                                 </Form.Group>
                                 <Button variant="success" type="submit">Comment</Button>
                             </Form>
@@ -80,12 +87,12 @@ class Entry extends React.Component<any, any>{
                         </Form.Group>
                         <Button variant="success" type="submit">Comment</Button>
                     </Form>
-                    <Toast className='comment'>
+                    <Toast id="comment1" className='comment'>
                         <Toast.Header>
                             <Image src={logo} roundedCircle width={25} height={25}/>
                             <strong className="mr-auto ml-2">Tim Jefferson</strong>
                             <small className="mr-1">11 mins ago</small>
-                            <Button variant="success" className="replyButton ml-1" size="sm" onClick={this.handleShow}><small>reply</small></Button>
+                            <Button variant="success" className="replyButton ml-1" size="sm" onClick={() => this.handleShow(1)}><small>reply</small></Button>
                         </Toast.Header>
                         <Toast.Body>Hello, world! This is a toast message. I enjoy butter on my toast...</Toast.Body>
                     </Toast>
