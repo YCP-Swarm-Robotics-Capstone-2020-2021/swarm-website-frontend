@@ -25,7 +25,7 @@ class PersonalPage extends React.Component {
     }
     
     render() {
-        const isDev = false;
+        const isDev = true;
         let card;
         if(isDev){
             card = <DevCard/>;
