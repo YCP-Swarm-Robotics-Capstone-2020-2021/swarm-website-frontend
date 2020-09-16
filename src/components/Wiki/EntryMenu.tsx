@@ -5,10 +5,6 @@ import './EntryMenu.css';
 import {Card, ListGroup, ListGroupItem} from 'react-bootstrap';
 
 class EntryMenu extends React.Component<any, any>{
-    constructor(props: any) {
-        super(props)
-    }
-
     render(){
         return(
             <div id="entryMenu">

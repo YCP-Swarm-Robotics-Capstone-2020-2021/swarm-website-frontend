@@ -4,10 +4,6 @@ import {Tab, Tabs, Card} from "react-bootstrap";
 import './Entry.css';
 
 class Entry extends React.Component<any, any>{
-    constructor(props: any) {
-        super(props);
-    }
-
     render(){
         return(
             <Tabs id="tabs" defaultActiveKey="details" variant="pills" bg="dark">
