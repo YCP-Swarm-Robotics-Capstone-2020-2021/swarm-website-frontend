@@ -1,7 +1,9 @@
 import React from 'react';
-import {Tab, Tabs, Card} from "react-bootstrap";
+import {Tab, Tabs, Card, Form, Button, Image} from "react-bootstrap";
 
 import './Entry.css';
+
+const logo = require('../../images/swarmLogoIcon.png');
 
 class Entry extends React.Component<any, any>{
     render(){
@@ -39,7 +41,13 @@ class Entry extends React.Component<any, any>{
 
                 </Tab>
                 <Tab eventKey="comments" title="Comments">
-                    <p>Comments tab</p>
+                    <Form id="newCommentForm">
+                        <Form.Group>
+                            <Image id="newCommentProfPic" src={logo} roundedCircle width={50} height={50} />
+                            <Form.Control as="textarea" rows={3} placeholder="Leave a comment" />
+                        </Form.Group>
+                        <Button type="submit">Comment</Button>
+                    </Form>
                 </Tab>
                 <Tab eventKey="edit" title="Edit">
                     <p>Edit tab</p>
