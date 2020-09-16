@@ -10,8 +10,9 @@ import Entry from "./Entry";
 
 //TODO:
 // [x] remake with bootstrap components
-// [] use states to switch between Landing/Entry components in the rightPane div
-// [] add crud interactions
+// [x] use states to switch between Landing/Entry components in the rightPane div
+// [ ] flush out edit/comments tab
+// [ ] add crud interactions
 
 //get navbar logo
 const logo = require('../../images/swarmLogoIcon.png');
