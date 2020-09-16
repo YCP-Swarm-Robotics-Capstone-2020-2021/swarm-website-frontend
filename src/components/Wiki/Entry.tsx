@@ -18,7 +18,8 @@ class Entry extends React.Component<any, any>{
 
     handleHide(){
         this.setState({
-            replyModalShow: false
+            replyModalShow: false,
+            replyModalQuote: ""
         })
     }
 
