@@ -57,6 +57,13 @@
 
 @media (max-width: 1200px) {
     #entryMenu{
+        width: 94%;
+        height: 40%;
+        margin-bottom: 1rem;
+        margin-left: 1.25rem;
+    }
+
+    #entryMenu .card-footer{
         display: none;
     }
 }

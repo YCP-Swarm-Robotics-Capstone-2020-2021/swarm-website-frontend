@@ -52,5 +52,9 @@
         margin-right: 1rem;
         width: 96%;
     }
+
+    #content{
+        overflow: auto;
+    }
 }
 
