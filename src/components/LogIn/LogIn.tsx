@@ -34,28 +34,6 @@ class LogIn extends React.Component<{}, UserLoginInfo> {
         }, 1)
     }
 
-    changeEmail = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        const {loginInfo} = this.state;
-        const {value} = event.currentTarget
-        const newLoginInfo = {
-            ...loginInfo,
-            email: value
-        };
-        this.setState({loginInfo: newLoginInfo})
-        console.log("this is the email: " + value);
-
-    }
-    changePassword = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        const {loginInfo} = this.state;
-        const {value} = event.currentTarget
-        const newLoginInfo = {
-            ...loginInfo,
-            password: value
-        };
-        this.setState({loginInfo: newLoginInfo})
-        console.log("this is the password: " + value);
-    }
-
 
     render() {
         return(
@@ -76,7 +54,7 @@ class LogIn extends React.Component<{}, UserLoginInfo> {
                                           type="password" placeholder="Password" />
                         </Form.Group>
 
-                        <Button id={'loginButton'} variant="primary" type="submit">
+                        <Button id={'loginButton'} variant="primary" type="submit" onClick={this.submitInfo}>
                             Login
                         </Button>
 
@@ -92,6 +70,28 @@ class LogIn extends React.Component<{}, UserLoginInfo> {
                 </div>
             </section>
         );
+    }
+    changeEmail = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        const {loginInfo} = this.state;
+        const {value} = event.currentTarget
+        const newLoginInfo = {
+            ...loginInfo,
+            email: value
+        };
+        this.setState({loginInfo: newLoginInfo})
+    }
+
+    changePassword = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        const {loginInfo} = this.state;
+        const {value} = event.currentTarget
+        const newLoginInfo = {
+            ...loginInfo,
+            password: value
+        };
+        this.setState({loginInfo: newLoginInfo})
+    }
+    submitInfo = (event: React.MouseEvent<HTMLButtonElement>): void => {
+        console.log(this.state.loginInfo);
     }
 }
 
