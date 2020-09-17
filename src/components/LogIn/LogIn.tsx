@@ -84,6 +84,7 @@ class LogIn extends React.Component<{}, UserLoginInfo> {
             </section>
         );
     }
+    //These methods serve the purpose of updating state input from the user
     changeEmail = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const {loginInfo} = this.state;
         const {value} = event.currentTarget
@@ -93,7 +94,7 @@ class LogIn extends React.Component<{}, UserLoginInfo> {
         };
         this.setState({loginInfo: newLoginInfo})
     }
-
+    //These methods serve the purpose of updating state input from the user
     changePassword = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const {loginInfo} = this.state;
         const {value} = event.currentTarget
