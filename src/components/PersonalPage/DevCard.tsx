@@ -3,6 +3,10 @@ import {Card, Image, ListGroup} from 'react-bootstrap';
 import "./DevCard.css"
 const swarmLogo = require('../../images/swarmLogoIcon.png');
 
+/*
+    User will be the prop for this component, passed in from the personal page component.
+    This will provide the user info, and provide necessary info the query the info the dev page. ie username/id
+*/
 
 
 class DevCard extends React.Component<any, any>{
@@ -22,9 +26,11 @@ class DevCard extends React.Component<any, any>{
         this.teamRole = "Software Engineer";
         this.bio = "I am a fictional student studying Computer Science from YCP.";
     }
+    //TODO write componentDidMount
+    //Should make requests for user info
 
+    //TODO Create fetch request to retrieve devpage info
     render(){
-        
         return(
         <Card id="profileCard" bg="dark" text="white">
             {/*Currently the src is the logo but will have to be changed to profile pic for engineer/sponsor*/}
@@ -39,6 +45,7 @@ class DevCard extends React.Component<any, any>{
                 <Card.Title id="bioHeader">A bit about me</Card.Title>
                 <Card.Text id="bio">{this.bio}</Card.Text>
                 {/* If contributions is not null display this */}
+                {/* This will also need to be turned into a for loop */}
                 <Card.Title id="contributionHeader">Here are some of my contributions</Card.Title>
                 <ListGroup id="contributions" variant="flush">
                     <ListGroup.Item id="listItem" variant="secondary">

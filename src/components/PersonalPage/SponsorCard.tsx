@@ -7,6 +7,11 @@ const twitterLogo = require('../../images/socialMediaIcons/Twitter_Social_Icon_R
 
 const swarmLogo = require('../../images/swarmLogoIcon.png');
 
+/*
+    The Sponsor will be passed in as the prop as it provides basic info including id which
+    can be used to query the rest of the info needed for the page
+*/
+
 class SponsorCard extends React.Component<any, any>{
     //Declaring all props for the component
     companyName: string;
@@ -24,6 +29,10 @@ class SponsorCard extends React.Component<any, any>{
         this.twitterLink = "#";
         this.instagramLink = "#";
     }
+    //TODO write componentDidMount
+    //Should make requests for user info
+
+    //TODO Create fetch request to retrieve devpage info
     
     render(){
         
