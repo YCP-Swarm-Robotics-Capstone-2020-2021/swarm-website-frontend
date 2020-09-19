@@ -18,16 +18,21 @@ import Entry from "./Entry";
 const logo = require('../../images/swarmLogoIcon.png');
 const background = backgroundImageStyling();
 
-class Wiki extends React.Component<any, any>{
-    constructor(props: any) {
-        super(props)
+interface wikiState{
+    view: string;
+}
+
+//component has no props, hence {}
+class Wiki extends React.Component<{}, wikiState>{
+    constructor() {
+        super({});
         this.rightPaneHandler = this.rightPaneHandler.bind(this);
         this.state = {
             view: "landing"
         }
     }
 
-    rightPaneHandler(entryId: any){
+    rightPaneHandler(entryId: string){
         this.setState({
             view: entryId
         });
