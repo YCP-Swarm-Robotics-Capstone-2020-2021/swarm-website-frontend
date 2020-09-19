@@ -24,8 +24,8 @@ interface wikiState{
 
 //component has no props, hence {}
 class Wiki extends React.Component<{}, wikiState>{
-    constructor() {
-        super({});
+    constructor(props = {}) {
+        super(props);
         this.rightPaneHandler = this.rightPaneHandler.bind(this);
         this.state = {
             view: "landing"

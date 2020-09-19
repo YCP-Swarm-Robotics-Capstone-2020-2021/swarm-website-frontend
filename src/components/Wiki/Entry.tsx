@@ -5,8 +5,29 @@ import './Entry.css';
 
 const logo = require('../../images/swarmLogoIcon.png');
 
-class Entry extends React.Component<any, any>{
-    constructor(props: any) {
+/*
+* There's a warning that gets produced in the console when interacting with the Tab component below (switching b/t details/comment/details tabs)
+* react-bootstrap is aware of this warning but they do not have a fix for it yet it seems.
+*
+* warning:
+* "findDOMNode is deprecated in StrictMode..."
+*
+* This can be suppressed by passing {false} to the 'transition' prop in the Tabs/Tab components.
+* So no fancy fade in/out transitions between tabs :(
+* */
+
+interface entryState{
+    replyModalShow: boolean
+    replyModalQuote: string
+}
+
+interface entryProps{
+    id: string
+}
+
+//component has no props, hence {}
+class Entry extends React.Component<entryProps, entryState>{
+    constructor(props: entryProps) {
         super(props);
         this.state = {
             replyModalShow : false,
@@ -23,9 +44,9 @@ class Entry extends React.Component<any, any>{
         })
     }
 
-    handleShow(commentId: any){
+    handleShow(commentId: string){
         //@ts-ignore
-        let commentText = document.getElementById("comment" + commentId).childNodes[1].textContent;
+        let commentText = document.getElementById("comment" + commentId).childNodes[1].textContent.toString();
 
         this.setState({
             replyModalShow: true,
@@ -35,8 +56,8 @@ class Entry extends React.Component<any, any>{
 
     render(){
         return(
-            <Tabs id="tabs" defaultActiveKey="details" variant="pills" bg="dark">
-                <Tab eventKey="details" title="Details">
+            <Tabs id="tabs" defaultActiveKey="details" variant="pills" bg="dark" transition={false}>
+                <Tab eventKey="details" title="Details" transition={false}>
                     <Card id="sideBarCard">
                         <Card.Body>
                             <Card.Title>Milestone 1</Card.Title>
@@ -67,7 +88,7 @@ class Entry extends React.Component<any, any>{
                     </Card>
 
                 </Tab>
-                <Tab eventKey="comments" title="Comments">
+                <Tab eventKey="comments" title="Comments" transition={false}>
                     <Modal id="replyModal" show={this.state.replyModalShow} onHide={this.handleHide}>
                         <Modal.Header closeButton>
                             <Modal.Title>Reply</Modal.Title>
@@ -93,7 +114,7 @@ class Entry extends React.Component<any, any>{
                             <Image src={logo} roundedCircle width={25} height={25}/>
                             <strong className="mr-auto ml-2">Tim Jefferson</strong>
                             <small className="mr-1">11 mins ago</small>
-                            <Button variant="success" className="replyButton ml-1" size="sm" onClick={() => this.handleShow(1)}><small>reply</small></Button>
+                            <Button variant="success" className="replyButton ml-1" size="sm" onClick={() => this.handleShow("1")}><small>reply</small></Button>
                         </Toast.Header>
                         <Toast.Body>Hello, world! This is a toast message. I enjoy butter on my toast...</Toast.Body>
                     </Toast>
@@ -125,7 +146,7 @@ class Entry extends React.Component<any, any>{
                         <Toast.Body>Hello, world! This is a toast message. Just forget it.</Toast.Body>
                     </Toast>
                 </Tab>
-                <Tab eventKey="edit" title="Edit">
+                <Tab eventKey="edit" title="Edit" transition={false}>
                     <p>Edit tab</p>
                 </Tab>
             </Tabs>
