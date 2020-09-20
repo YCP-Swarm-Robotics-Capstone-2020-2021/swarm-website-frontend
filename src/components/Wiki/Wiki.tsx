@@ -45,7 +45,6 @@ class Wiki extends React.Component<{}, wikiState>{
 
     render(){
         let rightPaneComponent;
-        // @ts-ignore
         this.state.view === "landing" ? rightPaneComponent = <Landing /> : rightPaneComponent = <Entry id={this.state.view}/>
 
         return(
