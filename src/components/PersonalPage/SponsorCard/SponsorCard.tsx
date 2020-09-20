@@ -49,7 +49,7 @@ class SponsorCard extends React.Component<{}, SponsorPage>{
         return(
         <Card id="profileCard" bg="dark" text="white">
             <Image id="companyPic" src={companyLogo} rounded ></Image>
-            <Card.Title id="companyName" style={{textAlign:"center"}}>{this.state.SponsorPage.companyName}</Card.Title>
+            <Card.Title id="companyName">{this.state.SponsorPage.companyName}</Card.Title>
             <Card.Body>
                  {/*Sponsor attributes*/}
                  <Card.Title id="companyMissionHeader">Our Mission Statement</Card.Title>
@@ -58,11 +58,15 @@ class SponsorCard extends React.Component<{}, SponsorPage>{
                 <Card.Text id="sponsorReason">{this.state.SponsorPage.sponsorReason}</Card.Text>
                 <Card.Title id="socialMediaHeader">Check us out on social media</Card.Title>
                 <ListGroup id="socialMedia" horizontal>
-                    <ListGroup.Item id="listItem" variant="secondary" style={{width: "6rem", height: "6rem"}}>
-                        <Card.Link className="twitterLink" href={this.state.SponsorPage.twitterLink} ><Card.Img src={twitterLogo}></Card.Img></Card.Link>
+                    <ListGroup.Item id="listItem" variant="secondary">
+                        <Card.Link id="socialMediaLink" href={this.state.SponsorPage.twitterLink} >
+                            <Card.Img id="twitterIcon" src={twitterLogo}></Card.Img>
+                        </Card.Link>
                     </ListGroup.Item>
-                    <ListGroup.Item id="listItem" variant="secondary" style={{width: "6rem", height: "6rem"}}>
-                        <Card.Link className="instagramLink" href={this.state.SponsorPage.instagramLink} ><Card.Img src={instagramLogo} style={{filter: "invert(100%)", backgroundColor: "black", borderRadius: "7px"}}></Card.Img></Card.Link>
+                    <ListGroup.Item id="listItem" variant="secondary">
+                        <Card.Link id="socialMediaLink" href={this.state.SponsorPage.instagramLink} >
+                            <Card.Img id="instagramIcon" src={instagramLogo}></Card.Img>
+                        </Card.Link>
                     </ListGroup.Item>
                     
                 </ListGroup>
