@@ -13,7 +13,7 @@ const logo = require('../../images/swarmLogoIcon.png');
 //Get random background image
 const background = backgroundImageStyling();
 
-class PersonalPage extends React.Component<any, any> {
+class PersonalPage extends React.Component{
     
     componentDidMount() {
         // @ts-ignore, object could possibly be null
@@ -26,7 +26,7 @@ class PersonalPage extends React.Component<any, any> {
     }
     
     render() {
-        const isDev = false;
+        const isDev = true;
         let card;
         if(isDev){
             card = <DevCard/>;

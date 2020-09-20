@@ -1,7 +1,7 @@
 import React from 'react';
 import {Card, Image, ListGroup} from 'react-bootstrap';
 import "./DevCard.css"
-const swarmLogo = require('../../images/swarmLogoIcon.png');
+const swarmLogo = require('../../../images/swarmLogoIcon.png');
 
 /*
     User will be the prop for this component, passed in from the personal page component.
