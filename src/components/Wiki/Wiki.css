@@ -8,8 +8,7 @@
     height: 85vh;
     width: 85%;
     margin-left: 7.5%;
-    /* since theres no navbar yet leave a space */
-    margin-top: 2.5%;
+    margin-top: 2%;
     border-radius: 0.5rem;
     overflow: hidden;
 }
