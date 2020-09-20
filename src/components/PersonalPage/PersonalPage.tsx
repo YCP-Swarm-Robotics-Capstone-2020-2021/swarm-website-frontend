@@ -4,8 +4,8 @@ import {Card, Image, ListGroup} from 'react-bootstrap';
 import './PersonalPage.css';
 import backgroundImageStyling from '../../styles/backgroundImageStyling';
 import MainNavbar from "../../utils/MainNavbar";
-import DevCard from "./DevCard";
-import SponsorCard from "./SponsorCard";
+import DevCard from "./DevCard/DevCard";
+import SponsorCard from "./SponsorCard/SponsorCard";
 
 //Require any images
 const logo = require('../../images/swarmLogoIcon.png');
