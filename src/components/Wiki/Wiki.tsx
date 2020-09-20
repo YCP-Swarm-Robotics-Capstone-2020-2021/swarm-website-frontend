@@ -4,9 +4,9 @@ import './Wiki.css';
 import backgroundImageStyling from "../../styles/backgroundImageStyling";
 
 import MainNavbar from "../../utils/MainNavbar";
-import EntryMenu from "./EntryMenu";
-import Landing from "./Landing";
-import Entry from "./Entry";
+import EntryMenu from "./EntryMenu/EntryMenu";
+import Landing from "./Landing/Landing";
+import Entry from "./Entry/Entry";
 
 //TODO:
 // [x] remake with bootstrap components

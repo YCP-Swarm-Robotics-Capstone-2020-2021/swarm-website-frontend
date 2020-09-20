@@ -3,7 +3,7 @@ import {Tab, Tabs, Card, Form, Button, Image, Toast, Modal} from "react-bootstra
 
 import './Entry.css';
 
-const logo = require('../../images/swarmLogoIcon.png');
+const logo = require('../../../images/swarmLogoIcon.png');
 
 /*
 * There's a warning that gets produced in the console when interacting with the Tab component below (switching b/t details/comment/details tabs)
