@@ -1,5 +1,4 @@
 import React from 'react';
-import {Card, Image, ListGroup} from 'react-bootstrap';
 
 import './PersonalPage.css';
 import backgroundImageStyling from '../../styles/backgroundImageStyling';
