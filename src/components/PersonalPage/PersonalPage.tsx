@@ -16,9 +16,6 @@ const background = backgroundImageStyling();
 class PersonalPage extends React.Component{
     
     componentDidMount() {
-        // @ts-ignore, object could possibly be null
-        document.getElementsByTagName("BODY")[0].classList.add('pageBody');
-
         setTimeout(function (){
             // @ts-ignore, object could possibly be null
             document.getElementById('cardHolder').classList.add('fade-in');
@@ -34,7 +31,7 @@ class PersonalPage extends React.Component{
             card = <SponsorCard/>;
         }
         return(
-            <section className="pageBody" style={background}>
+            <section style={background}>
                 <div id='navbarHolder'>
                     <MainNavbar logo={logo}></MainNavbar>
                 </div>
