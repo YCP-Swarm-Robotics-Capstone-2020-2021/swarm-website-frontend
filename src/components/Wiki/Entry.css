@@ -87,6 +87,37 @@
     display: none;
 }
 
+#editForm{
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+#editForm #title{
+    margin-top: 1rem;
+}
+
+#editForm .heading{
+    margin-top: 2rem;
+}
+
+#editForm button{
+    margin-top: 1rem;
+    background-color: #2d7536;
+    border: none !important;
+}
+
+#sideBarEdit .form-control{
+    width: 40%;
+}
+
+#sideBarLabel{
+    color: white;
+}
+
+#submitGroup{
+    margin-top: 10rem;
+}
+
 /* Track */
 #sideBarCard::-webkit-scrollbar-track {
     background: #4a4a4a;

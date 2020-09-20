@@ -147,7 +147,32 @@ class Entry extends React.Component<entryProps, entryState>{
                     </Toast>
                 </Tab>
                 <Tab eventKey="edit" title="Edit" transition={false}>
-                    <p>Edit tab</p>
+                    <Form id="editForm">
+                        <Form.Group>
+                            <Form.Control id="title" value="Milestone 1"></Form.Control>
+                            <Form.Control className="heading" value="Heading"></Form.Control>
+                            <Form.Control value="Heading text" as="textarea" rows={4}></Form.Control>
+
+                            <Form.Control className="heading" value="Heading 2"></Form.Control>
+                            <Form.Control value="Heading text 2" as="textarea" rows={4}></Form.Control>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label id="sideBarLabel">Sidebar</Form.Label>
+                        </Form.Group>
+                        <Form.Group id="sideBarEdit">
+                            <Form.Control className="float-left" value="Test"></Form.Control>
+                            <Form.Control className="float-right" value="Test 2"></Form.Control>
+
+                            <Form.Control className="float-left" value="Test"></Form.Control>
+                            <Form.Control className="float-right" value="Test 2"></Form.Control>
+
+                            <Form.Control className="float-left" value="Test"></Form.Control>
+                            <Form.Control className="float-right" value="Test 2"></Form.Control>
+                        </Form.Group>
+                        <Form.Group id="submitGroup">
+                            <Button variant="success" type="submit">Save</Button>
+                        </Form.Group>
+                    </Form>
                 </Tab>
             </Tabs>
         );
