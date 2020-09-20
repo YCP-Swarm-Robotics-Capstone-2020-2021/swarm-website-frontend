@@ -7,24 +7,31 @@ const swarmLogo = require('../../../images/swarmLogoIcon.png');
     User will be the prop for this component, passed in from the personal page component.
     This will provide the user info, and provide necessary info the query the info the dev page. ie username/id
 */
+interface DevPage{
+    DevPage: {
+        profileName: string,
+        gradYear: string,
+        degree: string,
+        teamRole: string,
+        bio : string
+    }    
+}
 
 
-class DevCard extends React.Component<any, any>{
-    //Declaring props for the component
-    profileName: string;
-    gradYear: string;
-    degree: string;
-    teamRole: string;
-    bio: string;
-
+class DevCard extends React.Component<{}, DevPage>{
     //Setting the props
-    constructor(props: any){
-        super(props)
-        this.profileName = "Test Testineer";
-        this.gradYear = "2021";
-        this.degree = "Computer Science";
-        this.teamRole = "Software Engineer";
-        this.bio = "I am a fictional student studying Computer Science from YCP.";
+    constructor(props: DevPage){
+        super(props);
+        this.state = {
+            DevPage: {
+                profileName: "Test Testineer",
+                gradYear: "2021",
+                degree: "Computer Science",
+                teamRole: "Software Engineer",
+                bio: "I am a fictional student studying Computer Science at YCP" 
+            }
+        }
+        
     }
     //TODO write componentDidMount
     //Should make requests for user info
@@ -35,15 +42,15 @@ class DevCard extends React.Component<any, any>{
         <Card id="profileCard" bg="dark" text="white">
             {/*Currently the src is the logo but will have to be changed to profile pic for engineer/sponsor*/}
             <Image id="profilePic" src={swarmLogo} rounded ></Image>
-            <Card.Title id="profileName" style={{textAlign:"center"}}>{this.profileName}</Card.Title>
-            <Card.Text id="gradYear" style={{textAlign:"center"}}>Graduating in {this.gradYear} with a degree in {this.degree}</Card.Text>
+            <Card.Title id="profileName" style={{textAlign:"center"}}>{this.state.DevPage.profileName}</Card.Title>
+            <Card.Text id="gradYear" style={{textAlign:"center"}}>Graduating in {this.state.DevPage.gradYear} with a degree in {this.state.DevPage.degree}</Card.Text>
             <Card.Body>
                 
                 {/*Dev attributes*/}
                 <Card.Title id="devRoleHeader">My role in the project</Card.Title>
-                <Card.Text id="devRole">{this.teamRole}</Card.Text>
+                <Card.Text id="devRole">{this.state.DevPage.teamRole}</Card.Text>
                 <Card.Title id="bioHeader">A bit about me</Card.Title>
-                <Card.Text id="bio">{this.bio}</Card.Text>
+                <Card.Text id="bio">{this.state.DevPage.bio}</Card.Text>
                 {/* If contributions is not null display this */}
                 {/* This will also need to be turned into a for loop */}
                 <Card.Title id="contributionHeader">Here are some of my contributions</Card.Title>
