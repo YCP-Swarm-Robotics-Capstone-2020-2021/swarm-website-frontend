@@ -1,0 +1,16 @@
+#wikiLanding{
+    height: 100%;
+}
+
+#wikiLanding .card{
+    height: 100%;
+}
+
+#statList{
+    list-style-type: none;
+}
+
+#graph{
+    background-color: darkred;
+    height: 100%;
+}

@@ -1,0 +1,4 @@
+This is a folder full of helper functions that are used globally. Keep your code DRY
+ (Don’t Repeat Yourself) by exporting repeated logic to a singular location and importing it where used.
+ Parts of your application can now share logic without copy-pasting by placing shared
+ logic in this utilities directory.
