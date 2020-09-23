@@ -29,7 +29,7 @@ async function postData(url = '', data = {}){
 }
 
 class LogIn extends React.Component<{}, UserLoginInfo> {
-    constructor(props: any) {
+    constructor(props?: any) {
         super(props);
         this.state = {
             loginInfo: {
