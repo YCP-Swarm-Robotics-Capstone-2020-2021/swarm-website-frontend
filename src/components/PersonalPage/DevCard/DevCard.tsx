@@ -55,10 +55,10 @@ class DevCard extends React.Component<{}, DevPage>{
                 {/* This will also need to be turned into a for loop */}
                 <Card.Title id="contributionHeader">Here are some of my contributions</Card.Title>
                 <ListGroup id="contributions" variant="flush">
-                    <ListGroup.Item id="listItem" variant="secondary">
+                    <ListGroup.Item id="devListItem" variant="secondary">
                         <Card.Link className="contributionLink" href="#">My First Contribution</Card.Link>
                     </ListGroup.Item>
-                    <ListGroup.Item id="listItem" variant="secondary">
+                    <ListGroup.Item id="devListItem" variant="secondary">
                         <Card.Link className="contributionLink" href="#">My Second Contribution</Card.Link>
                     </ListGroup.Item>
                 </ListGroup>
