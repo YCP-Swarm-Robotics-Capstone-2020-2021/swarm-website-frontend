@@ -1,11 +1,13 @@
 import React from 'react';
+import {wikiData} from '../Wiki';
 
 import './EntryMenu.css';
 
 import {Card, ListGroup, ListGroupItem} from 'react-bootstrap';
 
 interface entryMenuProps{
-    action: (entryId: string) => void
+    action: (entryId: string) => void,
+    data: wikiData
 }
 
 class EntryMenu extends React.Component<entryMenuProps, {}>{
@@ -14,7 +16,7 @@ class EntryMenu extends React.Component<entryMenuProps, {}>{
             <div id="entryMenu">
                 <Card bg="dark" text="white">
                     <Card.Body>
-                        <Card.Title onClick={() => this.props.action("landing")}>System Design and Analysis</Card.Title>
+                        <Card.Title onClick={() => this.props.action("landing")}>{this.props.data.title}</Card.Title>
                     </Card.Body>
                     <ListGroup>
                         <ListGroupItem onClick={() => this.props.action("1")} variant="dark">Milestone 1</ListGroupItem>

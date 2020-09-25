@@ -19,8 +19,15 @@ import Entry from "./Entry/Entry";
 const logo = require('../../images/swarmLogoIcon.png');
 const background = backgroundImageStyling();
 
+export interface wikiData {
+    title: string;
+    briefDescription: string;
+    entries: number[];
+}
+
 interface wikiState{
-    view: string
+    view: string;
+    data: wikiData;
 }
 
 interface wikiProps extends RouteComponentProps<{id: string}>{}
@@ -31,7 +38,8 @@ class Wiki extends React.Component<wikiProps, wikiState>{
         super(props);
         this.rightPaneHandler = this.rightPaneHandler.bind(this);
         this.state = {
-            view: "landing"
+            view: "landing",
+            data: {title: '', briefDescription: '', entries: []}
         }
     }
 
@@ -53,7 +61,7 @@ class Wiki extends React.Component<wikiProps, wikiState>{
             }
         })
             .then(response => response.json())
-            .then(data => console.log(data));
+            .then(data => this.setState({data: data as wikiData}));
     }
 
     render(){
@@ -64,7 +72,7 @@ class Wiki extends React.Component<wikiProps, wikiState>{
             <section style={background}>
                 <MainNavbar logo={logo} />
                 <div id='content'>
-                  <EntryMenu action={this.rightPaneHandler}/>
+                  <EntryMenu action={this.rightPaneHandler} data={this.state.data}/>
                   <div id='rightPane' className="bg-dark">
                       {rightPaneComponent}
                   </div>
