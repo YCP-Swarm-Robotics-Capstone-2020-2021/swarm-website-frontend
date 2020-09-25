@@ -1,4 +1,5 @@
 import React from 'react';
+import { RouteComponentProps} from "react-router";
 
 import './Wiki.css';
 import backgroundImageStyling from "../../styles/backgroundImageStyling";
@@ -19,12 +20,14 @@ const logo = require('../../images/swarmLogoIcon.png');
 const background = backgroundImageStyling();
 
 interface wikiState{
-    view: string;
+    view: string
 }
 
+interface wikiProps extends RouteComponentProps<{id: string}>{}
+
 //component has no props, hence {}
-class Wiki extends React.Component<{}, wikiState>{
-    constructor(props = {}) {
+class Wiki extends React.Component<wikiProps, wikiState>{
+    constructor(props: wikiProps) {
         super(props);
         this.rightPaneHandler = this.rightPaneHandler.bind(this);
         this.state = {
@@ -41,6 +44,16 @@ class Wiki extends React.Component<{}, wikiState>{
     componentDidMount() {
         // @ts-ignore, object could possibly be null
         document.getElementsByTagName("BODY")[0].classList.add('wikiBody');
+
+        let id = this.props.match.params.id;
+        fetch('http://localhost:8000/wiki/'+id,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => console.log(data));
     }
 
     render(){
