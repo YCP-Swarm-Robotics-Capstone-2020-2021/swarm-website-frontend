@@ -1,0 +1,49 @@
+.fade-in{
+    opacity: 1 !important;
+}
+#cardHolder{
+    opacity: 0;
+    transition: opacity 1.5s;
+}
+#profileCard{
+    
+    
+    /* Placing on the screen  */
+    width: 66%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5rem;
+
+    /* Rounder corners  */
+    border-radius: 15px;
+    background-color: #3e4749;
+
+    /* box shadow */
+    -webkit-box-shadow: 2px 6px 49px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 2px 6px 49px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 2px 6px 49px 0px rgba(0, 0, 0, 0.75);
+}
+
+#profilePic{
+    padding-top: 1rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 16rem;
+    height: 16rem;
+    border-radius: 15px;
+}
+
+#contributionHeader{
+    padding-top: 1rem;
+}
+
+.contributionLink{
+    color: #389244;
+}
+
+#devListItem{
+    background-color: #353a3f;
+    border-radius: 15px;
+    border: none;
+    width: 15rem;
+}
