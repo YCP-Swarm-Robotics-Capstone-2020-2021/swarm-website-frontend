@@ -58,12 +58,12 @@ class SponsorCard extends React.Component<{}, SponsorPage>{
                 <Card.Text id="sponsorReason">{this.state.SponsorPage.sponsorReason}</Card.Text>
                 <Card.Title id="socialMediaHeader">Check us out on social media</Card.Title>
                 <ListGroup id="socialMedia" horizontal>
-                    <ListGroup.Item id="listItem" variant="secondary">
+                    <ListGroup.Item id="sponsorListItem" variant="secondary">
                         <Card.Link id="socialMediaLink" href={this.state.SponsorPage.twitterLink} >
                             <Card.Img id="twitterIcon" src={twitterLogo}></Card.Img>
                         </Card.Link>
                     </ListGroup.Item>
-                    <ListGroup.Item id="listItem" variant="secondary">
+                    <ListGroup.Item id="sponsorListItem" variant="secondary">
                         <Card.Link id="socialMediaLink" href={this.state.SponsorPage.instagramLink} >
                             <Card.Img id="instagramIcon" src={instagramLogo}></Card.Img>
                         </Card.Link>
