@@ -68,7 +68,7 @@ class LogIn extends React.Component<{}, UserLoginInfo> {
                             Login
                         </Button>
 
-                        <Link to="/signUp">
+                        <Link to="/signup">
                             <Form.Text className={"text-muted text-center"}>
                                 Sign up
                             </Form.Text>
