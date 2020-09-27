@@ -11,9 +11,7 @@ const logo = require('../../images/swarmLogoIcon.png');
 const background = backgroundImageStyling();
 
 class SignUp extends React.Component {
-    constructor(props: any) {
-        super(props);
-    }
+
     componentDidMount() {
         setTimeout(function () {
             // @ts-ignore, object could possibly be null
