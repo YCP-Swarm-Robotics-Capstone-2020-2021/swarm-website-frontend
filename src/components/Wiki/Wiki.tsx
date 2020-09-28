@@ -1,5 +1,5 @@
 import React from 'react';
-import { RouteComponentProps} from "react-router";
+import {Redirect, RouteComponentProps} from "react-router";
 
 import './Wiki.css';
 import backgroundImageStyling from "../../styles/backgroundImageStyling";
@@ -28,6 +28,7 @@ export interface wikiData {
 interface wikiState{
     view: string;
     data: wikiData;
+    redirect: boolean;
 }
 
 interface wikiProps extends RouteComponentProps<{id: string}>{}
@@ -39,7 +40,8 @@ class Wiki extends React.Component<wikiProps, wikiState>{
         this.rightPaneHandler = this.rightPaneHandler.bind(this);
         this.state = {
             view: "landing",
-            data: {title: '', briefDescription: '', entries: []}
+            data: {title: '', briefDescription: '', entries: []},
+            redirect: false
         }
     }
 
@@ -60,11 +62,22 @@ class Wiki extends React.Component<wikiProps, wikiState>{
                 'Content-Type': 'application/json'
             }
         })
-            .then(response => response.json())
-            .then(data => this.setState({data: data as wikiData}));
+            .then(response => {
+                if(!response.ok){
+                    this.setState({redirect: true})
+                }
+                return response.json()
+            })
+            .then(data => {
+                this.setState({data: data as wikiData});
+            })
     }
 
     render(){
+        if(this.state.redirect) {
+            return <Redirect to='/home'/>;
+        }
+
         let rightPaneComponent;
         this.state.view === "landing" ? rightPaneComponent = <Landing /> : rightPaneComponent = <Entry id={this.state.view}/>
 
