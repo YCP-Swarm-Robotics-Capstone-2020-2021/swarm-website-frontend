@@ -1,4 +1,4 @@
-#loginBox {
+#signUpBox {
     opacity: 0;
     transition: opacity 1.5s;
 
@@ -13,8 +13,8 @@
     /* rounding/color/size */
     border-radius: 15px;
     background-color: #3e4749;
-    height: 32rem;
-    width: 19rem;
+    height: 50rem;
+    width: 24rem;
 
     /* box shadow */
     -webkit-box-shadow: 2px 6px 49px 0px rgba(0, 0, 0, 0.75);
@@ -27,13 +27,13 @@
     opacity: 1 !important;
 }
 
-#loginLogo{
-    height: 8rem;
-    margin-left: 4rem;
+#signUplogo{
+    height: 9rem;
+    margin-left: 6.2rem;
     margin-bottom: .7rem;
 }
 
-.loginText{
+.signUpText{
     margin-top: .3rem;
     font-family: monospace;
     padding-left: .5rem;
@@ -48,7 +48,7 @@
     outline: 0;
 }
 
-.loginTextInput{
+.signUpTextInput{
     margin-top: .3rem;
     font-family: monospace;
     padding-left: .5rem;
@@ -57,11 +57,11 @@
     width: 50%;
 }
 
-#loginButton{
+#signUpButton{
     background-color: #2d7536;
     height: 2.5rem;
     width: 8rem;
-    margin-left: 3.9rem;
+    margin-left: 6.3rem;
     margin-top: .5rem;
     font-size: 14pt;
     border: 0;
