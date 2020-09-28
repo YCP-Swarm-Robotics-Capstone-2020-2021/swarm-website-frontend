@@ -16,9 +16,20 @@ const logo = require('../../../images/swarmLogoIcon.png');
 * So no fancy fade in/out transitions between tabs :(
 * */
 
+interface entryData{
+    title: string
+    text: string
+    sideBar: number
+    comments: number[]
+    contributors: number[]
+    headings: number[]
+    log: number[]
+}
+
 interface entryState{
     replyModalShow: boolean
     replyModalQuote: string
+    data: entryData
 }
 
 interface entryProps{
@@ -31,7 +42,8 @@ class Entry extends React.Component<entryProps, entryState>{
         super(props);
         this.state = {
             replyModalShow : false,
-            replyModalQuote: "test"
+            replyModalQuote: "test",
+            data: {title: '', text: '', sideBar: 0, comments: [], contributors: [], headings: [], log: []}
         };
         this.handleHide = this.handleHide.bind(this);
         this.handleShow = this.handleShow.bind(this);
@@ -54,6 +66,19 @@ class Entry extends React.Component<entryProps, entryState>{
         })
     }
 
+    componentDidMount() {
+        fetch('http://localhost:8000/entry/' + this.props.id, {
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                this.setState({data: data as entryData})
+            })
+    }
+
     render(){
         return(
             <Tabs id="tabs" defaultActiveKey="details" variant="pills" bg="dark" transition={false}>
@@ -73,7 +98,7 @@ class Entry extends React.Component<entryProps, entryState>{
                         </Card.Body>
                     </Card>
                     <Card id="detailsCard" bg="dark" text="white">
-                        <h2>Milestone {this.props.id}</h2>
+                        <h2>{this.state.data.title}</h2>
                         <Card.Body>
                             <Card.Title>A heading</Card.Title>
                                 <Card.Text>The text that goes with the above heading. Crazy stuff
@@ -149,7 +174,7 @@ class Entry extends React.Component<entryProps, entryState>{
                 <Tab eventKey="edit" title="Edit" transition={false}>
                     <Form id="editForm">
                         <Form.Group>
-                            <Form.Control id="title" value="Milestone 1"></Form.Control>
+                            <Form.Control id="title" value={this.state.data.title}></Form.Control>
                             <Form.Control className="heading" value="Heading"></Form.Control>
                             <Form.Control value="Heading text" as="textarea" rows={4}></Form.Control>
 
