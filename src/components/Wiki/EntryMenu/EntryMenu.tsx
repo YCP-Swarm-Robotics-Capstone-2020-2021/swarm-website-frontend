@@ -41,7 +41,7 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
     componentDidMount() {
         setTimeout(() => {
             this.props.entries.forEach(entryId =>
-                fetch('http://localhost:8000/entry/'+entryId,{
+                fetch('http://localhost:8000/entry/'+entryId+'/',{
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'

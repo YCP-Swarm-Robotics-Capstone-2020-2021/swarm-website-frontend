@@ -67,7 +67,7 @@ class Entry extends React.Component<entryProps, entryState>{
     }
 
     componentDidMount() {
-        fetch('http://localhost:8000/entry/' + this.props.id, {
+        fetch('http://localhost:8000/entry/' + this.props.id + '/', {
             method: 'GET',
             headers:{
                 'Content-Type': 'application/json'

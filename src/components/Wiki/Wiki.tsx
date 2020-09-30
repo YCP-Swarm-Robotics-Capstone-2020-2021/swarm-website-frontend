@@ -57,7 +57,7 @@ class Wiki extends React.Component<wikiProps, wikiState>{
         document.getElementsByTagName("BODY")[0].classList.add('wikiBody');
 
         let id = this.props.match.params.id;
-        fetch('http://localhost:8000/wiki/'+id,{
+        fetch('http://localhost:8000/wiki/'+id+'/',{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -80,7 +80,7 @@ class Wiki extends React.Component<wikiProps, wikiState>{
         }
 
         let rightPaneComponent;
-        this.state.view === "landing" ? rightPaneComponent = <Landing /> : rightPaneComponent = <Entry id={this.state.view}/>
+        this.state.view === "landing" ? rightPaneComponent = <Landing entries={this.state.data.entries} /> : rightPaneComponent = <Entry id={this.state.view}/>
 
         return(
             <section style={background}>
