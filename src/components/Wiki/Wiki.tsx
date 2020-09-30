@@ -20,6 +20,7 @@ const logo = require('../../images/swarmLogoIcon.png');
 const background = backgroundImageStyling();
 
 export interface wikiData {
+    id: number;
     title: string;
     briefDescription: string;
     entries: number[];
@@ -40,7 +41,7 @@ class Wiki extends React.Component<wikiProps, wikiState>{
         this.rightPaneHandler = this.rightPaneHandler.bind(this);
         this.state = {
             view: "landing",
-            data: {title: '', briefDescription: '', entries: []},
+            data: {id: 0, title: '', briefDescription: '', entries: []},
             redirect: false
         }
     }
@@ -84,7 +85,7 @@ class Wiki extends React.Component<wikiProps, wikiState>{
         return(
             <section style={background}>
                 <MainNavbar logo={logo} />
-                <div id='content'>
+                <div id='contentWiki'>
                   <EntryMenu action={this.rightPaneHandler} wikiTitle={this.state.data.title} entries={this.state.data.entries}/>
                   <div id='rightPane' className="bg-dark">
                       {rightPaneComponent}

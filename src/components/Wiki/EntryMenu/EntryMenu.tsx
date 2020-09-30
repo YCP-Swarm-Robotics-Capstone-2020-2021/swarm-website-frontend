@@ -2,7 +2,7 @@ import React from 'react';
 
 import './EntryMenu.css';
 
-import {Card, ListGroup, ListGroupItem} from 'react-bootstrap';
+import {Button, Card, Form, ListGroup, ListGroupItem, Modal} from 'react-bootstrap';
 
 interface entryMenuProps{
     action: (entryId: string) => void,
@@ -12,14 +12,30 @@ interface entryMenuProps{
 
 interface entryMenuState{
     entryList: JSX.Element[]
+    addEntryModalShow: boolean
 }
 
 class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
     constructor(props: entryMenuProps) {
         super(props);
         this.state = {
-            entryList: []
+            entryList: [],
+            addEntryModalShow: false
         }
+        this.handleHide = this.handleHide.bind(this);
+        this.handleShow = this.handleShow.bind(this);
+    }
+
+    handleHide(){
+        this.setState({
+            addEntryModalShow: false
+        })
+    }
+
+    handleShow(){
+        this.setState({
+            addEntryModalShow: true
+        })
     }
 
     componentDidMount() {
@@ -48,6 +64,25 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
                     </Card.Body>
                     <ListGroup>
                         {this.state.entryList}
+                        <ListGroupItem variant="info" id='addEntry' onClick={() => this.handleShow()}>Add Entry</ListGroupItem>
+
+                        <Modal id="addEntryModal" show={this.state.addEntryModalShow} onHide={this.handleHide}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Add an entry</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <Form>
+                                    <Form.Group>
+                                        <Form.Label>Title</Form.Label>
+                                        <Form.Control as="input"/>
+                                        <Form.Label className='mt-3'>Description</Form.Label>
+                                        <Form.Control as='textarea' rows={3}></Form.Control>
+                                    </Form.Group>
+                                    <Button variant="success" type="submit">Save</Button>
+                                </Form>
+                            </Modal.Body>
+                        </Modal>
+
                     </ListGroup>
                     <Card.Footer className="text-center">Last Updated 10/23/2020</Card.Footer>
                 </Card>
