@@ -1,5 +1,6 @@
 import React from 'react';
 import {Redirect, RouteComponentProps} from "react-router";
+import {wikiData} from "../../utils/responseInterfaces/wikiData";
 
 import './Wiki.css';
 import backgroundImageStyling from "../../styles/backgroundImageStyling";
@@ -18,13 +19,6 @@ import Entry from "./Entry/Entry";
 //get navbar logo
 const logo = require('../../images/swarmLogoIcon.png');
 const background = backgroundImageStyling();
-
-export interface wikiData {
-    id: number;
-    title: string;
-    briefDescription: string;
-    entries: number[];
-}
 
 interface wikiState{
     view: string;

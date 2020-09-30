@@ -1,5 +1,7 @@
 import React from 'react';
 import {Tab, Tabs, Card, Form, Button, Image, Toast, Modal} from "react-bootstrap";
+import {entryData} from "../../../utils/responseInterfaces/entryData";
+import {commentData} from "../../../utils/responseInterfaces/commentData";
 
 import './Entry.css';
 
@@ -15,25 +17,6 @@ const logo = require('../../../images/swarmLogoIcon.png');
 * This can be suppressed by passing {false} to the 'transition' prop in the Tabs/Tab components.
 * So no fancy fade in/out transitions between tabs :(
 * */
-
-interface entryData{
-    id: number
-    title: string
-    text: string
-    sideBar: number
-    comments: number[]
-    contributors: number[]
-    headings: number[]
-    log: number[]
-}
-
-interface commentData{
-    id: number,
-    text: string,
-    dateTime: string,
-    user: number,
-    replies: number[]
-}
 
 interface entryState{
     replyModalShow: boolean
