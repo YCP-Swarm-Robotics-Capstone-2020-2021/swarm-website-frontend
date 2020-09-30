@@ -17,6 +17,7 @@ const logo = require('../../../images/swarmLogoIcon.png');
 * */
 
 interface entryData{
+    id: number
     title: string
     text: string
     sideBar: number
@@ -26,10 +27,20 @@ interface entryData{
     log: number[]
 }
 
+interface commentData{
+    id: number,
+    text: string,
+    dateTime: string,
+    user: number,
+    replies: number[]
+}
+
 interface entryState{
     replyModalShow: boolean
     replyModalQuote: string
     data: entryData
+    comments: commentData[]
+    commentElements: JSX.Element[]
 }
 
 interface entryProps{
@@ -43,7 +54,9 @@ class Entry extends React.Component<entryProps, entryState>{
         this.state = {
             replyModalShow : false,
             replyModalQuote: "test",
-            data: {title: '', text: '', sideBar: 0, comments: [], contributors: [], headings: [], log: []}
+            data: {id: 0, title: '', text: '', sideBar: 0, comments: [], contributors: [], headings: [], log: []},
+            comments: [],
+            commentElements: []
         };
         this.handleHide = this.handleHide.bind(this);
         this.handleShow = this.handleShow.bind(this);
@@ -67,6 +80,7 @@ class Entry extends React.Component<entryProps, entryState>{
     }
 
     componentDidMount() {
+        //get entry object
         fetch('http://localhost:8000/entry/' + this.props.id + '/', {
             method: 'GET',
             headers:{
@@ -76,6 +90,34 @@ class Entry extends React.Component<entryProps, entryState>{
             .then(response => response.json())
             .then(data => {
                 this.setState({data: data as entryData})
+            })
+            .then(() => {
+                //get commentData/commentElements
+                this.state.data.comments.forEach(commentId => {
+                    fetch("http://localhost:8000/comment/" + commentId + '/', {
+                        method: 'GET',
+                        headers:{
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            this.setState({
+                                comments: this.state.comments.concat(data as commentData),
+                                commentElements: this.state.commentElements.concat(
+                                    <Toast id="comment1" className='comment'>
+                                        <Toast.Header>
+                                            <Image src={logo} roundedCircle width={25} height={25}/>
+                                            <strong className="mr-auto ml-2">Tim Jefferson</strong>
+                                            <small className="mr-1">11 mins ago</small>
+                                            <Button variant="success" className="replyButton ml-1" size="sm" onClick={() => this.handleShow("1")}><small>reply</small></Button>
+                                        </Toast.Header>
+                                        <Toast.Body>{data['text']}</Toast.Body>
+                                    </Toast>
+                                )
+                            })
+                        })
+                })
             })
     }
 
@@ -134,42 +176,9 @@ class Entry extends React.Component<entryProps, entryState>{
                         </Form.Group>
                         <Button variant="success" type="submit">Comment</Button>
                     </Form>
-                    <Toast id="comment1" className='comment'>
-                        <Toast.Header>
-                            <Image src={logo} roundedCircle width={25} height={25}/>
-                            <strong className="mr-auto ml-2">Tim Jefferson</strong>
-                            <small className="mr-1">11 mins ago</small>
-                            <Button variant="success" className="replyButton ml-1" size="sm" onClick={() => this.handleShow("1")}><small>reply</small></Button>
-                        </Toast.Header>
-                        <Toast.Body>Hello, world! This is a toast message. I enjoy butter on my toast...</Toast.Body>
-                    </Toast>
-                    <Toast className='comment'>
-                        <Toast.Header>
-                            <Image src={logo} roundedCircle width={25} height={25}/>
-                            <strong className="mr-auto ml-2">Thomas McAdams</strong>
-                            <small className="mr-1">15 mins ago</small>
-                            <Button variant="success" className="replyButton ml-1" size="sm"><small>reply</small></Button>
-                        </Toast.Header>
-                        <Toast.Body>Hello, world! This is a toast message. I butter my bagels...</Toast.Body>
-                    </Toast>
-                    <Toast className='comment'>
-                        <Toast.Header>
-                            <Image src={logo} roundedCircle width={25} height={25}/>
-                            <strong className="mr-auto ml-2">Earl Kennedy</strong>
-                            <small className="mr-1">21 mins ago</small>
-                            <Button variant="success" className="replyButton ml-1" size="sm"><small>reply</small></Button>
-                        </Toast.Header>
-                        <Toast.Body>Hello, world! This is a toast message. 86 errors? 100, take it or leave it</Toast.Body>
-                    </Toast>
-                    <Toast className='comment'>
-                        <Toast.Header>
-                            <Image src={logo} roundedCircle width={25} height={25}/>
-                            <strong className="mr-auto ml-2">Collin Brandt</strong>
-                            <small className="mr-1">25 min ago</small>
-                            <Button variant="success" className="replyButton ml-1" size="sm"><small>reply</small></Button>
-                        </Toast.Header>
-                        <Toast.Body>Hello, world! This is a toast message. Just forget it.</Toast.Body>
-                    </Toast>
+
+                    {this.state.commentElements}
+
                 </Tab>
                 <Tab eventKey="edit" title="Edit" transition={false}>
                     <Form id="editForm">
