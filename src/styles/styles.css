@@ -3,4 +3,7 @@ body{
     overflow: hidden;
     margin: 0;
 }
+#mainNavbarLogo{
+    margin-right: 1em;
+}
 
