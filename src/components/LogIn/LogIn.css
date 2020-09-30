@@ -35,7 +35,6 @@
 
 .loginText{
     margin-top: .3rem;
-    font-family: monospace;
     padding-left: .5rem;
     margin-left: 3rem;
     margin-right: 3.3rem;
@@ -50,7 +49,6 @@
 
 .loginTextInput{
     margin-top: .3rem;
-    font-family: monospace;
     padding-left: .5rem;
     font-size: 12pt;
     line-height: 2;
@@ -65,7 +63,6 @@
     margin-top: .5rem;
     font-size: 14pt;
     border: 0;
-    font-family: monospace;
     border-radius: 0.5rem;
     margin-bottom: 1rem;
 }

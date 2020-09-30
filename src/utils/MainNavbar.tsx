@@ -14,11 +14,12 @@ class MainNavbar extends React.Component<Props>{
                     <Link to="/">
                         <img
                             alt=""
+                            id={"mainNavbarLogo"}
                             src={this.props.logo}
                             width="40"
                             height="40"
                             className="d-inline-block align-top"
-                        />{' '}
+                        />{''}
                     </Link>
                     <Navbar.Brand href="#home">  Swarm Robotics</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
