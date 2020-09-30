@@ -75,7 +75,7 @@ class Wiki extends React.Component<wikiProps, wikiState>{
 
     render(){
         if(this.state.redirect) {
-            return <Redirect to='/home'/>;
+            return <Redirect to='/wikinotfound'/>;
         }
 
         let rightPaneComponent;

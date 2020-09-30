@@ -1,0 +1,15 @@
+#content{
+    background-color: #181a1b;
+    height: 85vh;
+    width: 60%;
+    margin-left: 20%;
+    margin-top: 2%;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+#errorJumbotron{
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 3rem;
+}
