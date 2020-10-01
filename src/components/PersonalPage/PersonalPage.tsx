@@ -17,21 +17,32 @@ interface personalPageProps extends RouteComponentProps<{id: string}> {}
 
 interface personalPage {
     personalPage: {
+        id: string,
         pageType: string,
         pageTitle: string
     }
-    
 }
 
-class PersonalPage extends React.Component<RouteComponentProps<{id: string}>, personalPage>{
+interface card {
+    card: {
+        cardType:  JSX.Element
+    }
+}
+
+class PersonalPage extends React.Component<RouteComponentProps<{id: string}>, personalPage & card>{
     constructor(props: RouteComponentProps<{id: string}>){
         super(props);
         this.state = {
             personalPage: {
+                id: '',
                 pageType: '',
                 pageTitle: ''
+            },
+            card: {
+                cardType: <DevCard/>,
             }
         }
+        this.setCardType = this.setCardType.bind(this);
     }
 
     componentDidMount() {
@@ -41,7 +52,7 @@ class PersonalPage extends React.Component<RouteComponentProps<{id: string}>, pe
         }, 1)
 
         let id = this.props.match.params.id;
-        fetch("http://localhost:8000/personalpage/"+id, {
+        fetch("http://localhost:8000/personalpage/"+id+'/', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -51,30 +62,40 @@ class PersonalPage extends React.Component<RouteComponentProps<{id: string}>, pe
             .then(data => {
                 this.setState({
                     personalPage: {
-                        pageType: data.pageType,
-                        pageTitle: data.pageTitle
+                        id: data['id'],
+                        pageType: data['pageType'],
+                        pageTitle: data['pageTitles']
                     }
                 })
-            });
-
+                this.setCardType();
+            });        
     }
 
+    setCardType(){
+        if(this.state.personalPage.pageType === "Developer"){
+            console.log("Dev");
+            this.setState({
+                card: {
+                    cardType: <DevCard/>
+                }
+            })
+        }else if(this.state.personalPage.pageType === "Sponsor"){
+            this.setState({
+                card: {
+                    cardType: <SponsorCard/>
+                }
+            })
+        }
+    }
     
     render() {
-        const isDev = true;
-        let card;
-        if(isDev){
-            card = <DevCard/>;
-        }else{
-            card = <SponsorCard/>;
-        }
         return(
             <section style={background}>
                 <div id='navbarHolder'>
                     <MainNavbar logo={logo}></MainNavbar>
                 </div>
                 <div id="cardHolder">
-                   {card}
+                   {this.state.card.cardType}
                 </div>
             </section>
         );
