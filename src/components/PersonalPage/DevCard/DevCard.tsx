@@ -3,15 +3,12 @@ import {Card, Image, ListGroup} from 'react-bootstrap';
 import "./DevCard.css"
 const swarmLogo = require('../../../images/swarmLogoIcon.png');
 
-/*
-    User will be the prop for this component, passed in from the personal page component.
-    This will provide the user info, and provide necessary info the query the info the dev page. ie username/id
-*/
+//Define the DevPage item
 interface DevPage{
     DevPage: {
         profileName: string,
         gradYear: string,
-        degree: string,
+        motivationForWorking: string,
         teamRole: string,
         bio : string
     }    
@@ -26,7 +23,7 @@ class DevCard extends React.Component<{}, DevPage>{
             DevPage: {
                 profileName: "Test Testineer",
                 gradYear: "2021",
-                degree: "Computer Science",
+                motivationForWorking: "I thought this would be an interesting and challenging project.",
                 teamRole: "Software Engineer",
                 bio: "I am a fictional student studying Computer Science at YCP" 
             }
@@ -35,6 +32,9 @@ class DevCard extends React.Component<{}, DevPage>{
     }
     //TODO write componentDidMount
     //Should make requests for user info
+    onComponentDidMount() {
+        
+    }
 
     //TODO Create fetch request to retrieve devpage info
     render(){
@@ -43,12 +43,14 @@ class DevCard extends React.Component<{}, DevPage>{
             {/*Currently the src is the logo but will have to be changed to profile pic for engineer/sponsor*/}
             <Image id="profilePic" src={swarmLogo} rounded ></Image>
             <Card.Title id="profileName" style={{textAlign:"center"}}>{this.state.DevPage.profileName}</Card.Title>
-            <Card.Text id="gradYear" style={{textAlign:"center"}}>Graduating in {this.state.DevPage.gradYear} with a degree in {this.state.DevPage.degree}</Card.Text>
+            <Card.Text id="gradYear" style={{textAlign:"center"}}>Graduating in {this.state.DevPage.gradYear}</Card.Text>
             <Card.Body>
                 
                 {/*Dev attributes*/}
                 <Card.Title id="devRoleHeader">My role in the project</Card.Title>
                 <Card.Text id="devRole">{this.state.DevPage.teamRole}</Card.Text>
+                <Card.Title id="bioHeader">My motivation in this project</Card.Title>
+                <Card.Text id="bio">{this.state.DevPage.motivationForWorking}</Card.Text>
                 <Card.Title id="bioHeader">A bit about me</Card.Title>
                 <Card.Text id="bio">{this.state.DevPage.bio}</Card.Text>
                 {/* If contributions is not null display this */}
