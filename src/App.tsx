@@ -17,7 +17,7 @@ function  App(){
                 <Route path='/wiki/:id' component={Wiki} />
                 <Route path='/home' component={HomePage} exact/>
                 <Route path='/signup' component={SignUp}/>
-                <Route path='/personalpage' component={PersonalPage} exact/>
+                <Route path='/personalpage/:id' component={PersonalPage} exact/>
                 <Route component={Error} />
             </Switch>
         </main>
