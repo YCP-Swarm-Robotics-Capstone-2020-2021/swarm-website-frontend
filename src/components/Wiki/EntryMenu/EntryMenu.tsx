@@ -4,7 +4,6 @@ import './EntryMenu.css';
 
 import {Button, Card, Form, ListGroup, ListGroupItem, Modal} from 'react-bootstrap';
 import {newEntry} from "./newEntry";
-import {newSideBar} from "./newSideBar";
 
 interface entryMenuProps{
     action: (entryId: string) => void,
