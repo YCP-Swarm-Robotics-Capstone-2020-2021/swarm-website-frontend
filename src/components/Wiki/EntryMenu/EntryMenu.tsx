@@ -83,7 +83,7 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
                 })
                     .then(response => response.json())
                     .then(data => this.setState({
-                        entryList: this.state.entryList.concat(<ListGroupItem onClick={() => this.props.action(entryId.toString())} variant="dark">{data['title']}</ListGroupItem>)
+                        entryList: this.state.entryList.concat(<ListGroupItem key={entryId} onClick={() => this.props.action(entryId.toString())} variant="dark">{data['title']}</ListGroupItem>)
                     }))
             );
         }, 300);

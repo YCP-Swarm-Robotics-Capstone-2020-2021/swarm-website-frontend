@@ -88,7 +88,7 @@ class Entry extends React.Component<entryProps, entryState>{
                             this.setState({
                                 comments: this.state.comments.concat(data as commentData),
                                 commentElements: this.state.commentElements.concat(
-                                    <Toast id="comment1" className='comment'>
+                                    <Toast id="comment1" key={commentId} className='comment'>
                                         <Toast.Header>
                                             <Image src={logo} roundedCircle width={25} height={25}/>
                                             <strong className="mr-auto ml-2">Tim Jefferson</strong>
