@@ -4,7 +4,7 @@ import { Jumbotron } from "react-bootstrap";
 import {Link} from "react-router-dom";
 
 
-import {wikiData} from "../Wiki";
+import {wikiData} from "../../../utils/responseInterfaces/wikiData";
 
 import './WikiNotFound.css';
 import backgroundImageStyling from "../../../styles/backgroundImageStyling";

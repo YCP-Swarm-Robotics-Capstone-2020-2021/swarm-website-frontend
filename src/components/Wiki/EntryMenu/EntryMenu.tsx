@@ -3,6 +3,8 @@ import React from 'react';
 import './EntryMenu.css';
 
 import {Button, Card, Form, ListGroup, ListGroupItem, Modal} from 'react-bootstrap';
+import {newEntry} from "./newEntry";
+import {newSideBar} from "./newSideBar";
 
 interface entryMenuProps{
     action: (entryId: string) => void,
@@ -13,6 +15,8 @@ interface entryMenuProps{
 interface entryMenuState{
     entryList: JSX.Element[]
     addEntryModalShow: boolean
+    title: string,
+    text: string
 }
 
 class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
@@ -20,21 +24,52 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
         super(props);
         this.state = {
             entryList: [],
-            addEntryModalShow: false
+            addEntryModalShow: false,
+            title: '',
+            text: ''
         }
         this.handleHide = this.handleHide.bind(this);
         this.handleShow = this.handleShow.bind(this);
+        this.handleTextChange = this.handleTextChange.bind(this);
+        this.handleTitleChange = this.handleTitleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    //modal hide
     handleHide(){
         this.setState({
             addEntryModalShow: false
         })
     }
 
+    //modal show
     handleShow(){
         this.setState({
             addEntryModalShow: true
+        })
+    }
+
+    //update state when title is change in form
+    handleTitleChange(e: React.ChangeEvent<HTMLInputElement>){
+        this.setState({
+            title: e.target.value
+        });
+    }
+
+    //update state when text is change in form
+    handleTextChange(e: React.ChangeEvent<HTMLInputElement>){
+        this.setState({
+            text: e.target.value
+        });
+    }
+
+    //submit data based on updated state
+    handleSubmit(e: React.FormEvent<HTMLFormElement>){
+        e.preventDefault();
+        newEntry({
+            title: this.state.title,
+            text: this.state.text,
+            sideBar: null
         })
     }
 
@@ -71,12 +106,12 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
                                 <Modal.Title>Add an entry</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                <Form>
+                                <Form onSubmit={this.handleSubmit}>
                                     <Form.Group>
                                         <Form.Label>Title</Form.Label>
-                                        <Form.Control as="input"/>
+                                        <Form.Control name="title" as="input" onChange={this.handleTitleChange} required/>
                                         <Form.Label className='mt-3'>Description</Form.Label>
-                                        <Form.Control as='textarea' rows={3}></Form.Control>
+                                        <Form.Control name="text" as='textarea' rows={3} onChange={this.handleTextChange} required></Form.Control>
                                     </Form.Group>
                                     <Button variant="success" type="submit">Save</Button>
                                 </Form>
