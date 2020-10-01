@@ -32,8 +32,8 @@ export function newEntry(entry: newEntryData) {
             } else {
                 console.log('Saving new entry failed...');
             }
-        }).catch(err => err);
-    }).catch(err => err);
+        }).catch(err => console.log(err));
+    }).catch(err => console.log(err));
 
 
 
