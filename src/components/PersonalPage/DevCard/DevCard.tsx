@@ -1,8 +1,5 @@
 import React from 'react';
 import {Card, Image, ListGroup} from 'react-bootstrap';
-//Import interfaces from personal page
-import userProps from "../PersonalPage";
-import personalPage from "../PersonalPage";
 import "./DevCard.css"
 const swarmLogo = require('../../../images/swarmLogoIcon.png');
 
@@ -32,7 +29,27 @@ interface developer {
     }
 }
 
-class DevCard extends React.Component<personalPage & userProps, developerPage & developer>{
+interface personalPageProps {
+    personalPage: {
+        id: string,
+        pageType: string,
+        pageTitle: string
+    }
+}
+
+interface userProps {
+    userProps: {
+        id: string,
+        username: string,
+        password?: string | null,
+        email: string,
+        firstName: string,
+        lastName: string,
+    }
+}
+
+
+class DevCard extends React.Component<personalPageProps & userProps, developerPage & developer>{
     //Setting the props
     constructor(props: personalPageProps & userProps){
         super(props);
@@ -64,8 +81,7 @@ class DevCard extends React.Component<personalPage & userProps, developerPage & 
     //TODO write componentDidMount
     //Should make requests for user info
     onComponentDidMount() {
-        //TODO request and set developer based on user passed in as prop
-        //TODO request developer page
+
         //Since this is a developer page request the personal page it from the dev page api on the backend
         let personalPageID = this.props.personalPage.id
     }
