@@ -1,5 +1,6 @@
 import React from 'react';
 import {Card, Image, ListGroup} from 'react-bootstrap';
+import {userProps, personalPage} from "../PersonalPage";
 import "./DevCard.css"
 const swarmLogo = require('../../../images/swarmLogoIcon.png');
 
@@ -29,29 +30,29 @@ interface developer {
     }
 }
 
-interface personalPageProps {
-    personalPage: {
-        id: string,
-        pageType: string,
-        pageTitle: string
-    }
-}
+// interface personalPageProps {
+//     personalPage: {
+//         id: string,
+//         pageType: string,
+//         pageTitle: string
+//     }
+// }
 
-interface userProps {
-    userProps: {
-        id: string,
-        username: string,
-        password?: string | null,
-        email: string,
-        firstName: string,
-        lastName: string,
-    }
-}
+// interface userProps {
+//     userProps: {
+//         id: string,
+//         username: string,
+//         password?: string | null,
+//         email: string,
+//         firstName: string,
+//         lastName: string,
+//     }
+// }
 
 
-class DevCard extends React.Component<personalPageProps & userProps, developerPage & developer>{
+class DevCard extends React.Component<personalPage & userProps, developerPage & developer>{
     //Setting the props
-    constructor(props: personalPageProps & userProps){
+    constructor(props: personalPage & userProps){
         super(props);
         this.state = {
             //Initialize state for interfaces
@@ -81,9 +82,11 @@ class DevCard extends React.Component<personalPageProps & userProps, developerPa
     //TODO write componentDidMount
     //Should make requests for user info
     onComponentDidMount() {
-
+        //TODO request and set developer based on user passed in as prop
+        //TODO request developer page
         //Since this is a developer page request the personal page it from the dev page api on the backend
-        let personalPageID = this.props.personalPage.id
+        let personalPageID = this.props.personalPage.id;
+        let developerID = this.props.user.id
     }
 
     //TODO Create fetch request to retrieve devpage info
