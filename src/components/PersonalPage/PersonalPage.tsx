@@ -16,7 +16,7 @@ const background = backgroundImageStyling();
 interface personalPageProps extends RouteComponentProps<{id: string}> {}
 
 //Define personal page interface to be used with state
-interface personalPage {
+export interface personalPage {
     personalPage: {
         id: string,
         pageType: string,
@@ -31,7 +31,7 @@ interface card {
     }
 }
 
-interface userProps {
+export interface userProps {
     user: {
         id: string,
         username: string,
