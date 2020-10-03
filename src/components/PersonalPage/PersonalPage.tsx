@@ -15,6 +15,7 @@ const background = backgroundImageStyling();
 
 interface personalPageProps extends RouteComponentProps<{id: string}> {}
 
+//Define personal page interface to be used with state
 interface personalPage {
     personalPage: {
         id: string,
@@ -23,14 +24,26 @@ interface personalPage {
     }
 }
 
+//Define card interface to be used with state
 interface card {
     card: {
-        cardType:  JSX.Element
+        cardType:  JSX.Element | null
     }
 }
 
-class PersonalPage extends React.Component<RouteComponentProps<{id: string}>, personalPage & card>{
-    constructor(props: RouteComponentProps<{id: string}>){
+interface userProps {
+    user: {
+        id: string,
+        username: string,
+        password?: string | null,
+        email: string,
+        firstName: string,
+        lastName: string,
+    }
+}
+
+class PersonalPage extends React.Component<RouteComponentProps<{id: string}> & userProps, personalPage & card>{
+    constructor(props: RouteComponentProps<{id: string}> & userProps){
         super(props);
         this.state = {
             personalPage: {
@@ -39,7 +52,7 @@ class PersonalPage extends React.Component<RouteComponentProps<{id: string}>, pe
                 pageTitle: ''
             },
             card: {
-                cardType: <DevCard/>,
+                cardType: null,
             }
         }
         this.setCardType = this.setCardType.bind(this);
@@ -64,7 +77,7 @@ class PersonalPage extends React.Component<RouteComponentProps<{id: string}>, pe
                     personalPage: {
                         id: data['id'],
                         pageType: data['pageType'],
-                        pageTitle: data['pageTitles']
+                        pageTitle: data['pageTitle']
                     }
                 })
                 this.setCardType();
@@ -73,10 +86,10 @@ class PersonalPage extends React.Component<RouteComponentProps<{id: string}>, pe
 
     setCardType(){
         if(this.state.personalPage.pageType === "Developer"){
-            console.log("Dev");
+
             this.setState({
                 card: {
-                    cardType: <DevCard/>
+                    cardType: <DevCard personalPage={this.state.personalPage} userProps={this.props.userProps}/>
                 }
             })
         }else if(this.state.personalPage.pageType === "Sponsor"){
