@@ -1,4 +1,5 @@
 import React from 'react';
+// @ts-ignore
 import {RouteComponentProps} from "react-router";
 
 import './PersonalPage.css';
@@ -8,6 +9,7 @@ import DevCard from "./DevCard/DevCard";
 import SponsorCard from "./SponsorCard/SponsorCard";
 
 //Require any images
+// @ts-ignore, it doesn't like require
 const logo = require('../../images/swarmLogoIcon.png');
 
 //Get random background image
@@ -89,13 +91,13 @@ class PersonalPage extends React.Component<RouteComponentProps<{id: string}> & u
 
             this.setState({
                 card: {
-                    cardType: <DevCard personalPage={this.state.personalPage} userProps={this.props.userProps}/>
+                    cardType: <DevCard personalPage={this.state.personalPage} user={this.props.userProps}/>
                 }
             })
         }else if(this.state.personalPage.pageType === "Sponsor"){
             this.setState({
                 card: {
-                    cardType: <SponsorCard/>
+                    cardType: <SponsorCard personalPage={this.state.personalPage} user={this.props.userProps}/>
                 }
             })
         }
