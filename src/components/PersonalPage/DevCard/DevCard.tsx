@@ -2,6 +2,7 @@ import React from 'react';
 import {Card, Image, ListGroup} from 'react-bootstrap';
 import {userProps, personalPage} from "../PersonalPage";
 import "./DevCard.css"
+// @ts-ignore, it doesn't like require
 const swarmLogo = require('../../../images/swarmLogoIcon.png');
 
 //Define the DevPage item
@@ -79,17 +80,56 @@ class DevCard extends React.Component<personalPage & userProps, developerPage & 
         }
         
     }
-    //TODO write componentDidMount
-    //Should make requests for user info
     onComponentDidMount() {
-        //TODO request and set developer based on user passed in as prop
-        //TODO request developer page
+        //Request and set developer based on user passed in as prop
+        let developerID = this.props.user.id;
+        fetch("http://localhost:8000/developer/"+developerID+'/', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                this.setState({
+                    developer: {
+                        id: data['id'],
+                        username: data['username'],
+                        password: data['password'],
+                        email: data['email'],
+                        firstName: data['firstName'],
+                        lastName: data['lastName'],
+                        teamRole: data['teamRole'],
+                        page: data['page']
+                    }
+                })
+
+            });
         //Since this is a developer page request the personal page it from the dev page api on the backend
         let personalPageID = this.props.personalPage.id;
-        let developerID = this.props.user.id
+        fetch('http://localhost:8000/devpersonalpage/' + personalPageID + '/',{
+            method: 'GET',
+            headers: {
+                'Content-Type':'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data =>{
+                this.setState({
+                    developerPage: {
+                        id: data['id'],
+                        pageType: data['pageType'],
+                        pageTitle: data['pageTitle'],
+                        expectedGraduationYear: data['expectedGraduationYear'],
+                        biography: data['biography'],
+                        motivationForWorking: data['motivationForWorking'],
+                        bio : data['bio']
+                    }
+                })
+            })
     }
 
-    //TODO Create fetch request to retrieve devpage info
+
     render(){
         return(
         <Card id="profileCard" bg="dark" text="white">
