@@ -8,6 +8,7 @@ import {newEntry} from "./newEntry";
 interface entryMenuProps{
     action: (entryId: string) => void,
     wikiTitle: string,
+    wikiId: number,
     entries: number[],
 }
 
@@ -75,7 +76,7 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
             context: this.state.title,
             textAdded: this.state.text,
             user: 1
-        })
+        }, this.props.wikiId)
     }
 
     componentDidMount() {

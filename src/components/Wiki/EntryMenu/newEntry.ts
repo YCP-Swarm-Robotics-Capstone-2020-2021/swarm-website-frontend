@@ -1,7 +1,7 @@
 import {newEntryData} from "../../../utils/postInterfaces/newEntryData";
 import {newChangeData} from "../../../utils/postInterfaces/newChangeData";
 
-export function newEntry(entry: newEntryData, change: newChangeData) {
+export function newEntry(entry: newEntryData, change: newChangeData, wikiId: number) {
 
     //create a new sidebar for the new entry
     fetch('http://localhost:8000/sidebar/', {
@@ -34,7 +34,8 @@ export function newEntry(entry: newEntryData, change: newChangeData) {
             //set log attribute to the returned id of the new change
             entry['log'] = [data['id']];
 
-            return fetch('http://localhost:8000/entry/', {
+            //save new entry object
+            fetch('http://localhost:8000/entry/', {
                 method: 'POST',
                 body: JSON.stringify(entry),
                 headers: {
@@ -43,13 +44,25 @@ export function newEntry(entry: newEntryData, change: newChangeData) {
             }).then(response => {
                 if(!response.ok){
                     console.log("Saving new entry failed...");
-                }else{
-                    window.location.reload();
                 }
+                return response.json();
+            }).then(data => {
+
+                //patch new entry into wiki object
+                fetch('http://localhost:8000/wiki/'+wikiId+'/', {
+                    method: 'PATCH',
+                    body: JSON.stringify({entries: [data['id']]}),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => {
+                    if(!response.ok){
+                        console.log("Patching wiki w/ new entry failed...");
+                    }else{
+                        window.location.reload();
+                    }
+                })
             }).catch(err => console.log(err));
         }).catch(err => console.log(err));
     }).catch(err => console.log(err));
-
-
-
 }
