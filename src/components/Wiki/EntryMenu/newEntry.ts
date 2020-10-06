@@ -41,12 +41,10 @@ export function newEntry(entry: newEntryData, change: newChangeData) {
                     'Content-Type': 'application/json'
                 }
             }).then(response => {
-                if (response.status >= 200 && response.status < 300) {
-                    return response;
-                    console.log(response);
+                if(!response.ok){
+                    console.log("Saving new entry failed...");
+                }else{
                     window.location.reload();
-                } else {
-                    console.log('Saving new entry failed...');
                 }
             }).catch(err => console.log(err));
         }).catch(err => console.log(err));
