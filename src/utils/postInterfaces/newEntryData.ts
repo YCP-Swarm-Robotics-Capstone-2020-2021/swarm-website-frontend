@@ -1,5 +1,7 @@
 export interface newEntryData{
     title: string,
     text: string,
-    sideBar: number | null
+    sideBar: number | null,
+    contributors: number[],
+    log: number[] | null
 }

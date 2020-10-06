@@ -68,7 +68,13 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
         newEntry({
             title: this.state.title,
             text: this.state.text,
-            sideBar: null
+            sideBar: null,
+            contributors: [1],
+            log: null
+        }, {
+            context: this.state.title,
+            textAdded: this.state.text,
+            user: 1
         })
     }
 
