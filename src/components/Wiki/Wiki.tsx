@@ -1,6 +1,6 @@
 import React from 'react';
 import {Redirect, RouteComponentProps} from "react-router";
-import {wikiData} from "../../utils/responseInterfaces/wikiData";
+import {wikiData} from "../../utils/getInterfaces/wikiData";
 
 import './Wiki.css';
 import backgroundImageStyling from "../../styles/backgroundImageStyling";

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Tab, Tabs, Card, Form, Button, Image, Toast, Modal} from "react-bootstrap";
-import {entryData} from "../../../utils/responseInterfaces/entryData";
-import {commentData} from "../../../utils/responseInterfaces/commentData";
+import {entryData} from "../../../utils/getInterfaces/entryData";
+import {commentData} from "../../../utils/getInterfaces/commentData";
 
 import './Entry.css';
 
