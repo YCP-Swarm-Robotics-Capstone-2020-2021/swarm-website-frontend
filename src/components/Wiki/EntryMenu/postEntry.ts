@@ -1,7 +1,7 @@
 import {newEntryData} from "../../../utils/postInterfaces/newEntryData";
 import {newChangeData} from "../../../utils/postInterfaces/newChangeData";
 
-export function newEntry(entry: newEntryData, change: newChangeData, wikiId: number, entries: number[]) {
+export function postEntry(entry: newEntryData, change: newChangeData, wikiId: number, entries: number[]) {
 
     //create a new sidebar for the new entry
     fetch('http://localhost:8000/sidebar/', {

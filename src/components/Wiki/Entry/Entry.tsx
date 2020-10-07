@@ -2,8 +2,10 @@ import React from 'react';
 import {Tab, Tabs, Card, Form, Button, Image, Toast, Modal} from "react-bootstrap";
 import {entryData} from "../../../utils/getInterfaces/entryData";
 import {commentData} from "../../../utils/getInterfaces/commentData";
+import {newCommentData} from "../../../utils/postInterfaces/newCommentData";
 
 import './Entry.css';
+import {postComment} from "./postComment";
 
 const logo = require('../../../images/swarmLogoIcon.png');
 
@@ -24,6 +26,7 @@ interface entryState{
     data: entryData
     comments: commentData[]
     commentElements: JSX.Element[]
+    newComment: newCommentData
 }
 
 interface entryProps{
@@ -39,10 +42,13 @@ class Entry extends React.Component<entryProps, entryState>{
             replyModalQuote: "test",
             data: {id: 0, title: '', text: '', sideBar: 0, comments: [], contributors: [], headings: [], log: []},
             comments: [],
-            commentElements: []
+            commentElements: [],
+            newComment: {text: '', user: 0}
         };
         this.handleHide = this.handleHide.bind(this);
         this.handleShow = this.handleShow.bind(this);
+        this.handleCommentTextChange = this.handleCommentTextChange.bind(this);
+        this.handleNewCommentSubmit = this.handleNewCommentSubmit.bind(this);
     }
 
     handleHide(){
@@ -61,6 +67,26 @@ class Entry extends React.Component<entryProps, entryState>{
             replyModalQuote: commentText
         })
     }
+
+    //update state when text is change in form
+    handleCommentTextChange(e: React.ChangeEvent<HTMLInputElement>){
+        this.setState({
+            newComment: {
+                text: e.target.value,
+                user: this.state.newComment.user
+            }
+        });
+    }
+
+    handleNewCommentSubmit(e: React.FormEvent<HTMLFormElement>){
+        e.preventDefault();
+        postComment({
+            text: this.state.newComment.text,
+            user: 1
+        }, this.state.data.comments, this.state.data.id)
+    }
+
+
 
     componentDidUpdate(prevProps: Readonly<entryProps>, prevState: Readonly<entryState>) {
         if(prevState === this.state){
@@ -196,10 +222,10 @@ class Entry extends React.Component<entryProps, entryState>{
                             </Form>
                         </Modal.Body>
                     </Modal>
-                    <Form id="newCommentForm">
+                    <Form id="newCommentForm" onSubmit={this.handleNewCommentSubmit}>
                         <Form.Group>
                             <Image id="newCommentProfPic" src={logo} roundedCircle width={50} height={50} />
-                            <Form.Control as="textarea" rows={3} placeholder="Leave a comment" />
+                            <Form.Control as="textarea" rows={3} placeholder="Leave a comment" onChange={this.handleCommentTextChange} />
                         </Form.Group>
                         <Button variant="success" type="submit">Comment</Button>
                     </Form>

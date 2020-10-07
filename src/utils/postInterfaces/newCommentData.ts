@@ -1,3 +1,4 @@
 export interface newCommentData{
-    test: number
+    text: string,
+    user: number
 }
