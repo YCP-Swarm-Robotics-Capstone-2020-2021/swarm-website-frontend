@@ -31,26 +31,6 @@ interface developer {
     }
 }
 
-// interface personalPageProps {
-//     personalPage: {
-//         id: string,
-//         pageType: string,
-//         pageTitle: string
-//     }
-// }
-
-// interface userProps {
-//     userProps: {
-//         id: string,
-//         username: string,
-//         password?: string | null,
-//         email: string,
-//         firstName: string,
-//         lastName: string,
-//     }
-// }
-
-
 class DevCard extends React.Component<personalPage, developerPage & developer>{
     //Setting the props
     constructor(props: personalPage){

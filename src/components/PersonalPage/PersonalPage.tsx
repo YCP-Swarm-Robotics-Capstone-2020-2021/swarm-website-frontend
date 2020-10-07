@@ -79,7 +79,6 @@ class PersonalPage extends React.Component<RouteComponentProps<{id: string}>, pe
                         pageType: data['pageType'],
                         pageTitle: data['pageTitle']
                     },
-                    
                 });
                 console.log("Page type: " + this.state.personalPage.pageType)
 
