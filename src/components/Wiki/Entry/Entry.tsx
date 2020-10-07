@@ -90,6 +90,9 @@ class Entry extends React.Component<entryProps, entryState>{
 
     componentDidUpdate(prevProps: Readonly<entryProps>, prevState: Readonly<entryState>) {
         if(prevState === this.state){
+            this.setState({
+                commentElements: []
+            })
             fetch('http://localhost:8000/entry/' + this.props.id + '/', {
                 method: 'GET',
                 headers:{
