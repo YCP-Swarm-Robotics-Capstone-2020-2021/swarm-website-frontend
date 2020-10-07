@@ -34,19 +34,7 @@ interface card {
     }
 }
 
-//Exported interface for a base user
-export interface user {
-    user: {
-        id: string,
-        username: string,
-        password?: string | null,
-        email: string,
-        firstName: string,
-        lastName: string,
-    }
-}
-
-class PersonalPage extends React.Component<RouteComponentProps<{id: string}>, personalPage & card & user>{
+class PersonalPage extends React.Component<RouteComponentProps<{id: string}>, personalPage & card>{
     constructor(props: RouteComponentProps<{id: string}>){
         super(props);
         //Initialize state and fields to empty
@@ -59,14 +47,7 @@ class PersonalPage extends React.Component<RouteComponentProps<{id: string}>, pe
             card: {
                 cardType: null,
             },
-            user: {
-                id: '',
-                username: '',
-                password: '',
-                email: '',
-                firstName: '',
-                lastName: '',
-            }
+
         }
         //Bind card type function
         this.setCardType = this.setCardType.bind(this);
@@ -98,40 +79,10 @@ class PersonalPage extends React.Component<RouteComponentProps<{id: string}>, pe
                         pageType: data['pageType'],
                         pageTitle: data['pageTitle']
                     },
-                    user: this.state.user
+                    
                 });
                 console.log("Page type: " + this.state.personalPage.pageType)
-                // //http://localhost:8000/developer/?page=1
-                // if(this.state.personalPage.pageType === "Developer"){
-                //     console.log('querying for developer based on page ' + this.state.personalPage.id)
-                //     fetch("http://localhost:8000/developer/?page=" + this.state.personalPage.id.toString(), {
-                //         method: 'GET',
-                //         headers: {
-                //             'Content-Type': 'application/json'
-                //         }
-                //     })
-                //         .then(response => response.json())
-                //         .then(data => {
-                //             console.log(data);
-                //             this.setState({
-                //                 user: {
-                //                     id: data['id'],
-                //                     username: data['username'],
-                //                     password: '',
-                //                     email: data['email'],
-                //                     firstName: data['firstName'],
-                //                     lastName: data['lastName'],
-                //                 },
-                //                 personalPage: this.state.personalPage
-                //             });
-                //             console.log("User: " + this.state.user);
-                //             //Set the card type in the promise so it actually executes
-                //             this.setCardType();
-                //
-                //         })
-                // }else if(this.state.personalPage.pageType === "Sponsor"){
-                //
-                // }
+
                 this.setCardType();
             });
 
@@ -143,15 +94,17 @@ class PersonalPage extends React.Component<RouteComponentProps<{id: string}>, pe
     setCardType(){
         //If page type is developer create set card to developer
         if(this.state.personalPage.pageType === "Developer"){
+            console.log('Creating Developer Card');
             this.setState({
                 card: {
                     cardType: <DevCard personalPage={this.state.personalPage} />
                 }
             })
         }else if(this.state.personalPage.pageType === "Sponsor"){
+            console.log('Creating Sponsor Card');
             this.setState({
                 card: {
-                    cardType: <SponsorCard personalPage={this.state.personalPage} user={this.state.user}/>
+                    cardType: <SponsorCard personalPage={this.state.personalPage}/>
                 }
             })
         }
