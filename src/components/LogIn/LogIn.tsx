@@ -40,12 +40,13 @@ class LogIn extends React.Component<{}> {
             [e.target.name]: e.target.value
         }
         this.setState({loginInfo: newLoginInfo})
-        console.log(this.state.loginInfo)
     }
 
-    handleSubmit = (e: React.FormEvent): void => {
-        verifyUser(this.state.loginInfo.username, this.state.loginInfo.password)
+    handleSubmit = async (e: React.FormEvent)=> {
         e.preventDefault();
+        const response = await verifyUser(this.state.loginInfo.username, this.state.loginInfo.password);
+        console.log(response)
+
     }
 
     render() {
