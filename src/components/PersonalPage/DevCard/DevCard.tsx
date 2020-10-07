@@ -83,7 +83,7 @@ class DevCard extends React.Component<personalPage, developerPage & developer>{
 
     componentDidMount() {
         //Request and set developer based on user passed in as prop
-        console.log("Requesting: " + "http://localhost:8000/developer/?page=" + this.props.personalPage.id);
+        console.log("Requesting: http://localhost:8000/developer/?page=" + this.props.personalPage.id);
         fetch("http://localhost:8000/developer/?page=" + this.props.personalPage.id, {
             method: 'GET',
             headers: {
