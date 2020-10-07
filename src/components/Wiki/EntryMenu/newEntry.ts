@@ -1,7 +1,7 @@
 import {newEntryData} from "../../../utils/postInterfaces/newEntryData";
 import {newChangeData} from "../../../utils/postInterfaces/newChangeData";
 
-export function newEntry(entry: newEntryData, change: newChangeData, wikiId: number) {
+export function newEntry(entry: newEntryData, change: newChangeData, wikiId: number, entries: number[]) {
 
     //create a new sidebar for the new entry
     fetch('http://localhost:8000/sidebar/', {
@@ -51,7 +51,7 @@ export function newEntry(entry: newEntryData, change: newChangeData, wikiId: num
                 //patch new entry into wiki object
                 fetch('http://localhost:8000/wiki/'+wikiId+'/', {
                     method: 'PATCH',
-                    body: JSON.stringify({entries: [data['id']]}),
+                    body: JSON.stringify({entries: entries.concat(data['id'])}),
                     headers: {
                         'Content-Type': 'application/json'
                     }

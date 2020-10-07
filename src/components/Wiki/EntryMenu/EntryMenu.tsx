@@ -76,13 +76,13 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
             context: this.state.title,
             textAdded: this.state.text,
             user: 1
-        }, this.props.wikiId)
+        }, this.props.wikiId, this.props.entries)
     }
 
     componentDidMount() {
         setTimeout(() => {
             this.props.entries.forEach(entryId =>
-                fetch('http://localhost:8000/entry/'+entryId+'/',{
+                fetch('http://localhost:8000/entry/' + entryId + '/', {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -90,7 +90,9 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
                 })
                     .then(response => response.json())
                     .then(data => this.setState({
-                        entryList: this.state.entryList.concat(<ListGroupItem key={entryId} onClick={() => this.props.action(entryId.toString())} variant="dark">{data['title']}</ListGroupItem>)
+                        entryList: this.state.entryList.concat(<ListGroupItem key={entryId}
+                                                                              onClick={() => this.props.action(entryId.toString())}
+                                                                              variant="dark">{data['title']}</ListGroupItem>)
                     }))
             );
         }, 300);

@@ -62,6 +62,47 @@ class Entry extends React.Component<entryProps, entryState>{
         })
     }
 
+    componentDidUpdate(prevProps: Readonly<entryProps>, prevState: Readonly<entryState>) {
+        fetch('http://localhost:8000/entry/' + this.props.id + '/', {
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                this.setState({data: data as entryData})
+            })
+            .then(() => {
+                //get commentData/commentElements
+                this.state.data.comments.forEach(commentId => {
+                    fetch("http://localhost:8000/comment/" + commentId + '/', {
+                        method: 'GET',
+                        headers:{
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            this.setState({
+                                comments: this.state.comments.concat(data as commentData),
+                                commentElements: this.state.commentElements.concat(
+                                    <Toast id="comment1" key={commentId} className='comment'>
+                                        <Toast.Header>
+                                            <Image src={logo} roundedCircle width={25} height={25}/>
+                                            <strong className="mr-auto ml-2">Tim Jefferson</strong>
+                                            <small className="mr-1">11 mins ago</small>
+                                            <Button variant="success" className="replyButton ml-1" size="sm" onClick={() => this.handleShow("1")}><small>reply</small></Button>
+                                        </Toast.Header>
+                                        <Toast.Body>{data['text']}</Toast.Body>
+                                    </Toast>
+                                )
+                            })
+                        })
+                })
+            })
+    }
+
     componentDidMount() {
         //get entry object
         fetch('http://localhost:8000/entry/' + this.props.id + '/', {
