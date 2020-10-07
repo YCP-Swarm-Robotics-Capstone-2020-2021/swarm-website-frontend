@@ -2,11 +2,13 @@ import React from 'react';
 import {Tab, Tabs, Card, Form, Button, Image, Toast, Modal} from "react-bootstrap";
 import {entryData} from "../../../utils/getInterfaces/entryData";
 import {commentData} from "../../../utils/getInterfaces/commentData";
+import {headingData} from "../../../utils/getInterfaces/headingData";
+
 import {newCommentData} from "../../../utils/postInterfaces/newCommentData";
 
-import './Entry.css';
 import {postComment} from "./postComment";
 
+import './Entry.css';
 const logo = require('../../../images/swarmLogoIcon.png');
 
 /*
@@ -27,6 +29,7 @@ interface entryState{
     comments: commentData[]
     commentElements: JSX.Element[]
     newComment: newCommentData
+    headings: headingData[]
 }
 
 interface entryProps{
@@ -43,7 +46,8 @@ class Entry extends React.Component<entryProps, entryState>{
             data: {id: 0, title: '', text: '', sideBar: 0, comments: [], contributors: [], headings: [], log: []},
             comments: [],
             commentElements: [],
-            newComment: {text: '', user: 0}
+            newComment: {text: '', user: 0},
+            headings: []
         };
         this.handleHide = this.handleHide.bind(this);
         this.handleShow = this.handleShow.bind(this);
