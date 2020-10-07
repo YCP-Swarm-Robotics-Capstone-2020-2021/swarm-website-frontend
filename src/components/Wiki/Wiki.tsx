@@ -80,7 +80,7 @@ class Wiki extends React.Component<wikiProps, wikiState>{
             <section style={background}>
                 <MainNavbar logo={logo} />
                 <div id='contentWiki'>
-                  <EntryMenu action={this.rightPaneHandler} wikiTitle={this.state.data.title} wikiId={this.state.data.id} entries={this.state.data.entries}/>
+                  <EntryMenu action={this.rightPaneHandler} wikiTitle={this.state.data.title} wikiId={this.state.data.id} entries={this.state.data.entries.sort()}/>
                   <div id='rightPane' className="bg-dark">
                       {rightPaneComponent}
                   </div>
