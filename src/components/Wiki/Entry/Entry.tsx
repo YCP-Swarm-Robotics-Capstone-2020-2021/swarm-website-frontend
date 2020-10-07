@@ -195,7 +195,7 @@ class Entry extends React.Component<entryProps, entryState>{
                                             <Toast.Header>
                                                 <Image src={logo} roundedCircle width={25} height={25}/>
                                                 <strong className="mr-auto ml-2">{data['username']}</strong>
-                                                <small className="mr-1">11 mins ago</small>
+                                                <small className="mr-1">{commentData['dateTime'].substring(0,10)}</small>
                                                 <Button variant="success" className="replyButton ml-1" size="sm" onClick={() => this.handleShow(commentData['id'].toString())}><small>reply</small></Button>
                                             </Toast.Header>
                                             <Toast.Body>{commentData['text']}</Toast.Body>
