@@ -45,3 +45,15 @@
     border: none;
     width: 15rem;
 }
+
+#profileName {
+    text-align: center;
+}
+
+#gradYear{
+    text-align: center;
+    /*This margin left ensures that grad year is properly centered.
+    The Card.Text class is by default a bit to the right */
+    margin-left: 0rem;
+
+}
