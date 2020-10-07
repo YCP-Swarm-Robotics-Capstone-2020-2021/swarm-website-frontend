@@ -161,8 +161,8 @@ class DevCard extends React.Component<personalPage, developerPage & developer>{
             <Card id="profileCard" bg="dark" text="white">
                 {/*Currently the src is the logo but will have to be changed to profile pic for engineer/sponsor*/}
                 <Image id="profilePic" src={swarmLogo} rounded ></Image>
-                <Card.Title id="profileName" style={{textAlign:"center"}}>{this.state.developer.firstName}{this.state.developer.lastName}</Card.Title>
-                <Card.Text id="gradYear" style={{textAlign:"center"}}>Graduating in {this.state.developerPage.expectedGraduationYear}</Card.Text>
+                <Card.Title id="profileName" >{this.state.developer.firstName} {this.state.developer.lastName}</Card.Title>
+                <Card.Text id="gradYear">Graduating in {this.state.developerPage.expectedGraduationYear}</Card.Text>
                 <Card.Body>
 
                     {/*Dev attributes*/}
