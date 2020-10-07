@@ -151,7 +151,7 @@ class Entry extends React.Component<entryProps, entryState>{
                 <Tab eventKey="details" title="Details" transition={false}>
                     <Card id="sideBarCard">
                         <Card.Body>
-                            <Card.Title>Milestone 1</Card.Title>
+                            <Card.Title>{this.state.data.title}</Card.Title>
                             <Card.Text>Test Text</Card.Text>
                             <Card.Text>Test Text</Card.Text>
                             <Card.Text>Test Text</Card.Text>
@@ -166,6 +166,7 @@ class Entry extends React.Component<entryProps, entryState>{
                     <Card id="detailsCard" bg="dark" text="white">
                         <h2>{this.state.data.title}</h2>
                         <Card.Body>
+                            <Card.Text>{this.state.data.text}</Card.Text>
                             <Card.Title>A heading</Card.Title>
                                 <Card.Text>The text that goes with the above heading. Crazy stuff
                                     Crazy stuffCrazy stuffCrazy stuffCrazy stuffCrazy stuffCrazy stuffCrazy stuffCrazy stuff
