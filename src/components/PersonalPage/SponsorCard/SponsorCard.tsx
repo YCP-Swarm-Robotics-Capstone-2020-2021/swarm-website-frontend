@@ -1,6 +1,6 @@
 import React from 'react';
 import {Card, Image, ListGroup} from 'react-bootstrap';
-import {userProps, personalPage} from "../PersonalPage";
+import {personalPage} from "../PersonalPage";
 import "./SponsorCard.css"
 // @ts-ignore, it doesn't like require
 const companyLogo = require('../../../images/bd.svg');
@@ -14,11 +14,14 @@ const swarmLogo = require('../../../images/swarmLogoIcon.png');
 
 interface sponsorPage {
     sponsorPage: {
-    companyName: string;
-    companyMission: string;
-    sponsorReason: string;
-    twitterLink: string;
-    instagramLink: string;
+        id: string,
+        pageType: string,
+        pageTitle: string,
+        companyMission: string,
+        sponsorReason: string,
+        companyLink: string,
+        twitterLink: string,
+        instagramLink: string,
     }
 }
 
@@ -36,17 +39,20 @@ interface sponsor {
 }
 
 
-class SponsorCard extends React.Component<userProps & personalPage, sponsorPage & sponsor>{
-    constructor(props: personalPage & userProps){
+class SponsorCard extends React.Component<personalPage, sponsorPage & sponsor>{
+    constructor(props: personalPage){
         super(props);
         this.state = {
             sponsorPage: {
-                companyName: "",
-                companyMission:"",
-                sponsorReason: "",
-                twitterLink: "#",
-                instagramLink: "#"
-            
+                id: '',
+                pageType: '',
+                pageTitle: '',
+                companyMission:'',
+                sponsorReason: '',
+                companyLink: '',
+                twitterLink: 'https://twitter.com/BDandCo',
+                instagramLink: '#'
+
             },
 
             sponsor: {
@@ -61,14 +67,14 @@ class SponsorCard extends React.Component<userProps & personalPage, sponsorPage 
 
             }
 
-        
-    };
-}
-    //TODO write componentDidMount
-    onComponentDidMount() {
+
+        };
+    }
+
+    componentDidMount() {
         //Should make requests for sponsor info
-        let sponsorID = this.props.user.id;
-        fetch('http://localhost:8000/sponsor/' + sponsorID + '/',{
+        console.log('http://localhost:8000/sponsor/?page=' + this.props.personalPage.id);
+        fetch('http://localhost:8000/sponsor/?page=' + this.props.personalPage.id,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -76,21 +82,46 @@ class SponsorCard extends React.Component<userProps & personalPage, sponsorPage 
         })
             .then(response => response.json())
             .then(data => {
+                console.log(data[0]);
                 this.setState({
                     sponsor: {
-                        id: data['id'],
-                        username: data['username'],
+                        id: data[0]['id'],
+                        username: data[0]['username'],
                         password: null,
                         email: data['email'],
-                        firstName: data['firstName'],
-                        lastName: data['lastName'],
-                        companyName: data['companyName'],
-                        page: data['page']
+                        firstName: data[0]['firstName'],
+                        lastName: data[0]['lastName'],
+                        companyName: data[0]['companyName'],
+                        page: data[0]['page']
                     }
                 })
-            })
+                //TODO request sponsor page details
+                fetch('http://localhost:8000/sponsorpersonalpage/?page=' + this.props.personalPage.id, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        this.setState({
+                            sponsorPage: {
+                                id: data[0]['id'],
+                                pageType: data[0]['pageType'],
+                                pageTitle: data[0]['pageTitle'],
+                                companyMission: data[0]['missionStatement'],
+                                sponsorReason: data[0]['reasonForSponsorship'],
+                                companyLink: data[0]['companyLink'],
+                                twitterLink: 'https://twitter.com/BDandCo',
+                                instagramLink: '#'
 
-        //TODO request sponsor page details
+                            }
+                        })
+                    })
+            });
+
+
     }
 
 
@@ -101,7 +132,7 @@ class SponsorCard extends React.Component<userProps & personalPage, sponsorPage 
         return(
         <Card id="profileCard" bg="dark" text="white">
             <Image id="companyPic" src={companyLogo} rounded ></Image>
-            <Card.Title id="companyName">{this.state.sponsorPage.companyName}</Card.Title>
+            <Card.Title id="companyName">{this.state.sponsor.companyName}</Card.Title>
             <Card.Body>
                  {/*Sponsor attributes*/}
                  <Card.Title id="companyMissionHeader">Our Mission Statement</Card.Title>
