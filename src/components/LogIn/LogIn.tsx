@@ -5,7 +5,6 @@ import './LogIn.css';
 import Image from "../../utils/Image";
 import {Link} from "react-router-dom";
 import {verifyUser} from "./LoginApi";
-import { useHistory } from 'react-router-dom'
 
 //require any images
 const loginLogo = require('../../images/swarmLogoIcon.png');
@@ -50,26 +49,21 @@ class LogIn extends React.Component<{}> {
     }
 
     handleIncorrectLogin = () => {
-        console.log("Made it");
         const {loginInfo} = this.state;
         const newLoginInfo = {
             ...loginInfo,
             incorrectLogin: true
         }
         this.setState({loginInfo: newLoginInfo})
-        console.log(this.state.loginInfo);
     }
 
     handleSubmit = async (e: React.FormEvent)=> {
         e.preventDefault();
-
         const response = await verifyUser(this.state.loginInfo.username, this.state.loginInfo.password);
-        console.log(response)
+        //Handle redirect
         if(response.Status){
         }
-
         this.handleIncorrectLogin();
-
     }
 
     render() {
