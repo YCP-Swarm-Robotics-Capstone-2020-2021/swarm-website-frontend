@@ -149,7 +149,7 @@ class Entry extends React.Component<entryProps, entryState>{
 
 
     componentDidUpdate(prevProps: Readonly<entryProps>, prevState: Readonly<entryState>) {
-        if(prevState === this.state){
+        if(prevProps.id !== this.props.id){
             this.setState({
                 commentElements: []
             })
