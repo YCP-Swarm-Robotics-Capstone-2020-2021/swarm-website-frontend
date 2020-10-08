@@ -90,70 +90,7 @@ class Entry extends React.Component<entryProps, entryState>{
         }, this.state.data.comments, this.state.data.id)
     }
 
-
-
-    componentDidUpdate(prevProps: Readonly<entryProps>, prevState: Readonly<entryState>) {
-        if(prevState === this.state){
-            this.setState({
-                commentElements: []
-            })
-            fetch('http://localhost:8000/entry/' + this.props.id + '/', {
-                method: 'GET',
-                headers:{
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    this.setState({data: data as entryData})
-                })
-                .then(() => {
-                    //get commentData/commentElements
-                    this.state.data.comments.forEach(commentId => {
-                        fetch("http://localhost:8000/comment/" + commentId + '/', {
-                            method: 'GET',
-                            headers:{
-                                'Content-Type': 'application/json'
-                            }
-                        })
-                            .then(response => response.json())
-                            .then(data => {
-                                let commentData = data as commentData;
-                                fetch("http://localhost:8000/user/"+data['user']+"/", {
-                                    method: 'GET',
-                                    headers:{
-                                        'Content-Type': 'application/json'
-                                    }
-                                }).then(response => {
-                                    if(!response.ok){
-                                        console.log("error retrieving user information for comment "+commentId);
-                                    }else{
-                                        return response.json()
-                                    }
-                                }).then(data => {
-                                    this.setState({
-                                        comments: this.state.comments.concat(data as commentData),
-                                        commentElements: this.state.commentElements.concat(
-                                            <Toast id={"comment"+commentData['id']} key={commentId} className='comment'>
-                                                <Toast.Header>
-                                                    <Image src={logo} roundedCircle width={25} height={25}/>
-                                                    <strong className="mr-auto ml-2">{data['username']}</strong>
-                                                    <small className="mr-1">11 mins ago</small>
-                                                    <Button variant="success" className="replyButton ml-1" size="sm" onClick={() => this.handleShow(commentData['id'].toString())}><small>reply</small></Button>
-                                                </Toast.Header>
-                                                <Toast.Body>{commentData['text']}</Toast.Body>
-                                            </Toast>
-                                        )
-                                    })
-                                })
-                            })
-                    })
-                })
-        }
-    }
-
-    componentDidMount() {
-        //get entry object
+    getEntry(){
         fetch('http://localhost:8000/entry/' + this.props.id + '/', {
             method: 'GET',
             headers:{
@@ -206,6 +143,22 @@ class Entry extends React.Component<entryProps, entryState>{
                         })
                 })
             })
+    }
+
+
+
+    componentDidUpdate(prevProps: Readonly<entryProps>, prevState: Readonly<entryState>) {
+        if(prevState === this.state){
+            this.setState({
+                commentElements: []
+            })
+            this.getEntry();
+        }
+    }
+
+    componentDidMount() {
+        //get entry object
+        this.getEntry();
     }
 
     render(){
