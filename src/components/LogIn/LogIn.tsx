@@ -19,7 +19,7 @@ function IncorrectLogin(props: Login) {
     if (!props.status) {    return null;  }
     return (
         <div className="">
-            Warning!
+            Incorrect Username or Password
         </div>
     );
 }
@@ -49,6 +49,17 @@ class LogIn extends React.Component<{}> {
         this.setState({loginInfo: newLoginInfo})
     }
 
+    handleIncorrectLogin = () => {
+        console.log("Made it");
+        const {loginInfo} = this.state;
+        const newLoginInfo = {
+            ...loginInfo,
+            incorrectLogin: true
+        }
+        this.setState({loginInfo: newLoginInfo})
+        console.log(this.state.loginInfo);
+    }
+
     handleSubmit = async (e: React.FormEvent)=> {
         e.preventDefault();
 
@@ -56,6 +67,8 @@ class LogIn extends React.Component<{}> {
         console.log(response)
         if(response.Status){
         }
+
+        this.handleIncorrectLogin();
 
     }
 
