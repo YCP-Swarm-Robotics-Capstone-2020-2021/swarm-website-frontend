@@ -64,11 +64,12 @@ class Entry extends React.Component<entryProps, entryState>{
 
     handleShow(commentId: string){
         //@ts-ignore
-        let commentText = document.getElementById("comment" + commentId).childNodes[1].textContent.toString();
-
+        let commentText = document.getElementById("commentText" + commentId).textContent.toString();
+        //@ts-ignore
+        let commentUser = document.getElementById("commentUser" + commentId).textContent.toString();
         this.setState({
             replyModalShow: true,
-            replyModalQuote: commentText
+            replyModalQuote: commentUser+": \""+commentText+"\""
         })
     }
 
@@ -131,11 +132,11 @@ class Entry extends React.Component<entryProps, entryState>{
                                         <Toast id={"comment"+commentData['id']} key={commentId} className='comment'>
                                             <Toast.Header>
                                                 <Image src={logo} roundedCircle width={25} height={25}/>
-                                                <strong className="mr-auto ml-2">{data['username']}</strong>
+                                                <strong className="mr-auto ml-2" id={"commentUser"+commentData['id']}>{data['username']}</strong>
                                                 <small className="mr-1">{commentData['dateTime'].substring(0,10)}</small>
                                                 <Button variant="success" className="replyButton ml-1" size="sm" onClick={() => this.handleShow(commentData['id'].toString())}><small>reply</small></Button>
                                             </Toast.Header>
-                                            <Toast.Body>{commentData['text']}</Toast.Body>
+                                            <Toast.Body id={"commentText"+commentData['id']}>{commentData['text']}</Toast.Body>
                                         </Toast>
                                     )
                                 })
