@@ -5,27 +5,34 @@ import './LogIn.css';
 import Image from "../../utils/Image";
 import {Link} from "react-router-dom";
 import {verifyUser} from "./LoginApi";
-
+import { useHistory } from 'react-router-dom'
 
 //require any images
 const loginLogo = require('../../images/swarmLogoIcon.png');
 const background = backgroundImageStyling();
 
-interface UserLoginInfo {
-    loginInfo: {
-        email: string,
-        password: string
-    }
+interface Login{
+    status: boolean
 }
 
+function IncorrectLogin(props: Login) {
+    if (!props.status) {    return null;  }
+    return (
+        <div className="">
+            Warning!
+        </div>
+    );
+}
 
 class LogIn extends React.Component<{}> {
     state = {
         loginInfo:{
             username: '',
-            password: ''
+            password: '',
+            incorrectLogin: false,
         }
     }
+
     componentDidMount() {
         setTimeout(function (){
             // @ts-ignore, object could possibly be null
@@ -44,8 +51,11 @@ class LogIn extends React.Component<{}> {
 
     handleSubmit = async (e: React.FormEvent)=> {
         e.preventDefault();
+
         const response = await verifyUser(this.state.loginInfo.username, this.state.loginInfo.password);
         console.log(response)
+        if(response.Status){
+        }
 
     }
 
@@ -69,6 +79,8 @@ class LogIn extends React.Component<{}> {
                                           required type="password" name={"password"}
                                           placeholder="Password" />
                         </Form.Group>
+
+                        <IncorrectLogin status={this.state.loginInfo.incorrectLogin}/>
 
                         <Button id={'loginButton'} variant="primary" type="submit">
                             Login
