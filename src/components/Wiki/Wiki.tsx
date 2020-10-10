@@ -64,6 +64,7 @@ class Wiki extends React.Component<wikiProps, wikiState>{
                 return response.json()
             })
             .then(data => {
+                data['entries'] = data['entries'].sort();
                 this.setState({data: data as wikiData});
             })
     }
@@ -80,7 +81,7 @@ class Wiki extends React.Component<wikiProps, wikiState>{
             <section style={background}>
                 <MainNavbar logo={logo} />
                 <div id='contentWiki'>
-                  <EntryMenu action={this.rightPaneHandler} wikiTitle={this.state.data.title} wikiId={this.state.data.id} entries={this.state.data.entries.sort()}/>
+                  <EntryMenu action={this.rightPaneHandler} wikiTitle={this.state.data.title} wikiId={this.state.data.id} entries={this.state.data.entries}/>
                   <div id='rightPane' className="bg-dark">
                       {rightPaneComponent}
                   </div>
