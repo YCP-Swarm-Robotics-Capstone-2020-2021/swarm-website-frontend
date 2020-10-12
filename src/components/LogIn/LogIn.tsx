@@ -3,32 +3,36 @@ import backgroundImageStyling from '../../styles/backgroundImageStyling'
 import {Button, Form} from "react-bootstrap";
 import './LogIn.css';
 import Image from "../../utils/Image";
-import {Link} from "react-router-dom";
+import {Link, RouteComponentProps} from "react-router-dom";
 import {verifyUser} from "./LoginApi";
 
 //require any images
 const loginLogo = require('../../images/swarmLogoIcon.png');
 const background = backgroundImageStyling();
 
-interface Login{
-    status: boolean
+interface LoginState{
+    redirect: boolean,
+    failedLogin: boolean,
+    data: LoginData
 }
 
-function IncorrectLogin(props: Login) {
-    if (!props.status) {    return null;  }
-    return (
-        <div className="">
-            Incorrect Username or Password
-        </div>
-    );
+interface LoginData{
+    username: string,
+    password: string
 }
 
-class LogIn extends React.Component<{}> {
-    state = {
-        loginInfo:{
-            username: '',
-            password: '',
-            incorrectLogin: false,
+interface LoginProps extends RouteComponentProps<{}>{}
+
+class LogIn extends React.Component<LoginProps, LoginState> {
+    constructor(props: LoginProps) {
+        super(props);
+        this.state = {
+            redirect: false,
+            failedLogin: false,
+            data: {
+                username: '',
+                password: ''
+            }
         }
     }
 
@@ -40,30 +44,23 @@ class LogIn extends React.Component<{}> {
     }
 
     handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        const {loginInfo} = this.state;
+        const loginInfo = this.state.data;
         const newLoginInfo = {
             ...loginInfo,
             [e.target.name]: e.target.value
         }
-        this.setState({loginInfo: newLoginInfo})
-    }
-
-    handleIncorrectLogin = () => {
-        const {loginInfo} = this.state;
-        const newLoginInfo = {
-            ...loginInfo,
-            incorrectLogin: true
-        }
-        this.setState({loginInfo: newLoginInfo})
+        this.setState({data: newLoginInfo})
+        console.log(this.state);
     }
 
     handleSubmit = async (e: React.FormEvent)=> {
         e.preventDefault();
-        const response = await verifyUser(this.state.loginInfo.username, this.state.loginInfo.password);
+        const response = await verifyUser(this.state.data.username, this.state.data.password);
         //Handle redirect
         if(response.Status){
+            console.log('Succ');
         }
-        this.handleIncorrectLogin();
+
     }
 
     render() {
@@ -87,7 +84,6 @@ class LogIn extends React.Component<{}> {
                                           placeholder="Password" />
                         </Form.Group>
 
-                        <IncorrectLogin status={this.state.loginInfo.incorrectLogin}/>
 
                         <Button id={'loginButton'} variant="primary" type="submit">
                             Login
