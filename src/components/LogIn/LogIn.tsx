@@ -4,22 +4,12 @@ import {Button, Form} from "react-bootstrap";
 import './LogIn.css';
 import Image from "../../utils/Image";
 import {Link, RouteComponentProps} from "react-router-dom";
-import {verifyUser} from "./LoginApi";
+import {LoginState, verifyUser} from "./LoginApi";
+import { useHistory } from "react-router-dom";
 
-//require any images
 const loginLogo = require('../../images/swarmLogoIcon.png');
 const background = backgroundImageStyling();
 
-interface LoginState{
-    redirect: boolean,
-    failedLogin: boolean,
-    data: LoginData
-}
-
-interface LoginData{
-    username: string,
-    password: string
-}
 
 interface LoginProps extends RouteComponentProps<{}>{}
 
@@ -52,13 +42,13 @@ class LogIn extends React.Component<LoginProps, LoginState> {
         this.setState({data: newLoginInfo})
         console.log(this.state);
     }
-
+    
     handleSubmit = async (e: React.FormEvent)=> {
         e.preventDefault();
         const response = await verifyUser(this.state.data.username, this.state.data.password);
         //Handle redirect
         if(response.Status){
-            console.log('Succ');
+            this.props.history.push('/home')
         }
 
     }
@@ -102,6 +92,8 @@ class LogIn extends React.Component<LoginProps, LoginState> {
             </section>
         );
     }
+
+
 }
 
 export default LogIn

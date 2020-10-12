@@ -1,3 +1,15 @@
+export interface LoginState{
+    redirect: boolean,
+    failedLogin: boolean,
+    data: LoginData
+}
+
+interface LoginData{
+    username: string,
+    password: string
+}
+
+
 export async function verifyUser(username: string, password: string){
     const response = await fetch(
         "http://localhost:8000/user/verify_password?username=" +
