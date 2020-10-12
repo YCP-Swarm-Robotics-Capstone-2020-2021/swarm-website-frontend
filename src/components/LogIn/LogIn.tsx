@@ -5,13 +5,21 @@ import './LogIn.css';
 import Image from "../../utils/Image";
 import {Link, RouteComponentProps} from "react-router-dom";
 import {LoginState, verifyUser} from "./LoginApi";
-import { useHistory } from "react-router-dom";
 
 const loginLogo = require('../../images/swarmLogoIcon.png');
 const background = backgroundImageStyling();
 
 
 interface LoginProps extends RouteComponentProps<{}>{}
+
+
+function IncorrectLogin(props: { failedLogin: any; }){
+    const isLoggedIn = props.failedLogin;
+    if(isLoggedIn){
+        return <p id={'incorrectLogin'}>Incorrect Username or Password</p>
+    }
+    return null
+}
 
 class LogIn extends React.Component<LoginProps, LoginState> {
     constructor(props: LoginProps) {
@@ -40,16 +48,20 @@ class LogIn extends React.Component<LoginProps, LoginState> {
             [e.target.name]: e.target.value
         }
         this.setState({data: newLoginInfo})
-        console.log(this.state);
     }
-    
+
     handleSubmit = async (e: React.FormEvent)=> {
+
         e.preventDefault();
+
         const response = await verifyUser(this.state.data.username, this.state.data.password);
-        //Handle redirect
+
         if(response.Status){
             this.props.history.push('/home')
+        }else{
+            this.setState({failedLogin: true});
         }
+
 
     }
 
@@ -74,6 +86,7 @@ class LogIn extends React.Component<LoginProps, LoginState> {
                                           placeholder="Password" />
                         </Form.Group>
 
+                        <IncorrectLogin failedLogin={this.state.failedLogin}/>
 
                         <Button id={'loginButton'} variant="primary" type="submit">
                             Login
