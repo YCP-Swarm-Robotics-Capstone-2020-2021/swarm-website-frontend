@@ -31,6 +31,7 @@ interface entryState{
     newComment: newCommentData
     headings: headingData[]
     headingElements: JSX.Element[]
+    headingEditElements: JSX.Element[]
 }
 
 interface entryProps{
@@ -49,7 +50,8 @@ class Entry extends React.Component<entryProps, entryState>{
             commentElements: [],
             newComment: {text: '', user: 0},
             headings: [],
-            headingElements: []
+            headingElements: [],
+            headingEditElements: []
         };
         this.handleHide = this.handleHide.bind(this);
         this.handleShow = this.handleShow.bind(this);
@@ -163,6 +165,12 @@ class Entry extends React.Component<entryProps, entryState>{
                                         <Card.Title>{data['title']}</Card.Title>
                                         <Card.Text>{data['text']}</Card.Text>
                                     </div>
+                                ),
+                                headingEditElements: this.state.headingEditElements.concat(
+                                    <div>
+                                        <Form.Control className="heading" value={data['title']}></Form.Control>
+                                        <Form.Control value={data['text']} as="textarea" rows={4}></Form.Control>
+                                    </div>
                                 )
                             })
                         })
@@ -242,11 +250,7 @@ class Entry extends React.Component<entryProps, entryState>{
                     <Form id="editForm">
                         <Form.Group>
                             <Form.Control id="title" value={this.state.data.title}></Form.Control>
-                            <Form.Control className="heading" value="Heading"></Form.Control>
-                            <Form.Control value="Heading text" as="textarea" rows={4}></Form.Control>
-
-                            <Form.Control className="heading" value="Heading 2"></Form.Control>
-                            <Form.Control value="Heading text 2" as="textarea" rows={4}></Form.Control>
+                            {this.state.headingEditElements}
                         </Form.Group>
                         <Form.Group>
                             <Form.Label id="sideBarLabel">Sidebar</Form.Label>
