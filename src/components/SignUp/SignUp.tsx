@@ -4,24 +4,13 @@ import {Button, Form} from "react-bootstrap";
 import './SignUp.css';
 import Image from "../../utils/Image";
 import {Link, RouteComponentProps} from "react-router-dom";
+import {SignUpState, verifyUser} from "./SignUpApi";
 
 
 //require any images
 const logo = require('../../images/swarmLogoIcon.png');
 const background = backgroundImageStyling();
 
-interface SignUpState{
-    userCreateSuccess: boolean,
-    userCreateFail: boolean,
-    data:{
-        firstName: string,
-        lastName: string,
-        username: string,
-        password: string,
-        verifyPassword: string,
-        email: string
-    }
-}
 
 interface SignUpProps extends RouteComponentProps<{}>{}
 
@@ -71,19 +60,19 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
 
         const response = await verifyUser(this.state.data.username, this.state.data.password);
         if(response.Status){
-            return <UserAlreadyExists></UserAlreadyExists>
+            return null
         }
 
 
         //Create user and redirect to login
-        return "yay"
+        return null
     }
 
     render() {
         return(
             <section style={background}>
                 <div id="signUpBox">
-                    <Form>
+                    <Form onSubmit={this.handleSubmit}>
                         <Image id='signUplogo' src={String(logo)} alt='Swarm Robotics Logo'/>
 
                         <Form.Group controlId="formBasicEmail">
