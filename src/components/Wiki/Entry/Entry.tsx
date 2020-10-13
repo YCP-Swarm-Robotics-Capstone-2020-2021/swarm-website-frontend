@@ -9,6 +9,7 @@ import {newCommentData} from "../../../utils/postInterfaces/newCommentData";
 import {postComment} from "./postComment";
 
 import './Entry.css';
+import {deleteEntry} from "./deleteEntry";
 const logo = require('../../../images/swarmLogoIcon.png');
 
 /*
@@ -57,6 +58,7 @@ class Entry extends React.Component<entryProps, entryState>{
         this.handleShow = this.handleShow.bind(this);
         this.handleCommentTextChange = this.handleCommentTextChange.bind(this);
         this.handleNewCommentSubmit = this.handleNewCommentSubmit.bind(this);
+        this.handleEntryDeleteSubmit = this.handleEntryDeleteSubmit.bind(this);
     }
 
     handleHide(){
@@ -93,6 +95,12 @@ class Entry extends React.Component<entryProps, entryState>{
             text: this.state.newComment.text,
             user: 1
         }, this.state.data.comments, this.state.data.id)
+    }
+
+    handleEntryDeleteSubmit(){
+        //e.preventDefault();
+        console.log("Delete Entry button pressed");
+        deleteEntry(this.state.data);
     }
 
     getEntry(){
@@ -266,7 +274,8 @@ class Entry extends React.Component<entryProps, entryState>{
                             <Form.Control className="float-right" value="Test 2"></Form.Control>
                         </Form.Group>
                         <Form.Group id="submitGroup">
-                            <Button variant="success" type="submit">Save</Button>
+                            <Button id="submitButton" variant="success" type="submit">Save</Button>
+                            <Button onClick={this.handleEntryDeleteSubmit} variant="danger" type="button">Delete Entry</Button>
                         </Form.Group>
                     </Form>
                 </Tab>

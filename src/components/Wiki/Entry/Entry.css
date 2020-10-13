@@ -102,8 +102,12 @@
 
 #editForm button{
     margin-top: 1rem;
+}
+
+#editForm #submitButton{
     background-color: #2d7536;
     border: none !important;
+    margin-right: 1.5rem;
 }
 
 #sideBarEdit .form-control{
