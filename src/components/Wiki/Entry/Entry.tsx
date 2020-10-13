@@ -157,7 +157,13 @@ class Entry extends React.Component<entryProps, entryState>{
                         .then(response => response.json())
                         .then(data => {
                             this.setState({
-                                headings: this.state.headings.concat(data as headingData)
+                                headings: this.state.headings.concat(data as headingData),
+                                headingElements: this.state.headingElements.concat(
+                                    <div>
+                                        <Card.Title>{data['title']}</Card.Title>
+                                        <Card.Text>{data['text']}</Card.Text>
+                                    </div>
+                                )
                             })
                         })
                 })
@@ -202,15 +208,7 @@ class Entry extends React.Component<entryProps, entryState>{
                         <h2>{this.state.data.title}</h2>
                         <Card.Body>
                             <Card.Text>{this.state.data.text}</Card.Text>
-                            <Card.Title>A heading</Card.Title>
-                                <Card.Text>The text that goes with the above heading. Crazy stuff
-                                    Crazy stuffCrazy stuffCrazy stuffCrazy stuffCrazy stuffCrazy stuffCrazy stuffCrazy stuff
-                                    Crazy stuffCrazy stuffCrazy stuffCrazy stuffCrazy stuffCrazy stuffCrazy stuffCrazy stuff
-                                    Crazy stuffCrazy stuffCrazy stuff</Card.Text>
-                            <Card.Title>Another heading</Card.Title>
-                                <Card.Text>The text that goes with the above heading. Crazy stuff</Card.Text>
-                            <Card.Subtitle>A sub heading</Card.Subtitle>
-                                <Card.Text>Sub heading text</Card.Text>
+                            {this.state.headingElements}
                         </Card.Body>
                     </Card>
 
