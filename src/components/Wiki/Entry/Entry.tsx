@@ -30,6 +30,7 @@ interface entryState{
     commentElements: JSX.Element[]
     newComment: newCommentData
     headings: headingData[]
+    headingElements: JSX.Element[]
 }
 
 interface entryProps{
@@ -47,7 +48,8 @@ class Entry extends React.Component<entryProps, entryState>{
             comments: [],
             commentElements: [],
             newComment: {text: '', user: 0},
-            headings: []
+            headings: [],
+            headingElements: []
         };
         this.handleHide = this.handleHide.bind(this);
         this.handleShow = this.handleShow.bind(this);
