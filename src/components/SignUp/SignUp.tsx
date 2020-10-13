@@ -3,14 +3,45 @@ import backgroundImageStyling from '../../styles/backgroundImageStyling'
 import {Button, Form} from "react-bootstrap";
 import './SignUp.css';
 import Image from "../../utils/Image";
-import {Link} from "react-router-dom";
+import {Link, RouteComponentProps} from "react-router-dom";
 
 
 //require any images
 const logo = require('../../images/swarmLogoIcon.png');
 const background = backgroundImageStyling();
 
-class SignUp extends React.Component {
+interface SignUpState{
+    userCreateSuccess: boolean,
+    userCreateFail: boolean,
+    data:{
+        firstName: string,
+        lastName: string,
+        username: string,
+        password: string,
+        verifyPassword: string,
+        email: string
+    }
+}
+
+interface SignUpProps extends RouteComponentProps<{}>{}
+
+class SignUp extends React.Component<SignUpProps, SignUpState> {
+
+    constructor(props: any) {
+        super(props);
+        this.state={
+            userCreateFail: false,
+            userCreateSuccess: false,
+            data:{
+                firstName: '',
+                lastName: '',
+                username: '',
+                password: '',
+                verifyPassword: '',
+                email: ''
+            }
+        }
+    }
 
     componentDidMount() {
         setTimeout(function () {
