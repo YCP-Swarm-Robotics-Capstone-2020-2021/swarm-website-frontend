@@ -145,6 +145,22 @@ class Entry extends React.Component<entryProps, entryState>{
                             })
                         })
                 })
+
+                //get headingData/headingElements
+                this.state.data.headings.forEach(headingId => {
+                    fetch("http://localhost:8000/heading/"+headingId+"/", {
+                        method: 'GET',
+                        headers:{
+                            "Content-type": "application/json"
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            this.setState({
+                                headings: this.state.headings.concat(data as headingData)
+                            })
+                        })
+                })
             })
     }
 
