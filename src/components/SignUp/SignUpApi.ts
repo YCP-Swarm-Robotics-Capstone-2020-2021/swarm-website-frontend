@@ -27,3 +27,10 @@ export async function verifyUser(username: string, password: string){
     return responseToJson;
 
 }
+
+export async function createUser(data: SignUpData){
+    const response = await fetch(
+        "http://localhost:8000/user/", {
+
+        })
+}

@@ -4,7 +4,7 @@ import {Button, Form} from "react-bootstrap";
 import './SignUp.css';
 import Image from "../../utils/Image";
 import {Link, RouteComponentProps} from "react-router-dom";
-import {SignUpState, verifyUser} from "./SignUpApi";
+import {createUser, SignUpState, verifyUser} from "./SignUpApi";
 
 
 //require any images
@@ -57,14 +57,14 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
         e.preventDefault();
 
         //First make sure the user doesn't exist
-
-        const response = await verifyUser(this.state.data.username, this.state.data.password);
+        let response = await verifyUser(this.state.data.username, this.state.data.password);
         if(response.Status){
             return null
         }
 
-
         //Create user and redirect to login
+        response = await createUser(this.state.data);
+
         return null
     }
 
