@@ -4,7 +4,7 @@ import {newChangeData} from "../../../utils/postInterfaces/newChangeData";
 export function postEntry(entry: newEntryData, change: newChangeData, wikiId: number, entries: number[]) {
 
     //create a new sidebar for the new entry
-    fetch('http://localhost:8000/sidebar/', {
+    fetch('http://localhost:8000/sidebar', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -19,7 +19,7 @@ export function postEntry(entry: newEntryData, change: newChangeData, wikiId: nu
         entry['sideBar'] = data['id'];
 
         //create inital change
-        fetch('http://localhost:8000/change/', {
+        fetch('http://localhost:8000/change', {
             method: 'POST',
             body: JSON.stringify(change),
             headers: {
@@ -35,7 +35,7 @@ export function postEntry(entry: newEntryData, change: newChangeData, wikiId: nu
             entry['log'] = [data['id']];
 
             //save new entry object
-            fetch('http://localhost:8000/entry/', {
+            fetch('http://localhost:8000/entry', {
                 method: 'POST',
                 body: JSON.stringify(entry),
                 headers: {
@@ -49,7 +49,7 @@ export function postEntry(entry: newEntryData, change: newChangeData, wikiId: nu
             }).then(data => {
 
                 //patch new entry into wiki object
-                fetch('http://localhost:8000/wiki/'+wikiId+'/', {
+                fetch('http://localhost:8000/wiki/'+wikiId, {
                     method: 'PATCH',
                     body: JSON.stringify({entries: entries.concat(data['id'])}),
                     headers: {

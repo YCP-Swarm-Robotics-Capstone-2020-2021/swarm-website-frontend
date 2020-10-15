@@ -28,7 +28,7 @@ class WikiNotFound extends React.Component<{}, wikiNotFoundState>{
     }
 
     componentDidMount() {
-        fetch('http://localhost:8000/wiki/',{
+        fetch('http://localhost:8000/wiki',{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

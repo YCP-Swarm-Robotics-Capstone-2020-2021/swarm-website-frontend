@@ -51,7 +51,7 @@ class Wiki extends React.Component<wikiProps, wikiState>{
         document.getElementsByTagName("BODY")[0].classList.add('wikiBody');
 
         let id = this.props.match.params.id;
-        fetch('http://localhost:8000/wiki/'+id+'/',{
+        fetch('http://localhost:8000/wiki/'+id,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

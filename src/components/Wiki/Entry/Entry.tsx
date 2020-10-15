@@ -104,7 +104,7 @@ class Entry extends React.Component<entryProps, entryState>{
     }
 
     getEntry(){
-        fetch('http://localhost:8000/entry/' + this.props.id + '/', {
+        fetch('http://localhost:8000/entry/' + this.props.id, {
             method: 'GET',
             headers:{
                 'Content-Type': 'application/json'
@@ -117,7 +117,7 @@ class Entry extends React.Component<entryProps, entryState>{
             .then(() => {
                 //get commentData/commentElements
                 this.state.data.comments.forEach(commentId => {
-                    fetch("http://localhost:8000/comment/" + commentId + '/', {
+                    fetch("http://localhost:8000/comment/" + commentId, {
                         method: 'GET',
                         headers:{
                             'Content-Type': 'application/json'
@@ -126,7 +126,7 @@ class Entry extends React.Component<entryProps, entryState>{
                         .then(response => response.json())
                         .then(data => {
                             let commentData = data as commentData;
-                            fetch("http://localhost:8000/user/"+data['user']+"/", {
+                            fetch("http://localhost:8000/user/"+data['user'], {
                                 method: 'GET',
                                 headers:{
                                     'Content-Type': 'application/json'
@@ -158,7 +158,7 @@ class Entry extends React.Component<entryProps, entryState>{
 
                 //get headingData/headingElements
                 this.state.data.headings.forEach(headingId => {
-                    fetch("http://localhost:8000/heading/"+headingId+"/", {
+                    fetch("http://localhost:8000/heading/"+headingId, {
                         method: 'GET',
                         headers:{
                             "Content-type": "application/json"
