@@ -8,3 +8,8 @@ body{
 #mainNavbarLogo{
     margin-right: 1em;
 }
+
+#wikiDropdown button{
+    background-color: #2d7536;
+    border: none !important;
+}
