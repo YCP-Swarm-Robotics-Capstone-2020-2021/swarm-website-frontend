@@ -3,38 +3,37 @@ import backgroundImageStyling from '../../styles/backgroundImageStyling'
 import {Button, Form} from "react-bootstrap";
 import './LogIn.css';
 import Image from "../../utils/Image";
-import {Link} from "react-router-dom";
+import {Link, RouteComponentProps} from "react-router-dom";
+import {LoginState, verifyUser} from "./LoginApi";
 
-
-//require any images
 const loginLogo = require('../../images/swarmLogoIcon.png');
 const background = backgroundImageStyling();
 
-interface UserLoginInfo {
-    loginInfo: {
-        email: string,
-        password: string
+
+interface LoginProps extends RouteComponentProps<{}>{}
+
+
+function IncorrectLogin(props: { failedLogin: any; }){
+    const isLoggedIn = props.failedLogin;
+    if(isLoggedIn){
+        return <p id={'incorrectLogin'}>Incorrect Username or Password</p>
     }
+    return null
 }
 
-async function postData(url = '', data = {}){
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    });
-    return response.json();
-}
-
-class LogIn extends React.Component<{}, UserLoginInfo> {
-    state = {
-        loginInfo:{
-            email: '',
-            password: ''
+class LogIn extends React.Component<LoginProps, LoginState> {
+    constructor(props: LoginProps) {
+        super(props);
+        this.state = {
+            redirect: false,
+            failedLogin: false,
+            data: {
+                username: '',
+                password: ''
+            }
         }
     }
+
     componentDidMount() {
         setTimeout(function (){
             // @ts-ignore, object could possibly be null
@@ -42,29 +41,54 @@ class LogIn extends React.Component<{}, UserLoginInfo> {
         }, 1)
     }
 
+    handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        const loginInfo = this.state.data;
+        const newLoginInfo = {
+            ...loginInfo,
+            [e.target.name]: e.target.value
+        }
+        this.setState({data: newLoginInfo})
+    }
+
+    handleSubmit = async (e: React.FormEvent)=> {
+
+        e.preventDefault();
+
+        const response = await verifyUser(this.state.data.username, this.state.data.password);
+
+        if(response.Status){
+            this.props.history.push('/home')
+        }else{
+            this.setState({failedLogin: true});
+        }
+
+
+    }
 
     render() {
         return(
             <section style={background}>
                 <div id="loginBox">
-                    <Form>
+                    <Form onSubmit={this.handleSubmit}>
                         <Image id='loginLogo' src={String(loginLogo)} alt='Swarm Robotics Logo'/>
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Text className={'text-center loginText'}>Email address</Form.Text>
-                            <Form.Control className={'loginTextInput text-center'} value={this.state.loginInfo.email}
-                                          onChange={this.changeEmail} type="email"
-                                          required placeholder="Enter email"/>
+                            <Form.Text className={'text-center loginText'}>Username</Form.Text>
+                            <Form.Control className={'loginTextInput text-center'}
+                                          onChange={this.handleChange} type="username"
+                                          name={"username"} required placeholder="Enter Username"/>
                         </Form.Group>
 
                         <Form.Group controlId="formBasicPassword">
                             <Form.Text className={'loginText text-center'}>Password</Form.Text>
                             <Form.Control className={'loginTextInput text-center'}
-                                          onChange={this.changePassword} value={this.state.loginInfo.password}
-                                          required type="password"
+                                          onChange={this.handleChange}
+                                          required type="password" name={"password"}
                                           placeholder="Password" />
                         </Form.Group>
 
-                        <Button id={'loginButton'} variant="primary" type="submit" onClick={this.submitInfo}>
+                        <IncorrectLogin failedLogin={this.state.failedLogin}/>
+
+                        <Button id={'loginButton'} variant="primary" type="submit">
                             Login
                         </Button>
 
@@ -81,35 +105,8 @@ class LogIn extends React.Component<{}, UserLoginInfo> {
             </section>
         );
     }
-    //These methods serve the purpose of updating state input from the user
-    changeEmail = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        const {loginInfo} = this.state;
-        const {value} = event.currentTarget
-        const newLoginInfo = {
-            ...loginInfo,
-            email: value
-        };
-        this.setState({loginInfo: newLoginInfo})
-    }
-    //These methods serve the purpose of updating state input from the user
-    changePassword = (event: React.ChangeEvent<HTMLInputElement>): void => {
-        const {loginInfo} = this.state;
-        const {value} = event.currentTarget
-        const newLoginInfo = {
-            ...loginInfo,
-            password: value
-        };
-        this.setState({loginInfo: newLoginInfo})
-    }
-    submitInfo = (event: React.MouseEvent<HTMLButtonElement>): void => {
-        postData('https://localhost:8000/login', {loginInfo: this.state.loginInfo})
-            .then(data => {
-                console.log(data);
-            }).catch(
-                error => alert(error.message)
-            );
-        console.log(this.state.loginInfo);
-    }
+
+
 }
 
 export default LogIn
