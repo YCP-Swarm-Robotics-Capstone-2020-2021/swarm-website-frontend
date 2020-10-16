@@ -58,13 +58,19 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
 
         //First make sure the user doesn't exist
         let response = await verifyUser(this.state.data.username, this.state.data.password);
-        if(response.Status){
+        if(!response.Status){
+            //Error flag, make sure to set a display here if it fails
             return null
         }
 
+
         //Create user and redirect to login
         response = await createUser(this.state.data);
+        if(response){
+            //redirect to login page
+        }
 
+        //Create an error here if response was null or something bad occurred
         return null
     }
 

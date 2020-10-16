@@ -29,8 +29,14 @@ export async function verifyUser(username: string, password: string){
 }
 
 export async function createUser(data: SignUpData){
-    const response = await fetch(
-        "http://localhost:8000/user/", {
-
+    const response = await fetch("http://localhost:8000/user/",
+        {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application-json'
+            },
+            body: JSON.stringify(data)
         })
+
+    const responseToJson = await response.json();
 }
