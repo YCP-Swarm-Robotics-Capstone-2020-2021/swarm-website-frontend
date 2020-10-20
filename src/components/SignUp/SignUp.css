@@ -13,7 +13,7 @@
     /* rounding/color/size */
     border-radius: 15px;
     background-color: #3e4749;
-    height: 50rem;
+    height: 58rem;
     width: 24rem;
 
     /* box shadow */
@@ -65,4 +65,9 @@
     border: 0;
     border-radius: 0.5rem;
     margin-bottom: 1rem;
+}
+
+#incorrectSignUp{
+    color: white;
+    text-align: center;
 }

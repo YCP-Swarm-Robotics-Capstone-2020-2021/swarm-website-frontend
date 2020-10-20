@@ -4,7 +4,7 @@ import {Button, Form} from "react-bootstrap";
 import './SignUp.css';
 import Image from "../../utils/Image";
 import {Link, RouteComponentProps} from "react-router-dom";
-import {createUser, SignUpState, verifyUser} from "./SignUpApi";
+import {createUser, SignUpState, findUser} from "./SignUpApi";
 
 
 //require any images
@@ -14,8 +14,20 @@ const background = backgroundImageStyling();
 
 interface SignUpProps extends RouteComponentProps<{}>{}
 
-function UserAlreadyExists(){
-    return <p>User already exists</p>
+function UserAlreadyExists(props: { userExists: boolean; }){
+    const userExists = props.userExists;
+    if(userExists){
+        return <p id={'incorrectSignUp'}>Error creating new user</p>
+    }
+    return null
+}
+
+function PasswordMismatch(props: {passwordMismatch: boolean}){
+    const passwordMismatch = props.passwordMismatch;
+    if(passwordMismatch){
+        return <p id={'incorrectSignUp'}>Passwords do not match</p>
+    }
+    return null
 }
 
 class SignUp extends React.Component<SignUpProps, SignUpState> {
@@ -25,6 +37,7 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
         this.state={
             userCreateFail: false,
             userCreateSuccess: false,
+            passwordMismatch: false,
             data:{
                 firstName: '',
                 lastName: '',
@@ -50,25 +63,32 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
             [e.target.name]: e.target.value
         }
         this.setState({data: signUpData});
-        console.log(this.state.data);
     }
 
     handleSubmit = async (e: React.FormEvent)=> {
         e.preventDefault();
 
         //First make sure the user doesn't exist
-        let response = await verifyUser(this.state.data.username, this.state.data.password);
-        if(!response.Status){
+        let response = await findUser(this.state.data.username);
+        if(response.Status){
             //Error flag, make sure to set a display here if it fails
-            return null
+            this.setState({userCreateFail: true});
+            return null;
         }
 
+        //Verify the passwords were the same
+        if(this.state.data.password != this.state.data.verifyPassword){
+            this.setState({passwordMismatch: true});
+            return null;
+        }
 
         //Create user and redirect to login
         response = await createUser(this.state.data);
-        if(response){
-            //redirect to login page
+        if(response.id){
+
+            this.props.history.push('/');
         }
+        this.setState({userCreateFail: true});
 
         //Create an error here if response was null or something bad occurred
         return null
@@ -85,36 +105,46 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
                             <Form.Text className={'text-center signUpText'}>First Name</Form.Text>
                             <Form.Control className={'signUpTextInput text-center'}
                                           name={"firstName"} onChange={this.handleChange}
-                                          type="firstName" placeholder="First Name" />
+                                          type="firstName" required placeholder="First Name" />
                         </Form.Group>
 
                         <Form.Group controlId="formBasicEmail">
                             <Form.Text className={'text-center signUpText'}>Last Name</Form.Text>
                             <Form.Control className={'signUpTextInput text-center'}
                                           name={"lastName"} onChange={this.handleChange}
-                                          type="lastName" placeholder="Last Name" />
+                                          type="lastName" required placeholder="Last Name" />
                         </Form.Group>
 
                         <Form.Group controlId="formBasicEmail">
                             <Form.Text className={'text-center signUpText'}>Email address</Form.Text>
                             <Form.Control className={'signUpTextInput text-center'}
                                           name={"email"} onChange={this.handleChange}
-                                          type="email" placeholder="Enter email" />
+                                          type="email" required placeholder="Enter email" />
+                        </Form.Group>
+
+                        <Form.Group controlId="formBasicEmail">
+                            <Form.Text className={'text-center signUpText'}>Username</Form.Text>
+                            <Form.Control className={'signUpTextInput text-center'}
+                                          name={"username"} onChange={this.handleChange}
+                                          type="username" required placeholder="Enter Username" />
                         </Form.Group>
 
                         <Form.Group controlId="formBasicPassword">
                             <Form.Text className={'signUpText text-center'}>Password</Form.Text>
                             <Form.Control className={'signUpTextInput text-center'}
                                           name={"password"} onChange={this.handleChange}
-                                          type="password" placeholder="Password" />
+                                          type="password" required placeholder="Password" />
                         </Form.Group>
 
                         <Form.Group controlId="formBasicPassword">
                             <Form.Text className={'signUpText text-center'}>Verify Password</Form.Text>
                             <Form.Control className={'signUpTextInput text-center'}
                                           name={"verifyPassword"} onChange={this.handleChange}
-                                          type="password" placeholder="Verify Passowrd" />
+                                          type="password" required placeholder="Verify Passowrd" />
                         </Form.Group>
+
+                        <UserAlreadyExists userExists={this.state.userCreateFail}/>
+                        <PasswordMismatch passwordMismatch={this.state.passwordMismatch}/>
 
                         <Button id={'signUpButton'} variant="primary" type="submit">
                             Sign Up

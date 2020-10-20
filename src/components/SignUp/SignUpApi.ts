@@ -1,6 +1,7 @@
 export interface SignUpState{
     userCreateSuccess: boolean,
     userCreateFail: boolean,
+    passwordMismatch: boolean,
     data: SignUpData
 }
 
@@ -13,30 +14,28 @@ interface SignUpData{
     email: string
 }
 
-export async function verifyUser(username: string, password: string){
+export async function findUser(username: string){
     const response = await fetch(
-        "http://localhost:8000/user/verify_password?username=" +
-        username + "&password=" + password, {
+        "http://localhost:8000/user/find_user?username=" +
+        username, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application-json'
+                'Content-Type': 'application/json'
             }})
 
-    const responseToJson = await response.json();
-
-    return responseToJson;
+    return await response.json();
 
 }
 
 export async function createUser(data: SignUpData){
-    const response = await fetch("http://localhost:8000/user/",
+    const response = await fetch("http://localhost:8000/user",
         {
             method: 'POST',
             headers: {
-                'Content-type': 'application-json'
+                'Content-type': 'application/json'
             },
             body: JSON.stringify(data)
         })
 
-    const responseToJson = await response.json();
+    return await response.json()
 }
