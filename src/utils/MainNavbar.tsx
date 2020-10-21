@@ -102,7 +102,7 @@ class MainNavbar extends React.Component<Props, State>{
                                 <Dropdown.Menu>
                                     {this.state.wikiDropdownItems}
                                     <Dropdown.Divider />
-                                    <Dropdown.Item onClick={() => this.handleShow()}>Add Wiki</Dropdown.Item>
+                                    <Dropdown.Item id="addWikiLink" onClick={() => this.handleShow()}>Add Wiki</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
 
