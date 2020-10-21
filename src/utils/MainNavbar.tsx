@@ -2,6 +2,8 @@ import React from "react";
 import {Nav, Navbar, Dropdown, Modal, Form, Button} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {wikiData} from "./getInterfaces/wikiData";
+import {newWikiData} from "./postInterfaces/newWikiData";
+import {postWiki} from "../components/Wiki/postWiki";
 
 interface Props{
     logo: string;
@@ -9,7 +11,8 @@ interface Props{
 
 interface State{
     wikiDropdownItems:  JSX.Element[],
-    addWikiModalShow: boolean
+    addWikiModalShow: boolean,
+    newWiki: newWikiData
 }
 
 class MainNavbar extends React.Component<Props, State>{
@@ -17,10 +20,13 @@ class MainNavbar extends React.Component<Props, State>{
         super(props);
         this.state = {
             wikiDropdownItems: [],
-            addWikiModalShow: false
+            addWikiModalShow: false,
+            newWiki: {title: '', briefDescription: ''}
         }
         this.handleShow = this.handleShow.bind(this);
         this.handleHide = this.handleHide.bind(this);
+        this.handleNewWikiSubmit = this.handleNewWikiSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
     componentDidMount() {
         fetch("http://localhost:8000/wiki", {
@@ -52,6 +58,20 @@ class MainNavbar extends React.Component<Props, State>{
         this.setState({
             addWikiModalShow: false
         })
+    }
+
+    handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        const newWikiInfo = this.state.newWiki;
+        const newNewWikiInfo = {
+            ...newWikiInfo,
+            [e.target.name]: e.target.value
+        }
+        this.setState({newWiki: newNewWikiInfo})
+    }
+
+    handleNewWikiSubmit(e: React.FormEvent<HTMLFormElement>){
+        e.preventDefault();
+        postWiki(this.state.newWiki);
     }
 
     render(){
@@ -93,12 +113,12 @@ class MainNavbar extends React.Component<Props, State>{
                             <Modal.Title>Add a wiki</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <Form>
+                            <Form id="newWikiForm" onSubmit={this.handleNewWikiSubmit}>
                                 <Form.Group>
                                     <Form.Label>Title</Form.Label>
-                                    <Form.Control name="title" as="input" required/>
+                                    <Form.Control name="title" as="input" required onChange={this.handleChange}/>
                                     <Form.Label className='mt-3'>Description</Form.Label>
-                                    <Form.Control name="text" as='textarea' rows={3}required></Form.Control>
+                                    <Form.Control name="briefDescription" as='textarea' rows={3} required onChange={this.handleChange}></Form.Control>
                                 </Form.Group>
                                 <Button variant="success" type="submit">Submit</Button>
                             </Form>
