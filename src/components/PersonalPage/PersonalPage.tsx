@@ -62,7 +62,7 @@ class PersonalPage extends React.Component<RouteComponentProps<{id: string}>, pe
         //Create request for personalpage information using parameter id
         let pageID = this.props.match.params.id;
         console.log("Page id: " + pageID);
-        fetch("http://localhost:8000/personalpage/"+pageID, {
+        fetch("http://localhost:1337/personalpage/"+pageID, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

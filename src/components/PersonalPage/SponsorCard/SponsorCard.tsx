@@ -73,8 +73,8 @@ class SponsorCard extends React.Component<personalPage, sponsorPage & sponsor>{
 
     componentDidMount() {
         //Should make requests for sponsor info
-        console.log('http://localhost:8000/sponsor/?page=' + this.props.personalPage.id);
-        fetch('http://localhost:8000/sponsor/?page=' + this.props.personalPage.id,{
+        console.log('http://localhost:1337/sponsor/?page=' + this.props.personalPage.id);
+        fetch('http://localhost:1337/sponsor/?page=' + this.props.personalPage.id,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -96,7 +96,7 @@ class SponsorCard extends React.Component<personalPage, sponsorPage & sponsor>{
                     }
                 })
                 //TODO request sponsor page details
-                fetch('http://localhost:8000/sponsorpersonalpage/?page=' + this.props.personalPage.id, {
+                fetch('http://localhost:1337/sponsorpersonalpage/?page=' + this.props.personalPage.id, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'

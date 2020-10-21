@@ -63,8 +63,8 @@ class DevCard extends React.Component<personalPage, developerPage & developer>{
 
     componentDidMount() {
         //Request and set developer based on user passed in as prop
-        console.log("Requesting: http://localhost:8000/developer/?page=" + this.props.personalPage.id);
-        fetch("http://localhost:8000/developer/?page=" + this.props.personalPage.id, {
+        console.log("Requesting: http://localhost:1337/developer/?page=" + this.props.personalPage.id);
+        fetch("http://localhost:1337/developer/?page=" + this.props.personalPage.id, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -88,7 +88,7 @@ class DevCard extends React.Component<personalPage, developerPage & developer>{
                     developerPage: this.state.developerPage,
                 })
                 //Since this is a developer page request the personal page it from the dev page api on the backend
-                fetch('http://localhost:8000/devpersonalpage/' + this.props.personalPage.id,{
+                fetch('http://localhost:1337/devpersonalpage/' + this.props.personalPage.id,{
                     method: 'GET',
                     headers: {
                         'Content-Type':'application/json'
