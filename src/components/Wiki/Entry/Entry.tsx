@@ -257,13 +257,16 @@ class Entry extends React.Component<entryProps, entryState>{
                 <Tab eventKey="edit" title="Edit" transition={false}>
                     <Form id="editForm">
                         <Form.Group>
+                            <Form.Label className="editEntryLabel">Title</Form.Label>
                             <Form.Control id="title" value={this.state.data.title}></Form.Control>
+                            <Form.Label className="editEntryLabel">Description</Form.Label>
+                            <Form.Control value={this.state.data.text}></Form.Control>
                             {this.state.headingEditElements}
                         </Form.Group>
-                        <Form.Group>
-                            <Form.Label id="sideBarLabel">Sidebar</Form.Label>
+                        <Form.Group id="sideBarLabelGroup">
+                            <Form.Label className="editEntryLabel">Sidebar</Form.Label>
                         </Form.Group>
-                        <Form.Group id="sideBarEdit">
+                        <Form.Group id="sideBarEdit" >
                             <Form.Control className="float-left" value="Test"></Form.Control>
                             <Form.Control className="float-right" value="Test 2"></Form.Control>
 

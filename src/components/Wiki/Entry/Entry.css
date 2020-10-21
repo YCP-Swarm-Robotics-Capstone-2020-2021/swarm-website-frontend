@@ -92,10 +92,6 @@
     padding-right: 10%;
 }
 
-#editForm #title{
-    margin-top: 1rem;
-}
-
 #editForm .heading{
     margin-top: 2rem;
 }
@@ -110,12 +106,18 @@
     margin-right: 1.5rem;
 }
 
+#sideBarLabelGroup{
+    margin-bottom: 0!important;
+}
+
 #sideBarEdit .form-control{
     width: 40%;
 }
 
-#sideBarLabel{
+.editEntryLabel{
     color: white;
+    margin-top: 1rem;
+    margin-bottom: 0!important;
 }
 
 #submitGroup{
