@@ -75,7 +75,7 @@ class Wiki extends React.Component<wikiProps, wikiState>{
         }
 
         let rightPaneComponent;
-        this.state.view === "landing" ? rightPaneComponent = <Landing entries={this.state.data.entries} /> : rightPaneComponent = <Entry id={this.state.view}/>
+        this.state.view === "landing" ? rightPaneComponent = <Landing entries={this.state.data.entries} wikiDescription={this.state.data.briefDescription}/> : rightPaneComponent = <Entry id={this.state.view}/>
 
         return(
             <section style={background}>

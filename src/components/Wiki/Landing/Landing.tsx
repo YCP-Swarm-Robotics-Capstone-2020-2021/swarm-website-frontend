@@ -5,7 +5,8 @@ import {Card} from 'react-bootstrap';
 import './Landing.css';
 
 interface landingProps{
-    entries: number[]
+    entries: number[],
+    wikiDescription: string
 }
 
 interface landingState{
@@ -51,10 +52,14 @@ class Landing extends React.Component<landingProps, landingState>{
                 <Card bg="dark" text="white">
                     <Card.Body>
                         <Card.Title>This wiki has...</Card.Title>
-                        <ul id="statList">
+                        <ul>
                             <li>{this.state.numEntries} entry (ies)</li>
                             <li>{this.state.numContributors} contributor (s)</li>
                             <li>{this.state.numComments} comment (s)</li>
+                        </ul>
+                        <Card.Title>This wiki is...</Card.Title>
+                        <ul>
+                            <li>{this.props.wikiDescription}</li>
                         </ul>
                     </Card.Body>
                     <div id="graph">
