@@ -28,7 +28,6 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
     }
 
     handleEntryDeleteSubmit(){
-        //e.preventDefault();
         deleteEntry(this.props.entryData);
     }
 
