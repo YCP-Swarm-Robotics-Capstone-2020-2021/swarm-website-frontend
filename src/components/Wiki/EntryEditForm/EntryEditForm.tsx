@@ -76,9 +76,9 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                         <Modal.Title>Confirmation</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                            <p>Confirm deletion of entry "{this.props.entryData.title}"</p>
+                        <p>Confirm deletion of entry "<b>{this.props.entryData.title}</b>"</p>
                             <Button variant="danger" type="button" onClick={this.handleEntryDeleteSubmit}>Delete</Button>
-                            <Button className="ml-4" variant="info" type="button" onClick={this.handleHide}>Cancel</Button>
+                            <Button className="ml-4" variant="secondary" type="button" onClick={this.handleHide}>Cancel</Button>
                     </Modal.Body>
                 </Modal>
                 <Form id="editForm" onSubmit={this.handleEntryUpdateSubmit}>
