@@ -34,6 +34,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         this.handleShow = this.handleShow.bind(this);
         this.handleEntryDeleteSubmit = this.handleEntryDeleteSubmit.bind(this);
         this.handleEntryUpdateSubmit = this.handleEntryUpdateSubmit.bind(this);
+        this.buildSideBarElements = this.buildSideBarElements.bind(this);
     }
 
     handleHide(){
@@ -66,35 +67,39 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         this.setState({entryData: newEntryInfo})
     }
 
+    buildSideBarElements(){
+        if(this.props.sideBarData.content !== null) {
+            for (const [key, value] of Object.entries(this.props.sideBarData.content)) {
+                this.setState({
+                    sideBarElements: this.state.sideBarElements.concat(
+                        <div>
+                            <Form.Control className="float-left" value={key}></Form.Control>
+                            <Form.Control className="float-right" value={value}></Form.Control>
+                        </div>
+                    )
+                })
+            }
+        }
+    }
+
     componentDidUpdate(prevProps: Readonly<entryEditFormProps>, prevState: Readonly<entryEditFormState>, snapshot?: any) {
         if(prevProps.entryData.id !== this.props.entryData.id){
             this.setState({
                 entryData: this.props.entryData,
-                sideBarData: this.props.sideBarData
+                sideBarData: this.props.sideBarData,
+                sideBarElements: []
             });
+            this.buildSideBarElements();
         }
     }
-    
+
     componentDidMount() {
         setTimeout( () => {
             this.setState({
                 entryData: this.props.entryData,
                 sideBarData: this.props.sideBarData
             });
-
-            if(this.props.sideBarData.content !== null) {
-                for (const [key, value] of Object.entries(this.props.sideBarData.content)) {
-                    console.log("hello");
-                    this.setState({
-                        sideBarElements: this.state.sideBarElements.concat(
-                            <div>
-                                <Form.Control className="float-left" value={key}></Form.Control>
-                                <Form.Control className="float-right" value={value}></Form.Control>
-                            </div>
-                        )
-                    })
-                }
-            }
+            this.buildSideBarElements();
         }, 100)
 
     }
