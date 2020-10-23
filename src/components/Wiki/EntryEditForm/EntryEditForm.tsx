@@ -5,15 +5,19 @@ import {updateEntry} from "./UpdateEntry";
 import {entryData} from "../../../utils/getInterfaces/entryData";
 import './EntryEditForm.css';
 import {newEntryData} from "../../../utils/postInterfaces/newEntryData";
+import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
 
 
 interface entryEditFormProps{
-    headingEditElements: JSX.Element[]
-    entryData: entryData
+    headingEditElements: JSX.Element[],
+    entryData: entryData,
+    sideBarData: sideBarData
 }
 
 interface entryEditFormState{
-    entryData: entryData
+    entryData: entryData,
+    sideBarData: sideBarData,
+    sideBarElements: JSX.Element[],
     deleteEntryModal: boolean
 }
 
@@ -22,6 +26,8 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         super(props);
         this.state = {
             entryData: {id: 0, title: '', text: '', sideBar: 0, comments: [], contributors: [], headings: [], log: []},
+            sideBarData: {id: 0, content: {}},
+            sideBarElements: [],
             deleteEntryModal: false
         }
         this.handleHide = this.handleHide.bind(this);
@@ -60,12 +66,37 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         this.setState({entryData: newEntryInfo})
     }
 
+    componentDidUpdate(prevProps: Readonly<entryEditFormProps>, prevState: Readonly<entryEditFormState>, snapshot?: any) {
+        if(prevProps.entryData.id !== this.props.entryData.id){
+            this.setState({
+                entryData: this.props.entryData,
+                sideBarData: this.props.sideBarData
+            });
+        }
+    }
+    
     componentDidMount() {
         setTimeout( () => {
             this.setState({
-                entryData: this.props.entryData
-            })
+                entryData: this.props.entryData,
+                sideBarData: this.props.sideBarData
+            });
+
+            if(this.props.sideBarData.content !== null) {
+                for (const [key, value] of Object.entries(this.props.sideBarData.content)) {
+                    console.log("hello");
+                    this.setState({
+                        sideBarElements: this.state.sideBarElements.concat(
+                            <div>
+                                <Form.Control className="float-left" value={key}></Form.Control>
+                                <Form.Control className="float-right" value={value}></Form.Control>
+                            </div>
+                        )
+                    })
+                }
+            }
         }, 100)
+
     }
 
     render(){
@@ -93,14 +124,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                         <Form.Label className="editEntryLabel">Sidebar</Form.Label>
                     </Form.Group>
                     <Form.Group id="sideBarEdit" >
-                        <Form.Control className="float-left" value="Test"></Form.Control>
-                        <Form.Control className="float-right" value="Test 2"></Form.Control>
-
-                        <Form.Control className="float-left" value="Test"></Form.Control>
-                        <Form.Control className="float-right" value="Test 2"></Form.Control>
-
-                        <Form.Control className="float-left" value="Test"></Form.Control>
-                        <Form.Control className="float-right" value="Test 2"></Form.Control>
+                        {this.state.sideBarElements}
                     </Form.Group>
                     <Form.Group id="submitGroup">
                         <Button id="submitButton" variant="success" type="submit">Save</Button>
