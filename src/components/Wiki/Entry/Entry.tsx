@@ -193,12 +193,14 @@ class Entry extends React.Component<entryProps, entryState>{
                     .then(response => response.json())
                     .then(data => {
                         this.setState({sideBar: data as sideBarData})
-                        for (const [key, value] of Object.entries(this.state.sideBar.content)) {
-                            this.setState({
-                                sideBarElements: this.state.sideBarElements.concat(
-                                    <Card.Text><span className="sideBarKey"><b>{key}</b></span> <span className="sideBarValue">{value}</span></Card.Text>
-                                )
-                            })
+                        if(this.state.sideBar.content !== null){
+                            for (const [key, value] of Object.entries(this.state.sideBar.content)) {
+                                this.setState({
+                                    sideBarElements: this.state.sideBarElements.concat(
+                                        <Card.Text><span className="sideBarKey"><b>{key}</b></span> <span className="sideBarValue">{value}</span></Card.Text>
+                                    )
+                                })
+                            }
                         }
                     })
             })
@@ -209,11 +211,11 @@ class Entry extends React.Component<entryProps, entryState>{
     componentDidUpdate(prevProps: Readonly<entryProps>, prevState: Readonly<entryState>) {
         if(prevProps.id !== this.props.id){
             this.setState({
-                commentElements: []
+                commentElements: [],
+                sideBarElements: []
             })
             this.getEntry();
         }
-        console.log(this.state.sideBar.content);
     }
 
     componentDidMount() {
