@@ -227,7 +227,6 @@ class Entry extends React.Component<entryProps, entryState>{
                 <Tab eventKey="details" title="Details" transition={false}>
                     <Card id="sideBarCard">
                         <Card.Body>
-                            <Card.Title>{this.state.data.title}</Card.Title>
                             {this.state.sideBarElements}
                         </Card.Body>
                     </Card>
