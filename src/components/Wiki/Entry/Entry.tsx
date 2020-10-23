@@ -10,6 +10,7 @@ import {newCommentData} from "../../../utils/postInterfaces/newCommentData";
 import {postComment} from "./postComment";
 
 import './Entry.css';
+import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
 const logo = require('../../../images/swarmLogoIcon.png');
 
 /*
@@ -27,6 +28,8 @@ interface entryState{
     replyModalShow: boolean
     replyModalQuote: string
     data: entryData
+    sideBar: sideBarData
+    sideBarElements: JSX.Element[]
     comments: commentData[]
     commentElements: JSX.Element[]
     newComment: newCommentData
@@ -47,6 +50,8 @@ class Entry extends React.Component<entryProps, entryState>{
             replyModalShow : false,
             replyModalQuote: "test",
             data: {id: 0, title: '', text: '', sideBar: 0, comments: [], contributors: [], headings: [], log: []},
+            sideBar: {id: 0, content: {}},
+            sideBarElements: [],
             comments: [],
             commentElements: [],
             newComment: {text: '', user: 0},
@@ -177,6 +182,26 @@ class Entry extends React.Component<entryProps, entryState>{
                         })
                 })
             })
+            .then(() => {
+                //get sidebar
+                fetch('http://localhost:8000/sidebar/'+this.state.data.sideBar, {
+                    method: 'GET',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        this.setState({sideBar: data as sideBarData})
+                        for (const [key, value] of Object.entries(this.state.sideBar.content)) {
+                            this.setState({
+                                sideBarElements: this.state.sideBarElements.concat(
+                                    <Card.Text><span className="sideBarKey"><b>{key}</b></span> <span className="sideBarValue">{value}</span></Card.Text>
+                                )
+                            })
+                        }
+                    })
+            })
     }
 
 
@@ -188,6 +213,7 @@ class Entry extends React.Component<entryProps, entryState>{
             })
             this.getEntry();
         }
+        console.log(this.state.sideBar.content);
     }
 
     componentDidMount() {
@@ -202,15 +228,7 @@ class Entry extends React.Component<entryProps, entryState>{
                     <Card id="sideBarCard">
                         <Card.Body>
                             <Card.Title>{this.state.data.title}</Card.Title>
-                            <Card.Text>Test Text</Card.Text>
-                            <Card.Text>Test Text</Card.Text>
-                            <Card.Text>Test Text</Card.Text>
-                            <Card.Text>Test Text</Card.Text>
-                            <Card.Text>Test Text</Card.Text>
-                            <Card.Text>Test Text</Card.Text>
-                            <Card.Text>Test Text</Card.Text>
-                            <Card.Text>Test Text</Card.Text>
-                            <Card.Text>Test Text</Card.Text>
+                            {this.state.sideBarElements}
                         </Card.Body>
                     </Card>
                     <Card id="detailsCard" bg="dark" text="white">

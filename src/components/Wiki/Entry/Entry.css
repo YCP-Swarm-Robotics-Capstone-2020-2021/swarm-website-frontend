@@ -32,6 +32,14 @@
     margin-left: 2%;
 }
 
+.sideBarKey{
+    float: left;
+}
+
+.sideBarValue{
+    float: right;
+}
+
 #sideBarCard{
     height: 20rem;
     width: 15rem;
