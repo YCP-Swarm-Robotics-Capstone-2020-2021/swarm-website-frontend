@@ -18,6 +18,7 @@ interface entryEditFormProps{
 interface entryEditFormState{
     entryData: entryData,
     sideBarData: sideBarData,
+    headingEditElements: JSX.Element[],
     sideBarElements: JSX.Element[],
     newHeading: newHeadingData
     deleteEntryModal: boolean
@@ -30,6 +31,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         this.state = {
             entryData: {id: 0, title: '', text: '', sideBar: 0, comments: [], contributors: [], headings: [], log: []},
             sideBarData: {id: 0, content: {}},
+            headingEditElements: [],
             sideBarElements: [],
             newHeading: {title: '', text: '', log: []},
             deleteEntryModal: false,
@@ -125,7 +127,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
     }
 
     buildSideBarElements(){
-        if(this.props.sideBarData !== null) {
+        if(this.state.sideBarData.content !== null) {
             for (const [key, value] of Object.entries(this.state.sideBarData.content)) {
                 this.setState({
                     sideBarElements: this.state.sideBarElements.concat(
@@ -141,12 +143,15 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
 
     componentDidUpdate(prevProps: Readonly<entryEditFormProps>, prevState: Readonly<entryEditFormState>, snapshot?: any) {
         if(prevProps.entryData.id !== this.props.entryData.id){
-            this.setState({
-                entryData: this.props.entryData,
-                sideBarData: this.props.sideBarData,
-                sideBarElements: []
-            });
-            this.buildSideBarElements();
+            setTimeout( () => {
+                this.setState({
+                    entryData: this.props.entryData,
+                    sideBarData: this.props.sideBarData,
+                    sideBarElements: [],
+                    headingEditElements: this.props.headingEditElements
+                })
+                this.buildSideBarElements();
+            }, 200)
         }
         // else if(prevState.sideBarData.content !== this.state.sideBarData.content){
         //     console.log("sideBar state change");
@@ -163,6 +168,8 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
             this.setState({
                 entryData: this.props.entryData,
                 sideBarData: this.props.sideBarData,
+                sideBarElements: [],
+                headingEditElements: this.props.headingEditElements
             });
             this.buildSideBarElements();
         }, 200)
@@ -204,16 +211,17 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                         <Form.Control id="title" name="title" onChange={this.handleEntryChange} value={this.state.entryData.title}></Form.Control>
                         <Form.Label className="editEntryLabel">Description</Form.Label>
                         <Form.Control name="text" onChange={this.handleEntryChange} value={this.state.entryData.text}></Form.Control>
-                        {this.props.headingEditElements}
+                        <Form.Label className="editEntryLabel">Headings</Form.Label>
+                        {this.state.headingEditElements}
+                    </Form.Group>
+                    <Form.Group id="headingButton">
+                        <Button onClick={this.handleNewHeadingModalShow}>Add Heading</Button>
                     </Form.Group>
                     <Form.Group id="sideBarLabelGroup">
                         <Form.Label className="editEntryLabel">Sidebar</Form.Label>
                     </Form.Group>
                     <Form.Group id="sideBarEdit" >
                         {this.state.sideBarElements}
-                    </Form.Group>
-                    <Form.Group id="headingButton">
-                        <Button onClick={this.handleNewHeadingModalShow}>Add Heading</Button>
                     </Form.Group>
                     <Form.Group id="submitGroup">
                         <Button id="submitButton" variant="success" type="submit">Save</Button>

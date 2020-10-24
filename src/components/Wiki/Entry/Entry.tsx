@@ -167,7 +167,7 @@ class Entry extends React.Component<entryProps, entryState>{
                             this.setState({
                                 headings: this.state.headings.concat(data as headingData),
                                 headingElements: this.state.headingElements.concat(
-                                    <div>
+                                    <div id="headingDiv">
                                         <Card.Title>{data['title']}</Card.Title>
                                         <Card.Text>{data['text']}</Card.Text>
                                     </div>
@@ -212,7 +212,9 @@ class Entry extends React.Component<entryProps, entryState>{
         if(prevProps.id !== this.props.id){
             this.setState({
                 commentElements: [],
-                sideBarElements: []
+                sideBarElements: [],
+                headingElements: [],
+                headingEditElements: []
             })
             this.getEntry();
         }
