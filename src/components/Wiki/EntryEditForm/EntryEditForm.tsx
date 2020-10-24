@@ -4,8 +4,9 @@ import {deleteEntry} from "../Entry/deleteEntry";
 import {updateEntry} from "./UpdateEntry";
 import {entryData} from "../../../utils/getInterfaces/entryData";
 import './EntryEditForm.css';
-import {newEntryData} from "../../../utils/postInterfaces/newEntryData";
+import {newHeadingData} from "../../../utils/postInterfaces/newHeadingData";
 import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
+import {postNewHeading} from "./postNewHeading";
 
 
 interface entryEditFormProps{
@@ -18,6 +19,7 @@ interface entryEditFormState{
     entryData: entryData,
     sideBarData: sideBarData,
     sideBarElements: JSX.Element[],
+    newHeading: newHeadingData
     deleteEntryModal: boolean
     addHeadingModal: boolean
 }
@@ -29,6 +31,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
             entryData: {id: 0, title: '', text: '', sideBar: 0, comments: [], contributors: [], headings: [], log: []},
             sideBarData: {id: 0, content: {}},
             sideBarElements: [],
+            newHeading: {title: '', text: '', log: []},
             deleteEntryModal: false,
             addHeadingModal: false
         }
@@ -39,6 +42,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
 
         this.handleEntryDeleteSubmit = this.handleEntryDeleteSubmit.bind(this);
         this.handleEntryUpdateSubmit = this.handleEntryUpdateSubmit.bind(this);
+        this.handleNewHeadingSubmit = this.handleNewHeadingSubmit.bind(this);
         this.buildSideBarElements = this.buildSideBarElements.bind(this);
     }
 
@@ -75,6 +79,11 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         updateEntry(this.state.entryData);
     }
 
+    handleNewHeadingSubmit(e: React.FormEvent<HTMLFormElement>){
+        e.preventDefault();
+        postNewHeading(this.state.newHeading);
+    }
+
     handleEntryChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         const entryInfo = this.state.entryData;
         const newEntryInfo = {
@@ -82,6 +91,15 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
             [e.target.name]: e.target.value
         }
         this.setState({entryData: newEntryInfo})
+    }
+
+    handleNewHeadingChange = (e: React.ChangeEvent<HTMLInputElement>) : void => {
+        const newHeadingInfo = this.state.newHeading;
+        const newNewHeadingInfo = {
+            ...newHeadingInfo,
+            [e.target.name]: e.target.value
+        }
+        this.setState({newHeading: newNewHeadingInfo})
     }
 
     handleSideBarChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -162,12 +180,12 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                         <Modal.Title>Add a heading</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <Form id="newHeadingForm">
+                        <Form id="newHeadingForm" onSubmit={this.handleNewHeadingSubmit}>
                             <Form.Group>
                                 <Form.Label>Title</Form.Label>
-                                <Form.Control name="title" as="input" required/>
+                                <Form.Control name="title" as="input" value={this.state.newHeading.title} onChange={this.handleNewHeadingChange} required/>
                                 <Form.Label className='mt-3'>Text</Form.Label>
-                                <Form.Control name="text" as='textarea' rows={3} required></Form.Control>
+                                <Form.Control name="text" as='textarea' rows={3} value={this.state.newHeading.text} onChange={this.handleNewHeadingChange} required></Form.Control>
                             </Form.Group>
                             <Button variant="success" type="submit">Submit</Button>
                         </Form>
