@@ -81,7 +81,14 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
 
     handleNewHeadingSubmit(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
-        postNewHeading(this.state.newHeading);
+        postNewHeading(
+            this.state.newHeading,
+            {
+                context: this.state.newHeading.title,
+                textAdded: this.state.newHeading.text,
+                user: 1
+            },
+            this.props.entryData);
     }
 
     handleEntryChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
