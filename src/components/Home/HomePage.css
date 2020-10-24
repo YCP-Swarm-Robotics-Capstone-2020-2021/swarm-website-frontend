@@ -62,4 +62,7 @@
         width: 150px;
         height: 45px;
     }
+    #missionStatement{
+        margin-left: initial;
+    }
 }
