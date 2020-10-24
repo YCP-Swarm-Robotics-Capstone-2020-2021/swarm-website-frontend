@@ -67,14 +67,29 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         this.setState({entryData: newEntryInfo})
     }
 
+    handleSideBarChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        let sideBarContentString = JSON.stringify(this.state.sideBarData.content);
+
+        //replace value/parse to json
+        let adjusted = sideBarContentString.replace("\""+e.target.id+"\"", "\""+e.target.value+"\"");
+        let adjustedJSON = JSON.parse(adjusted);
+
+        this.setState({
+            sideBarData: {
+                ...this.state.sideBarData,
+                content: adjustedJSON
+            }
+        })
+    }
+
     buildSideBarElements(){
-        if(this.props.sideBarData.content !== null) {
-            for (const [key, value] of Object.entries(this.props.sideBarData.content)) {
+        if(this.state.sideBarData !== null) {
+            for (const [key, value] of Object.entries(this.state.sideBarData.content)) {
                 this.setState({
                     sideBarElements: this.state.sideBarElements.concat(
                         <div>
-                            <Form.Control className="float-left" value={key}></Form.Control>
-                            <Form.Control className="float-right" value={value}></Form.Control>
+                            <Form.Control className="float-left" id={key} value={key} onChange={this.handleSideBarChange}></Form.Control>
+                            <Form.Control className="float-right" id={value} value={value} onChange={this.handleSideBarChange}></Form.Control>
                         </div>
                     )
                 })
@@ -91,16 +106,24 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
             });
             this.buildSideBarElements();
         }
+        // else if(prevState.sideBarData.content !== this.state.sideBarData.content){
+        //     console.log("sideBar state change");
+        //     this.setState({
+        //         sideBarElements: []
+        //     })
+        //     console.log(this.state.sideBarElements.length);
+        //     this.buildSideBarElements();
+        // }
     }
 
     componentDidMount() {
         setTimeout( () => {
             this.setState({
                 entryData: this.props.entryData,
-                sideBarData: this.props.sideBarData
+                sideBarData: this.props.sideBarData,
             });
             this.buildSideBarElements();
-        }, 100)
+        }, 200)
 
     }
 
