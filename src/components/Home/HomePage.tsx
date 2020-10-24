@@ -9,7 +9,6 @@ import { Button } from 'react-bootstrap';
 const logo = require('../../images/swarmLogoIcon.png');
 
 const background = backgroundImageStyling();
-//const styleSheet = styles();
 
 
 class HomePage extends React.Component{
