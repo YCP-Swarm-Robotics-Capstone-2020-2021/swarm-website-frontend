@@ -1,3 +1,5 @@
+import {url} from '../../utils/DetermineUrl'
+
 export interface SignUpState{
     userCreateSuccess: boolean,
     userCreateFail: boolean,
@@ -16,7 +18,7 @@ interface SignUpData{
 
 export async function findUser(username: string){
     const response = await fetch(
-        "http://localhost:8000/user/find_user?username=" +
+        url + "/user/find_user?username=" +
         username, {
             method: 'GET',
             headers: {
@@ -28,7 +30,7 @@ export async function findUser(username: string){
 }
 
 export async function createUser(data: SignUpData){
-    const response = await fetch("http://localhost:8000/user",
+    const response = await fetch(url + "/user",
         {
             method: 'POST',
             headers: {
