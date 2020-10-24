@@ -19,6 +19,7 @@ interface entryEditFormState{
     sideBarData: sideBarData,
     sideBarElements: JSX.Element[],
     deleteEntryModal: boolean
+    addHeadingModal: boolean
 }
 
 class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormState>{
@@ -28,24 +29,40 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
             entryData: {id: 0, title: '', text: '', sideBar: 0, comments: [], contributors: [], headings: [], log: []},
             sideBarData: {id: 0, content: {}},
             sideBarElements: [],
-            deleteEntryModal: false
+            deleteEntryModal: false,
+            addHeadingModal: false
         }
-        this.handleHide = this.handleHide.bind(this);
-        this.handleShow = this.handleShow.bind(this);
+        this.handleEntryDeleteModalHide = this.handleEntryDeleteModalHide.bind(this);
+        this.handleEntryDeleteModalShow = this.handleEntryDeleteModalShow.bind(this);
+        this.handleNewHeadingModalHide = this.handleNewHeadingModalHide.bind(this);
+        this.handleNewHeadingModalShow = this.handleNewHeadingModalShow.bind(this);
+
         this.handleEntryDeleteSubmit = this.handleEntryDeleteSubmit.bind(this);
         this.handleEntryUpdateSubmit = this.handleEntryUpdateSubmit.bind(this);
         this.buildSideBarElements = this.buildSideBarElements.bind(this);
     }
 
-    handleHide(){
+    handleEntryDeleteModalHide(){
         this.setState({
             deleteEntryModal: false
         })
     }
 
-    handleShow(){
+    handleEntryDeleteModalShow(){
         this.setState({
             deleteEntryModal: true
+        })
+    }
+
+    handleNewHeadingModalHide(){
+        this.setState({
+            addHeadingModal: false
+        })
+    }
+
+    handleNewHeadingModalShow(){
+        this.setState({
+            addHeadingModal: true
         })
     }
 
@@ -130,14 +147,22 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
     render(){
         return(
             <div>
-                <Modal id="deleteEntryModal" show={this.state.deleteEntryModal} onHide={this.handleHide}>
+                <Modal id="deleteEntryModal" show={this.state.deleteEntryModal} onHide={this.handleEntryDeleteModalHide}>
                     <Modal.Header closeButton>
                         <Modal.Title>Confirmation</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <p>Confirm deletion of entry "<b>{this.props.entryData.title}</b>"</p>
                             <Button variant="danger" type="button" onClick={this.handleEntryDeleteSubmit}>Delete</Button>
-                            <Button className="ml-4" variant="secondary" type="button" onClick={this.handleHide}>Cancel</Button>
+                            <Button className="ml-4" variant="secondary" type="button" onClick={this.handleEntryDeleteModalHide}>Cancel</Button>
+                    </Modal.Body>
+                </Modal>
+                <Modal id="addHeadingModal" show={this.state.addHeadingModal} onHide={this.handleNewHeadingModalHide}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Add heading</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+
                     </Modal.Body>
                 </Modal>
                 <Form id="editForm" onSubmit={this.handleEntryUpdateSubmit}>
@@ -154,9 +179,12 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                     <Form.Group id="sideBarEdit" >
                         {this.state.sideBarElements}
                     </Form.Group>
+                    <Form.Group id="headingButton">
+                        <Button onClick={this.handleNewHeadingModalShow}>Add Heading</Button>
+                    </Form.Group>
                     <Form.Group id="submitGroup">
                         <Button id="submitButton" variant="success" type="submit">Save</Button>
-                        <Button onClick={this.handleShow} variant="danger" type="button">Delete Entry</Button>
+                        <Button onClick={this.handleEntryDeleteModalShow} variant="danger" type="button">Delete Entry</Button>
                     </Form.Group>
                 </Form>
             </div>
