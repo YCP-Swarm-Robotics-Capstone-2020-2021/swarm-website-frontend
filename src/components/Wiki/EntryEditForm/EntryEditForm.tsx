@@ -100,7 +100,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
     }
 
     buildSideBarElements(){
-        if(this.state.sideBarData !== null) {
+        if(this.props.sideBarData !== null) {
             for (const [key, value] of Object.entries(this.state.sideBarData.content)) {
                 this.setState({
                     sideBarElements: this.state.sideBarElements.concat(
@@ -159,10 +159,18 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                 </Modal>
                 <Modal id="addHeadingModal" show={this.state.addHeadingModal} onHide={this.handleNewHeadingModalHide}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Add heading</Modal.Title>
+                        <Modal.Title>Add a heading</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-
+                        <Form id="newHeadingForm">
+                            <Form.Group>
+                                <Form.Label>Title</Form.Label>
+                                <Form.Control name="title" as="input" required/>
+                                <Form.Label className='mt-3'>Text</Form.Label>
+                                <Form.Control name="text" as='textarea' rows={3} required></Form.Control>
+                            </Form.Group>
+                            <Button variant="success" type="submit">Submit</Button>
+                        </Form>
                     </Modal.Body>
                 </Modal>
                 <Form id="editForm" onSubmit={this.handleEntryUpdateSubmit}>
