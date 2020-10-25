@@ -10,8 +10,9 @@ export function postWiki(wiki: newWikiData){
     }).then(response => {
         if(!response.ok){
             console.log("Adding new wiki failed...");
-        }else{
-            window.location.reload();
         }
+        return response.json();
+    }).then(data => {
+        window.location.href = '/wiki/'+data['id'];
     })
 }
