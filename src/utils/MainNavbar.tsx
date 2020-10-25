@@ -26,7 +26,7 @@ class MainNavbar extends React.Component<Props>{
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
                             <Nav.Link href="/">Home</Nav.Link>
-                            <Nav.Link href="#home">Visualization</Nav.Link>
+                            <Nav.Link href="/visualization">Visualization</Nav.Link>
                             <Nav.Link href="#home">Wiki</Nav.Link>
                             <Nav.Link href="#home">Gallery</Nav.Link>
 
