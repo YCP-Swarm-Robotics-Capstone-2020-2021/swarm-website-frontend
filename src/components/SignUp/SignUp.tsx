@@ -77,7 +77,7 @@ class SignUp extends React.Component<SignUpProps, SignUpState> {
         }
 
         //Verify the passwords were the same
-        if(this.state.data.password != this.state.data.verifyPassword){
+        if(this.state.data.password !== this.state.data.verifyPassword){
             this.setState({passwordMismatch: true});
             return null;
         }
