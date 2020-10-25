@@ -1,7 +1,5 @@
 #signUpBox {
-    opacity: 0;
     transition: opacity 1.5s;
-
     /* center hor/ver */
     margin: 0;
     position: absolute;
@@ -70,4 +68,14 @@
 #incorrectSignUp{
     color: white;
     text-align: center;
+}
+
+@media (max-height: 1024px) {
+    #signUplogo{
+        height: 0rem;
+    }
+    #signUpBox{
+        margin-top: 50px;
+        height: 50rem;
+    }
 }
