@@ -28,8 +28,16 @@
     margin-left: 1rem;
 }
 
+#headingDiv{
+    margin-bottom: 4%;
+}
+
 .card-text{
     margin-left: 2%;
+}
+
+.sideBarValue{
+    float: right;
 }
 
 #sideBarCard{
@@ -85,37 +93,6 @@
 
 .toast-header .close{
     display: none;
-}
-
-#editForm{
-    padding-left: 10%;
-    padding-right: 10%;
-}
-
-#editForm #title{
-    margin-top: 1rem;
-}
-
-#editForm .heading{
-    margin-top: 2rem;
-}
-
-#editForm button{
-    margin-top: 1rem;
-    background-color: #2d7536;
-    border: none !important;
-}
-
-#sideBarEdit .form-control{
-    width: 40%;
-}
-
-#sideBarLabel{
-    color: white;
-}
-
-#submitGroup{
-    margin-top: 10rem;
 }
 
 /* Track */

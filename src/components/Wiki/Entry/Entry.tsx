@@ -1,8 +1,16 @@
 import React from 'react';
 import {Tab, Tabs, Card, Form, Button, Image, Toast, Modal} from "react-bootstrap";
+import EntryEditForm from "../EntryEditForm/EntryEditForm";
+
+import {entryData} from "../../../utils/getInterfaces/entryData";
+import {commentData} from "../../../utils/getInterfaces/commentData";
+import {headingData} from "../../../utils/getInterfaces/headingData";
+import {newCommentData} from "../../../utils/postInterfaces/newCommentData";
+
+import {postComment} from "./postComment";
 
 import './Entry.css';
-
+import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
 const logo = require('../../../images/swarmLogoIcon.png');
 
 /*
@@ -19,6 +27,15 @@ const logo = require('../../../images/swarmLogoIcon.png');
 interface entryState{
     replyModalShow: boolean
     replyModalQuote: string
+    data: entryData
+    sideBar: sideBarData
+    sideBarElements: JSX.Element[]
+    comments: commentData[]
+    commentElements: JSX.Element[]
+    newComment: newCommentData
+    headings: headingData[]
+    headingElements: JSX.Element[]
+    headingEditElements: JSX.Element[]
 }
 
 interface entryProps{
@@ -31,10 +48,21 @@ class Entry extends React.Component<entryProps, entryState>{
         super(props);
         this.state = {
             replyModalShow : false,
-            replyModalQuote: "test"
+            replyModalQuote: "test",
+            data: {id: 0, title: '', text: '', sideBar: 0, comments: [], contributors: [], headings: [], log: []},
+            sideBar: {id: 0, content: {}},
+            sideBarElements: [],
+            comments: [],
+            commentElements: [],
+            newComment: {text: '', user: 0},
+            headings: [],
+            headingElements: [],
+            headingEditElements: []
         };
         this.handleHide = this.handleHide.bind(this);
         this.handleShow = this.handleShow.bind(this);
+        this.handleCommentTextChange = this.handleCommentTextChange.bind(this);
+        this.handleNewCommentSubmit = this.handleNewCommentSubmit.bind(this);
     }
 
     handleHide(){
@@ -46,12 +74,155 @@ class Entry extends React.Component<entryProps, entryState>{
 
     handleShow(commentId: string){
         //@ts-ignore
-        let commentText = document.getElementById("comment" + commentId).childNodes[1].textContent.toString();
-
+        let commentText = document.getElementById("commentText" + commentId).textContent.toString();
+        //@ts-ignore
+        let commentUser = document.getElementById("commentUser" + commentId).textContent.toString();
         this.setState({
             replyModalShow: true,
-            replyModalQuote: commentText
+            replyModalQuote: commentUser+": \""+commentText+"\""
         })
+    }
+
+    //update state when text is change in form
+    handleCommentTextChange(e: React.ChangeEvent<HTMLInputElement>){
+        this.setState({
+            newComment: {
+                text: e.target.value,
+                user: this.state.newComment.user
+            }
+        });
+    }
+
+    handleNewCommentSubmit(e: React.FormEvent<HTMLFormElement>){
+        e.preventDefault();
+        postComment({
+            text: this.state.newComment.text,
+            user: 1
+        }, this.state.data.comments, this.state.data.id)
+    }
+
+    getEntry(){
+        fetch('http://localhost:8000/entry/' + this.props.id, {
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                this.setState({data: data as entryData})
+            })
+            .then(() => {
+                //get commentData/commentElements
+                this.state.data.comments.forEach(commentId => {
+                    fetch("http://localhost:8000/comment/" + commentId, {
+                        method: 'GET',
+                        headers:{
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            let commentData = data as commentData;
+                            fetch("http://localhost:8000/user/"+data['user'], {
+                                method: 'GET',
+                                headers:{
+                                    'Content-Type': 'application/json'
+                                }
+                            }).then(response => {
+                                if(!response.ok){
+                                    console.log("error retrieving user information for comment "+commentId);
+                                }else{
+                                    return response.json()
+                                }
+                            }).then(data => {
+                                this.setState({
+                                    comments: this.state.comments.concat(data as commentData),
+                                    commentElements: this.state.commentElements.concat(
+                                        <Toast id={"comment"+commentData['id']} key={commentId} className='comment'>
+                                            <Toast.Header>
+                                                <Image src={logo} roundedCircle width={25} height={25}/>
+                                                <strong className="mr-auto ml-2" id={"commentUser"+commentData['id']}>{data['username']}</strong>
+                                                <small className="mr-1">{commentData['dateTime'].substring(0,10)}</small>
+                                                <Button variant="success" className="replyButton ml-1" size="sm" onClick={() => this.handleShow(commentData['id'].toString())}><small>reply</small></Button>
+                                            </Toast.Header>
+                                            <Toast.Body id={"commentText"+commentData['id']}>{commentData['text']}</Toast.Body>
+                                        </Toast>
+                                    )
+                                })
+                            })
+                        })
+                })
+
+                //get headingData/headingElements
+                this.state.data.headings.forEach(headingId => {
+                    fetch("http://localhost:8000/heading/"+headingId, {
+                        method: 'GET',
+                        headers:{
+                            "Content-type": "application/json"
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            this.setState({
+                                headings: this.state.headings.concat(data as headingData),
+                                headingElements: this.state.headingElements.concat(
+                                    <div id="headingDiv">
+                                        <Card.Title>{data['title']}</Card.Title>
+                                        <Card.Text>{data['text']}</Card.Text>
+                                    </div>
+                                ),
+                                headingEditElements: this.state.headingEditElements.concat(
+                                    <div>
+                                        <Form.Control className="heading" value={data['title']}></Form.Control>
+                                        <Form.Control value={data['text']} as="textarea" rows={4}></Form.Control>
+                                    </div>
+                                )
+                            })
+                        })
+                })
+            })
+            .then(() => {
+                //get sidebar
+                fetch('http://localhost:8000/sidebar/'+this.state.data.sideBar, {
+                    method: 'GET',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        this.setState({sideBar: data as sideBarData})
+                        if(this.state.sideBar.content !== null){
+                            for (const [key, value] of Object.entries(this.state.sideBar.content)) {
+                                this.setState({
+                                    sideBarElements: this.state.sideBarElements.concat(
+                                        <Card.Text><span className="sideBarKey"><b>{key}</b></span> <span className="sideBarValue">{value}</span></Card.Text>
+                                    )
+                                })
+                            }
+                        }
+                    })
+            })
+    }
+
+
+
+    componentDidUpdate(prevProps: Readonly<entryProps>, prevState: Readonly<entryState>) {
+        if(prevProps.id !== this.props.id){
+            this.setState({
+                commentElements: [],
+                sideBarElements: [],
+                headingElements: [],
+                headingEditElements: []
+            })
+            this.getEntry();
+        }
+    }
+
+    componentDidMount() {
+        //get entry object
+        this.getEntry();
     }
 
     render(){
@@ -60,30 +231,14 @@ class Entry extends React.Component<entryProps, entryState>{
                 <Tab eventKey="details" title="Details" transition={false}>
                     <Card id="sideBarCard">
                         <Card.Body>
-                            <Card.Title>Milestone 1</Card.Title>
-                            <Card.Text>Test Text</Card.Text>
-                            <Card.Text>Test Text</Card.Text>
-                            <Card.Text>Test Text</Card.Text>
-                            <Card.Text>Test Text</Card.Text>
-                            <Card.Text>Test Text</Card.Text>
-                            <Card.Text>Test Text</Card.Text>
-                            <Card.Text>Test Text</Card.Text>
-                            <Card.Text>Test Text</Card.Text>
-                            <Card.Text>Test Text</Card.Text>
+                            {this.state.sideBarElements}
                         </Card.Body>
                     </Card>
                     <Card id="detailsCard" bg="dark" text="white">
-                        <h2>Milestone {this.props.id}</h2>
+                        <h2>{this.state.data.title}</h2>
                         <Card.Body>
-                            <Card.Title>A heading</Card.Title>
-                                <Card.Text>The text that goes with the above heading. Crazy stuff
-                                    Crazy stuffCrazy stuffCrazy stuffCrazy stuffCrazy stuffCrazy stuffCrazy stuffCrazy stuff
-                                    Crazy stuffCrazy stuffCrazy stuffCrazy stuffCrazy stuffCrazy stuffCrazy stuffCrazy stuff
-                                    Crazy stuffCrazy stuffCrazy stuff</Card.Text>
-                            <Card.Title>Another heading</Card.Title>
-                                <Card.Text>The text that goes with the above heading. Crazy stuff</Card.Text>
-                            <Card.Subtitle>A sub heading</Card.Subtitle>
-                                <Card.Text>Sub heading text</Card.Text>
+                            <Card.Text>{this.state.data.text}</Card.Text>
+                            {this.state.headingElements}
                         </Card.Body>
                     </Card>
 
@@ -102,77 +257,19 @@ class Entry extends React.Component<entryProps, entryState>{
                             </Form>
                         </Modal.Body>
                     </Modal>
-                    <Form id="newCommentForm">
+                    <Form id="newCommentForm" onSubmit={this.handleNewCommentSubmit}>
                         <Form.Group>
                             <Image id="newCommentProfPic" src={logo} roundedCircle width={50} height={50} />
-                            <Form.Control as="textarea" rows={3} placeholder="Leave a comment" />
+                            <Form.Control as="textarea" rows={3} placeholder="Leave a comment" onChange={this.handleCommentTextChange} />
                         </Form.Group>
                         <Button variant="success" type="submit">Comment</Button>
                     </Form>
-                    <Toast id="comment1" className='comment'>
-                        <Toast.Header>
-                            <Image src={logo} roundedCircle width={25} height={25}/>
-                            <strong className="mr-auto ml-2">Tim Jefferson</strong>
-                            <small className="mr-1">11 mins ago</small>
-                            <Button variant="success" className="replyButton ml-1" size="sm" onClick={() => this.handleShow("1")}><small>reply</small></Button>
-                        </Toast.Header>
-                        <Toast.Body>Hello, world! This is a toast message. I enjoy butter on my toast...</Toast.Body>
-                    </Toast>
-                    <Toast className='comment'>
-                        <Toast.Header>
-                            <Image src={logo} roundedCircle width={25} height={25}/>
-                            <strong className="mr-auto ml-2">Thomas McAdams</strong>
-                            <small className="mr-1">15 mins ago</small>
-                            <Button variant="success" className="replyButton ml-1" size="sm"><small>reply</small></Button>
-                        </Toast.Header>
-                        <Toast.Body>Hello, world! This is a toast message. I butter my bagels...</Toast.Body>
-                    </Toast>
-                    <Toast className='comment'>
-                        <Toast.Header>
-                            <Image src={logo} roundedCircle width={25} height={25}/>
-                            <strong className="mr-auto ml-2">Earl Kennedy</strong>
-                            <small className="mr-1">21 mins ago</small>
-                            <Button variant="success" className="replyButton ml-1" size="sm"><small>reply</small></Button>
-                        </Toast.Header>
-                        <Toast.Body>Hello, world! This is a toast message. 86 errors? 100, take it or leave it</Toast.Body>
-                    </Toast>
-                    <Toast className='comment'>
-                        <Toast.Header>
-                            <Image src={logo} roundedCircle width={25} height={25}/>
-                            <strong className="mr-auto ml-2">Collin Brandt</strong>
-                            <small className="mr-1">25 min ago</small>
-                            <Button variant="success" className="replyButton ml-1" size="sm"><small>reply</small></Button>
-                        </Toast.Header>
-                        <Toast.Body>Hello, world! This is a toast message. Just forget it.</Toast.Body>
-                    </Toast>
+
+                    {this.state.commentElements}
+
                 </Tab>
                 <Tab eventKey="edit" title="Edit" transition={false}>
-                    <Form id="editForm">
-                        <Form.Group>
-                            <Form.Control id="title" value="Milestone 1"></Form.Control>
-                            <Form.Control className="heading" value="Heading"></Form.Control>
-                            <Form.Control value="Heading text" as="textarea" rows={4}></Form.Control>
-
-                            <Form.Control className="heading" value="Heading 2"></Form.Control>
-                            <Form.Control value="Heading text 2" as="textarea" rows={4}></Form.Control>
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label id="sideBarLabel">Sidebar</Form.Label>
-                        </Form.Group>
-                        <Form.Group id="sideBarEdit">
-                            <Form.Control className="float-left" value="Test"></Form.Control>
-                            <Form.Control className="float-right" value="Test 2"></Form.Control>
-
-                            <Form.Control className="float-left" value="Test"></Form.Control>
-                            <Form.Control className="float-right" value="Test 2"></Form.Control>
-
-                            <Form.Control className="float-left" value="Test"></Form.Control>
-                            <Form.Control className="float-right" value="Test 2"></Form.Control>
-                        </Form.Group>
-                        <Form.Group id="submitGroup">
-                            <Button variant="success" type="submit">Save</Button>
-                        </Form.Group>
-                    </Form>
+                    <EntryEditForm headingEditElements={this.state.headingEditElements} entryData={this.state.data} sideBarData={this.state.sideBar}></EntryEditForm>
                 </Tab>
             </Tabs>
         );

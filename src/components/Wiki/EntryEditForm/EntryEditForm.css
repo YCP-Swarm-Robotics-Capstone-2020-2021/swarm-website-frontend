@@ -1,0 +1,41 @@
+#editForm{
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
+#editForm .heading{
+    margin-top: 2rem;
+}
+
+#editForm button{
+    margin-top: 1rem;
+}
+
+#editForm #submitButton{
+    background-color: #2d7536;
+    border: none !important;
+    margin-right: 1.5rem;
+}
+
+#sideBarLabelGroup{
+    margin-bottom: 0!important;
+}
+
+#sideBarEdit .form-control{
+    width: 40%;
+}
+
+.editEntryLabel{
+    color: white;
+    margin-top: 1rem;
+    margin-bottom: 0!important;
+}
+
+#headingButton button{
+    background-color: #bee5eb;
+    color: #0c5460;
+}
+
+#submitGroup{
+    margin-top: 10rem;
+}
