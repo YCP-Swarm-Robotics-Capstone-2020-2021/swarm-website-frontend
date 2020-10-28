@@ -4,18 +4,62 @@ import {Card} from 'react-bootstrap';
 
 import './Landing.css';
 
-class Landing extends React.Component{
+interface landingProps{
+    entries: number[],
+    wikiDescription: string
+}
+
+interface landingState{
+    numEntries: number,
+    numComments: number,
+    numContributors: number
+}
+
+class Landing extends React.Component<landingProps, landingState>{
+    constructor(props: landingProps) {
+        super(props);
+        this.state = {
+            numEntries: 0,
+            numComments: 0,
+            numContributors: 0
+        }
+    }
+
+    componentDidMount() {
+        setTimeout(() => {
+            this.props.entries.forEach(entryId => {
+                fetch('http://localhost:8000/entry/'+entryId,{
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => this.setState({
+                        numComments: this.state.numComments + data['comments'].length,
+                        numContributors: this.state.numContributors + data['contributors'].length
+                    }))
+            })
+            this.setState({
+                numEntries: this.props.entries.length
+            })
+        }, 100);
+    }
+
     render(){
         return(
             <div id="wikiLanding">
                 <Card bg="dark" text="white">
                     <Card.Body>
                         <Card.Title>This wiki has...</Card.Title>
-                        <ul id="statList">
-                            <li>8 entries</li>
-                            <li>3 contributors</li>
-                            <li>26 comments</li>
-                            <li>12 images</li>
+                        <ul>
+                            <li>{this.state.numEntries} entry (ies)</li>
+                            <li>{this.state.numContributors} contributor (s)</li>
+                            <li>{this.state.numComments} comment (s)</li>
+                        </ul>
+                        <Card.Title>This wiki is...</Card.Title>
+                        <ul>
+                            <li>{this.props.wikiDescription}</li>
                         </ul>
                     </Card.Body>
                     <div id="graph">

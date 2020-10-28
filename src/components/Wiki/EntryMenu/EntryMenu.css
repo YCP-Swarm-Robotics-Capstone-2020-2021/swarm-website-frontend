@@ -30,6 +30,10 @@
     background-color: #868686;
 }
 
+#addEntry:hover{
+    background-color: #8dcfd4!important;
+}
+
 #entryMenu .card-title:hover{
     cursor: pointer;
 }

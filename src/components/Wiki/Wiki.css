@@ -3,7 +3,7 @@
     font-family: monospace;
 }
 
-#content{
+#contentWiki{
     background-color: #181a1b;
     height: 85vh;
     width: 85%;
@@ -52,7 +52,7 @@
         width: 96%;
     }
 
-    #content{
+    #contentWiki{
         overflow: auto;
     }
 }
