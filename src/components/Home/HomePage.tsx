@@ -4,24 +4,30 @@ import './HomePage.css';
 import backgroundImageStyling from '../../styles/backgroundImageStyling';
 import MainNavbar from "../../utils/MainNavbar";
 import { Button } from 'react-bootstrap';
-import {cookies} from '../../utils/Cookies';
+import verifyUserIsLoggedIn from '../../utils/verifiyUserIsLoggedIn/verifyLoggedIn';
+import{Route, Redirect} from "react-router";
 
 //require any images
 const logo = require('../../images/swarmLogoIcon.png');
 
 const background = backgroundImageStyling();
 
-
 class HomePage extends React.Component{
 
     componentDidMount() {
-        console.log(cookies.get('myTestCookie'));
+        const loggedIn = verifyUserIsLoggedIn();
+        if(!loggedIn){
+            console.log(loggedIn);
+            return (
+                <Redirect to="/"/>
+            )
+        }
     }
 
     render(){
         return(
             <section style={background}>
-                <MainNavbar logo={logo}></MainNavbar>
+                <MainNavbar logo={logo}/>
 
                 <div id={'missionStatement'}>
                     <div >
