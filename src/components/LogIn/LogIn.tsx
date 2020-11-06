@@ -5,6 +5,7 @@ import './LogIn.css';
 import Image from "../../utils/Image";
 import {Link, RouteComponentProps} from "react-router-dom";
 import {LoginState, verifyUser} from "./LoginApi";
+import {cookies} from '../../utils/Cookies';
 
 const loginLogo = require('../../images/swarmLogoIcon.png');
 const background = backgroundImageStyling();
@@ -39,6 +40,7 @@ class LogIn extends React.Component<LoginProps, LoginState> {
             // @ts-ignore, object could possibly be null
             document.getElementById('loginBox').classList.add('fade-in');
         }, 1)
+        cookies.set('myTestCookie', 'Cookie monster');
     }
 
     handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
