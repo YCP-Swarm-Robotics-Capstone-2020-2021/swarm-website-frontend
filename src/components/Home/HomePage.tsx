@@ -4,29 +4,52 @@ import './HomePage.css';
 import backgroundImageStyling from '../../styles/backgroundImageStyling';
 import MainNavbar from "../../utils/MainNavbar";
 import { Button } from 'react-bootstrap';
-import verifyUserIsLoggedIn from '../../utils/verifiyUserIsLoggedIn/verifyLoggedIn';
-import{Route, Redirect} from "react-router";
+import{Redirect} from "react-router";
+import {RouteComponentProps} from "react-router-dom";
+import verifyUserIsLoggedIn from "../../utils/verifiyUserIsLoggedIn/verifyLoggedIn";
 
 //require any images
 const logo = require('../../images/swarmLogoIcon.png');
 
 const background = backgroundImageStyling();
 
-class HomePage extends React.Component{
+interface HomeProps extends  RouteComponentProps<{}>{}
+
+interface HomeState{
+    loggedIn: boolean;
+}
+
+function NotLoggedIn(props: { failedLogin: boolean; }){
+    const isLoggedIn = props.failedLogin;
+    if(isLoggedIn){
+        return <Redirect to="/"/>;
+    }
+    return null
+}
+
+class HomePage extends React.Component<HomeProps, HomeState>{
+
+    constructor(props: HomeProps) {
+        super(props);
+        this.state = {
+            loggedIn: false,
+        }
+    }
 
     componentDidMount() {
-        const loggedIn = verifyUserIsLoggedIn();
-        if(!loggedIn){
-            console.log(loggedIn);
-            return (
-                <Redirect to="/"/>
-            )
+        this.setState({loggedIn: verifyUserIsLoggedIn()});
+
+        if(!this.state.loggedIn){
+            this.props.history.push('/')
         }
+
     }
 
     render(){
         return(
             <section style={background}>
+                <NotLoggedIn failedLogin={this.state.loggedIn} />
+
                 <MainNavbar logo={logo}/>
 
                 <div id={'missionStatement'}>
