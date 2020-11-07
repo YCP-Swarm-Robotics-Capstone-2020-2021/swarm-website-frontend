@@ -4,7 +4,6 @@ import './HomePage.css';
 import backgroundImageStyling from '../../styles/backgroundImageStyling';
 import MainNavbar from "../../utils/MainNavbar";
 import { Button } from 'react-bootstrap';
-import{Redirect} from "react-router";
 import {RouteComponentProps} from "react-router-dom";
 import verifyUserIsLoggedIn from "../../utils/verifiyUserIsLoggedIn/verifyLoggedIn";
 
@@ -19,37 +18,22 @@ interface HomeState{
     loggedIn: boolean;
 }
 
-function NotLoggedIn(props: { failedLogin: boolean; }){
-    const isLoggedIn = props.failedLogin;
-    if(isLoggedIn){
-        return <Redirect to="/"/>;
-    }
-    return null
-}
-
 class HomePage extends React.Component<HomeProps, HomeState>{
 
     constructor(props: HomeProps) {
+
         super(props);
+        if(!verifyUserIsLoggedIn()){
+            props.history.push('/');
+        }
         this.state = {
             loggedIn: false,
         }
     }
 
-    componentDidMount() {
-        this.setState({loggedIn: verifyUserIsLoggedIn()});
-
-        if(!this.state.loggedIn){
-            this.props.history.push('/')
-        }
-
-    }
-
     render(){
         return(
             <section style={background}>
-                <NotLoggedIn failedLogin={this.state.loggedIn} />
-
                 <MainNavbar logo={logo}/>
 
                 <div id={'missionStatement'}>
