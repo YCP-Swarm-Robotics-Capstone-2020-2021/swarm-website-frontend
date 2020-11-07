@@ -15,23 +15,33 @@ const background = backgroundImageStyling();
 interface HomeProps extends  RouteComponentProps<{}>{}
 
 interface HomeState{
-    loggedIn: boolean;
+    loggedIn: boolean
 }
 
 class HomePage extends React.Component<HomeProps, HomeState>{
 
     constructor(props: HomeProps) {
-
         super(props);
-        if(!verifyUserIsLoggedIn()){
-            props.history.push('/');
-        }
+
+        verifyUserIsLoggedIn().then((value => {
+            if(value){
+                props.history.push('/');
+            }
+        })).catch((error) => {
+           console.log("There was a problem loading the page: " + error);
+        });
+
         this.state = {
-            loggedIn: false,
+            loggedIn: true
         }
+
     }
 
     render(){
+        if(!this.state.loggedIn){
+            return <div />
+        }
+
         return(
             <section style={background}>
                 <MainNavbar logo={logo}/>
