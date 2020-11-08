@@ -10,6 +10,7 @@ import SignUp from "./components/SignUp/SignUp";
 import PersonalPage from './components/PersonalPage/PersonalPage';
 import WikiNotFound from './components/Wiki/WikiNotFound/WikiNotFound';
 import Dog from './components/Dog/Dog';
+import Visualization from "./components/Visualization/Visualization";
 
 function  App(){
     return(
@@ -21,6 +22,7 @@ function  App(){
                 <Route path='/home' component={HomePage} exact/>
                 <Route path='/signup' component={SignUp}/>
                 <Route path='/personalpage' component={PersonalPage} exact/>
+                <Route path='/visualization' component={Visualization} exact/>
                 <Route path='/dog' component={Dog} exact/>
                 <Route component={Error} />
             </Switch>
