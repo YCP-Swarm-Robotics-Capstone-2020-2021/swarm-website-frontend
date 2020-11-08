@@ -9,3 +9,28 @@ body{
     margin-right: 1em;
 }
 
+#wikiDropdown{
+    margin-top: .2rem;
+    margin-left: .5rem;
+}
+
+#wikiDropdown button{
+    background-color: #2d7536;
+    border: none !important;
+    color: #b7b2b2;
+}
+
+#addWikiLink{
+    background-color: #bee5eb;
+    color: #0c5460;
+}
+
+#addWikiLink:hover{
+    background-color: #8dcfd4;
+}
+
+@media (max-width: 994px) {
+    #wikiDropdown{
+        margin-left: 0;
+    }
+}
