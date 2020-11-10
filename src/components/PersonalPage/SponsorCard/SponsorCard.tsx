@@ -1,6 +1,7 @@
 import React from 'react';
 import {Card, Image, ListGroup} from 'react-bootstrap';
 import "./SponsorCard.css"
+import verifyUserIsLoggedIn from "../../../utils/verifiyUserIsLoggedIn/verifyLoggedIn";
 const companyLogo = require('../../../images/bd.svg');
 const instagramLogo = require('../../../images/socialMediaIcons/Instagram_Glyph_White-2.svg');
 const twitterLogo = require('../../../images/socialMediaIcons/Twitter_Social_Icon_Rounded_Square_White.svg');
@@ -26,6 +27,7 @@ class SponsorCard extends React.Component<{}, SponsorPage>{
     // Setting prop values
     constructor(props: SponsorPage){
         super(props);
+
         this.state ={
             SponsorPage: {
                 companyName: "Becton Dickinson",

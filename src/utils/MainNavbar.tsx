@@ -78,7 +78,7 @@ class MainNavbar extends React.Component<Props, State>{
         return(
             <>
                 <Navbar bg="dark" variant="dark" expand="lg">
-                    <Link to="/">
+                    <Link to="/home">
                         <img
                             alt=""
                             id={"mainNavbarLogo"}
@@ -88,13 +88,13 @@ class MainNavbar extends React.Component<Props, State>{
                             className="d-inline-block align-top"
                         />{''}
                     </Link>
-                    <Navbar.Brand href="#home">  Swarm Robotics</Navbar.Brand>
+                    <Navbar.Brand href="/home">  Swarm Robotics</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            <Nav.Link href="/">Home</Nav.Link>
-                            <Nav.Link href="#home">Visualization</Nav.Link>
-                            <Nav.Link href="#home">Gallery</Nav.Link>
+                            <Nav.Link href="/home">Home</Nav.Link>
+                            <Nav.Link href="/visualization">Visualization</Nav.Link>
+                            <Nav.Link href="/gallery">Gallery</Nav.Link>
                             <Dropdown id="wikiDropdown">
                                 <Dropdown.Toggle variant="success">
                                     Wikis
