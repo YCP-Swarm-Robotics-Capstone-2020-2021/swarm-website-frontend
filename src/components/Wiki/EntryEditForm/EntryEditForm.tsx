@@ -7,12 +7,14 @@ import './EntryEditForm.css';
 import {newHeadingData} from "../../../utils/postInterfaces/newHeadingData";
 import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
 import {postNewHeading} from "./postNewHeading";
+import {userData} from "../../../utils/getInterfaces/userData";
 
 
 interface entryEditFormProps{
     headingEditElements: JSX.Element[],
     entryData: entryData,
-    sideBarData: sideBarData
+    sideBarData: sideBarData,
+    currentUser: userData
 }
 
 interface entryEditFormState{
@@ -88,7 +90,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
             {
                 context: this.state.newHeading.title,
                 textAdded: this.state.newHeading.text,
-                user: 1
+                user: this.props.currentUser.id
             },
             this.props.entryData);
     }

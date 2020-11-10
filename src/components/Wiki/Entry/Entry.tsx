@@ -271,7 +271,7 @@ class Entry extends React.Component<entryProps, entryState>{
 
                 </Tab>
                 <Tab eventKey="edit" title="Edit" transition={false}>
-                    <EntryEditForm headingEditElements={this.state.headingEditElements} entryData={this.state.data} sideBarData={this.state.sideBar}></EntryEditForm>
+                    <EntryEditForm headingEditElements={this.state.headingEditElements} entryData={this.state.data} sideBarData={this.state.sideBar} currentUser={this.props.currentUser}></EntryEditForm>
                 </Tab>
             </Tabs>
         );
