@@ -11,7 +11,7 @@ const background = backgroundImageStyling();
 class Visualization extends React.Component<any, any>{
     constructor(props: any) {
         super(props);
-        wasm.init_visualization("canvas", "../../packages/resources");
+        wasm.init_visualization("canvas", "../../../pkg/resources");
     }
 
     render() {
