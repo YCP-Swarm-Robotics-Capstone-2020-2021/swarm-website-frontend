@@ -159,7 +159,7 @@ class Entry extends React.Component<entryProps, entryState>{
 
                 //get headingData/headingElements
                 this.state.data.headings.forEach(headingId => {
-                    fetch("http://localhost:8000/heading/"+headingId, {
+                    fetch(url+'/heading/'+headingId, {
                         method: 'GET',
                         headers:{
                             "Content-type": "application/json"
@@ -187,7 +187,7 @@ class Entry extends React.Component<entryProps, entryState>{
             })
             .then(() => {
                 //get sidebar
-                fetch('http://localhost:8000/sidebar/'+this.state.data.sideBar, {
+                fetch(url+'/sidebar/'+this.state.data.sideBar, {
                     method: 'GET',
                     headers:{
                         'Content-Type': 'application/json'

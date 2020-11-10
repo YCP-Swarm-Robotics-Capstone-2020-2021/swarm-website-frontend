@@ -84,7 +84,7 @@ class Wiki extends React.Component<wikiProps, wikiState>{
                 this.setState({data: data as wikiData});
             })
 
-        fetch('http://localhost:8000/user?username='+cookies.get("username"),{
+        fetch(url+'/user?username='+cookies.get("username"),{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import {wikiData} from "./getInterfaces/wikiData";
 import {newWikiData} from "./postInterfaces/newWikiData";
 import {postWiki} from "../components/Wiki/postWiki";
+import {url} from "./DetermineUrl";
 
 interface Props{
     logo: string;
@@ -29,7 +30,7 @@ class MainNavbar extends React.Component<Props, State>{
         this.handleChange = this.handleChange.bind(this);
     }
     componentDidMount() {
-        fetch("http://localhost:8000/wiki", {
+        fetch(url+'/wiki', {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
