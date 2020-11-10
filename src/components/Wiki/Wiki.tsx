@@ -9,6 +9,7 @@ import MainNavbar from "../../utils/MainNavbar";
 import EntryMenu from "./EntryMenu/EntryMenu";
 import Landing from "./Landing/Landing";
 import Entry from "./Entry/Entry";
+import verifyUserIsLoggedIn from "../../utils/verifiyUserIsLoggedIn/verifyLoggedIn";
 
 //TODO:
 // [x] remake with bootstrap components
@@ -32,7 +33,17 @@ interface wikiProps extends RouteComponentProps<{id: string}>{}
 class Wiki extends React.Component<wikiProps, wikiState>{
     constructor(props: wikiProps) {
         super(props);
+
+        verifyUserIsLoggedIn().then((value => {
+            if(value){
+                props.history.push('/');
+            }
+        })).catch((error) => {
+            console.log("There was a problem loading the page: " + error);
+        });
+
         this.rightPaneHandler = this.rightPaneHandler.bind(this);
+
         this.state = {
             view: "landing",
             data: {id: 0, title: '', briefDescription: '', entries: []},

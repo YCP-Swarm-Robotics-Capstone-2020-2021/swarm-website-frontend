@@ -40,7 +40,6 @@ class LogIn extends React.Component<LoginProps, LoginState> {
             // @ts-ignore, object could possibly be null
             document.getElementById('loginBox').classList.add('fade-in');
         }, 1)
-        cookies.set('myTestCookie', 'Cookie monster');
     }
 
     handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -59,6 +58,7 @@ class LogIn extends React.Component<LoginProps, LoginState> {
         const response = await verifyUser(this.state.data.username, this.state.data.password);
 
         if(response.Status){
+            cookies.set('username', this.state.data.username);
             this.props.history.push('/home')
         }else{
             this.setState({failedLogin: true});
