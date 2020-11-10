@@ -1,11 +1,8 @@
 import React from 'react';
 import {Redirect, RouteComponentProps} from "react-router";
 import {wikiData} from "../../utils/getInterfaces/wikiData";
-<<<<<<< feature/wikiCookiesImpl
 import {userData} from "../../utils/getInterfaces/userData";
-=======
 import {url} from "../../utils/DetermineUrl";
->>>>>>> local
 
 import './Wiki.css';
 import backgroundImageStyling from "../../styles/backgroundImageStyling";
