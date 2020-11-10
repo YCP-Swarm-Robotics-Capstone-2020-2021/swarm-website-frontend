@@ -1,6 +1,7 @@
 import React from 'react';
 import {Redirect, RouteComponentProps} from "react-router";
 import {wikiData} from "../../utils/getInterfaces/wikiData";
+import {userData} from "../../utils/getInterfaces/userData";
 
 import './Wiki.css';
 import backgroundImageStyling from "../../styles/backgroundImageStyling";
@@ -10,6 +11,7 @@ import EntryMenu from "./EntryMenu/EntryMenu";
 import Landing from "./Landing/Landing";
 import Entry from "./Entry/Entry";
 import verifyUserIsLoggedIn from "../../utils/verifiyUserIsLoggedIn/verifyLoggedIn";
+import {cookies} from "../../utils/Cookies";
 
 //TODO:
 // [x] remake with bootstrap components
@@ -25,6 +27,7 @@ interface wikiState{
     view: string;
     data: wikiData;
     redirect: boolean;
+    currentUser: userData;
 }
 
 interface wikiProps extends RouteComponentProps<{id: string}>{}
@@ -47,7 +50,8 @@ class Wiki extends React.Component<wikiProps, wikiState>{
         this.state = {
             view: "landing",
             data: {id: 0, title: '', briefDescription: '', entries: []},
-            redirect: false
+            redirect: false,
+            currentUser: {id: 0, username: '', email: '', accountLevel: 0}
         }
     }
 
@@ -78,6 +82,22 @@ class Wiki extends React.Component<wikiProps, wikiState>{
                 data['entries'] = data['entries'].sort();
                 this.setState({data: data as wikiData});
             })
+
+        fetch('http://localhost:8000/user?username='+cookies.get("username"),{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if(!response.ok){
+                    console.log("Issue fetching user data...");
+                }
+                return response.json()
+            })
+            .then(data => {
+                this.setState({currentUser: data[0] as userData});
+            })
     }
 
     render(){
@@ -86,13 +106,13 @@ class Wiki extends React.Component<wikiProps, wikiState>{
         }
 
         let rightPaneComponent;
-        this.state.view === "landing" ? rightPaneComponent = <Landing entries={this.state.data.entries} wikiDescription={this.state.data.briefDescription}/> : rightPaneComponent = <Entry id={this.state.view}/>
-
+        this.state.view === "landing" ? rightPaneComponent = <Landing entries={this.state.data.entries} wikiDescription={this.state.data.briefDescription}/> : rightPaneComponent = <Entry id={this.state.view} currentUser={this.state.currentUser}/>
+        
         return(
             <section style={background}>
                 <MainNavbar logo={logo} />
                 <div id='contentWiki'>
-                  <EntryMenu action={this.rightPaneHandler} wikiTitle={this.state.data.title} wikiId={this.state.data.id} entries={this.state.data.entries}/>
+                  <EntryMenu action={this.rightPaneHandler} wikiTitle={this.state.data.title} wikiId={this.state.data.id} entries={this.state.data.entries} currentUser={this.state.currentUser}/>
                   <div id='rightPane' className="bg-dark">
                       {rightPaneComponent}
                   </div>

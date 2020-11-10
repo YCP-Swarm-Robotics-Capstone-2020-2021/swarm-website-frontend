@@ -11,6 +11,7 @@ import {postComment} from "./postComment";
 
 import './Entry.css';
 import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
+import {userData} from "../../../utils/getInterfaces/userData";
 const logo = require('../../../images/swarmLogoIcon.png');
 
 /*
@@ -39,7 +40,8 @@ interface entryState{
 }
 
 interface entryProps{
-    id: string
+    id: string,
+    currentUser: userData
 }
 
 //component has no props, hence {}
@@ -97,7 +99,7 @@ class Entry extends React.Component<entryProps, entryState>{
         e.preventDefault();
         postComment({
             text: this.state.newComment.text,
-            user: 1
+            user: this.props.currentUser.id
         }, this.state.data.comments, this.state.data.id)
     }
 
