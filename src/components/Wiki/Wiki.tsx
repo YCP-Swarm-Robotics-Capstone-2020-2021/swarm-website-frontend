@@ -1,7 +1,11 @@
 import React from 'react';
 import {Redirect, RouteComponentProps} from "react-router";
 import {wikiData} from "../../utils/getInterfaces/wikiData";
+<<<<<<< feature/wikiCookiesImpl
 import {userData} from "../../utils/getInterfaces/userData";
+=======
+import {url} from "../../utils/DetermineUrl";
+>>>>>>> local
 
 import './Wiki.css';
 import backgroundImageStyling from "../../styles/backgroundImageStyling";
@@ -66,7 +70,7 @@ class Wiki extends React.Component<wikiProps, wikiState>{
         document.getElementsByTagName("BODY")[0].classList.add('wikiBody');
 
         let id = this.props.match.params.id;
-        fetch('http://localhost:8000/wiki/'+id,{
+        fetch(url+'/wiki/'+id,{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

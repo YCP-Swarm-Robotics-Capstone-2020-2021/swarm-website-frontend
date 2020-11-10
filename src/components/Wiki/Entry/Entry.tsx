@@ -12,6 +12,7 @@ import {postComment} from "./postComment";
 import './Entry.css';
 import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
 import {userData} from "../../../utils/getInterfaces/userData";
+import {url} from "../../../utils/DetermineUrl";
 const logo = require('../../../images/swarmLogoIcon.png');
 
 /*
@@ -104,7 +105,7 @@ class Entry extends React.Component<entryProps, entryState>{
     }
 
     getEntry(){
-        fetch('http://localhost:8000/entry/' + this.props.id, {
+        fetch(url+'/entry/' + this.props.id, {
             method: 'GET',
             headers:{
                 'Content-Type': 'application/json'
@@ -117,7 +118,7 @@ class Entry extends React.Component<entryProps, entryState>{
             .then(() => {
                 //get commentData/commentElements
                 this.state.data.comments.forEach(commentId => {
-                    fetch("http://localhost:8000/comment/" + commentId, {
+                    fetch(url+'/comment/' + commentId, {
                         method: 'GET',
                         headers:{
                             'Content-Type': 'application/json'
@@ -126,7 +127,7 @@ class Entry extends React.Component<entryProps, entryState>{
                         .then(response => response.json())
                         .then(data => {
                             let commentData = data as commentData;
-                            fetch("http://localhost:8000/user/"+data['user'], {
+                            fetch(url+'/user/'+data['user'], {
                                 method: 'GET',
                                 headers:{
                                     'Content-Type': 'application/json'

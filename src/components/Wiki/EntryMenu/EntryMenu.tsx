@@ -5,6 +5,7 @@ import './EntryMenu.css';
 import {Button, Card, Form, ListGroup, ListGroupItem, Modal} from 'react-bootstrap';
 import {postEntry} from "./postEntry";
 import {userData} from "../../../utils/getInterfaces/userData";
+import {url} from "../../../utils/DetermineUrl";
 
 interface entryMenuProps{
     action: (entryId: string) => void,
@@ -84,7 +85,7 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
     componentDidMount() {
         setTimeout(() => {
             this.props.entries.forEach(entryId =>
-                fetch('http://localhost:8000/entry/' + entryId, {
+                fetch(url+'/entry/' + entryId, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'

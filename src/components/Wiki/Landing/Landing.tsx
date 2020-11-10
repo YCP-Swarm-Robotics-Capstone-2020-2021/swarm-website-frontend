@@ -1,4 +1,5 @@
 import React from 'react';
+import {url} from "../../../utils/DetermineUrl";
 
 import {Card} from 'react-bootstrap';
 
@@ -28,7 +29,7 @@ class Landing extends React.Component<landingProps, landingState>{
     componentDidMount() {
         setTimeout(() => {
             this.props.entries.forEach(entryId => {
-                fetch('http://localhost:8000/entry/'+entryId,{
+                fetch(url+'/entry/'+entryId,{
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
