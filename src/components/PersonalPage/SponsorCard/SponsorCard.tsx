@@ -28,14 +28,6 @@ class SponsorCard extends React.Component<{}, SponsorPage>{
     constructor(props: SponsorPage){
         super(props);
 
-        verifyUserIsLoggedIn().then((value => {
-            if(value){
-                props.history.push('/');
-            }
-        })).catch((error) => {
-            console.log("There was a problem loading the page: " + error);
-        });
-
         this.state ={
             SponsorPage: {
                 companyName: "Becton Dickinson",
