@@ -11,6 +11,8 @@ import {postComment} from "./postComment";
 
 import './Entry.css';
 import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
+import {userData} from "../../../utils/getInterfaces/userData";
+import {url} from "../../../utils/DetermineUrl";
 const logo = require('../../../images/swarmLogoIcon.png');
 
 /*
@@ -39,7 +41,8 @@ interface entryState{
 }
 
 interface entryProps{
-    id: string
+    id: string,
+    currentUser: userData
 }
 
 //component has no props, hence {}
@@ -97,12 +100,12 @@ class Entry extends React.Component<entryProps, entryState>{
         e.preventDefault();
         postComment({
             text: this.state.newComment.text,
-            user: 1
+            user: this.props.currentUser.id
         }, this.state.data.comments, this.state.data.id)
     }
 
     getEntry(){
-        fetch('http://localhost:8000/entry/' + this.props.id, {
+        fetch(url+'/entry/' + this.props.id, {
             method: 'GET',
             headers:{
                 'Content-Type': 'application/json'
@@ -115,7 +118,7 @@ class Entry extends React.Component<entryProps, entryState>{
             .then(() => {
                 //get commentData/commentElements
                 this.state.data.comments.forEach(commentId => {
-                    fetch("http://localhost:8000/comment/" + commentId, {
+                    fetch(url+'/comment/' + commentId, {
                         method: 'GET',
                         headers:{
                             'Content-Type': 'application/json'
@@ -124,7 +127,7 @@ class Entry extends React.Component<entryProps, entryState>{
                         .then(response => response.json())
                         .then(data => {
                             let commentData = data as commentData;
-                            fetch("http://localhost:8000/user/"+data['user'], {
+                            fetch(url+'/user/'+data['user'], {
                                 method: 'GET',
                                 headers:{
                                     'Content-Type': 'application/json'
@@ -156,7 +159,7 @@ class Entry extends React.Component<entryProps, entryState>{
 
                 //get headingData/headingElements
                 this.state.data.headings.forEach(headingId => {
-                    fetch("http://localhost:8000/heading/"+headingId, {
+                    fetch(url+'/heading/'+headingId, {
                         method: 'GET',
                         headers:{
                             "Content-type": "application/json"
@@ -184,7 +187,7 @@ class Entry extends React.Component<entryProps, entryState>{
             })
             .then(() => {
                 //get sidebar
-                fetch('http://localhost:8000/sidebar/'+this.state.data.sideBar, {
+                fetch(url+'/sidebar/'+this.state.data.sideBar, {
                     method: 'GET',
                     headers:{
                         'Content-Type': 'application/json'
@@ -269,7 +272,7 @@ class Entry extends React.Component<entryProps, entryState>{
 
                 </Tab>
                 <Tab eventKey="edit" title="Edit" transition={false}>
-                    <EntryEditForm headingEditElements={this.state.headingEditElements} entryData={this.state.data} sideBarData={this.state.sideBar}></EntryEditForm>
+                    <EntryEditForm headingEditElements={this.state.headingEditElements} entryData={this.state.data} sideBarData={this.state.sideBar} currentUser={this.props.currentUser}></EntryEditForm>
                 </Tab>
             </Tabs>
         );

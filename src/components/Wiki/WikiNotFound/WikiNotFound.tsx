@@ -2,7 +2,7 @@ import React from "react";
 import MainNavbar from "../../../utils/MainNavbar";
 import { Jumbotron } from "react-bootstrap";
 import {Link} from "react-router-dom";
-
+import {url} from "../../../utils/DetermineUrl";
 
 import {wikiData} from "../../../utils/getInterfaces/wikiData";
 
@@ -28,7 +28,7 @@ class WikiNotFound extends React.Component<{}, wikiNotFoundState>{
     }
 
     componentDidMount() {
-        fetch('http://localhost:8000/wiki',{
+        fetch(url+'/wiki',{
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

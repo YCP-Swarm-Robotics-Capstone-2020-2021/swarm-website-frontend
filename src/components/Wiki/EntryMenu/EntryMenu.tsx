@@ -4,12 +4,15 @@ import './EntryMenu.css';
 
 import {Button, Card, Form, ListGroup, ListGroupItem, Modal} from 'react-bootstrap';
 import {postEntry} from "./postEntry";
+import {userData} from "../../../utils/getInterfaces/userData";
+import {url} from "../../../utils/DetermineUrl";
 
 interface entryMenuProps{
     action: (entryId: string) => void,
     wikiTitle: string,
     wikiId: number,
     entries: number[],
+    currentUser: userData
 }
 
 interface entryMenuState{
@@ -70,19 +73,19 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
             title: this.state.newTitle,
             text: this.state.newText,
             sideBar: null,
-            contributors: [1],
+            contributors: [this.props.currentUser.id],
             log: null
         }, {
             context: this.state.newTitle,
             textAdded: this.state.newText,
-            user: 1
+            user: this.props.currentUser.id
         }, this.props.wikiId, this.props.entries)
     }
 
     componentDidMount() {
         setTimeout(() => {
             this.props.entries.forEach(entryId =>
-                fetch('http://localhost:8000/entry/' + entryId, {
+                fetch(url+'/entry/' + entryId, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
