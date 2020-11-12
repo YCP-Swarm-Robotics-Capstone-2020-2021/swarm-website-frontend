@@ -13,5 +13,4 @@ export function deleteComment(commentId: number){
             window.location.reload();
         }
     })
-
 }
