@@ -6,7 +6,7 @@ import {entryData} from "../../../utils/getInterfaces/entryData";
 import {commentData} from "../../../utils/getInterfaces/commentData";
 import {headingData} from "../../../utils/getInterfaces/headingData";
 import {newCommentData} from "../../../utils/postInterfaces/newCommentData";
-
+import {deleteHeading} from "../EntryEditForm/deleteHeading";
 import {postComment} from "./postComment";
 
 import './Entry.css';
@@ -179,6 +179,7 @@ class Entry extends React.Component<entryProps, entryState>{
                                     <div>
                                         <Form.Control className="heading" value={data['title']}></Form.Control>
                                         <Form.Control value={data['text']} as="textarea" rows={4}></Form.Control>
+                                        <Button onClick={() => deleteHeading(data['id'])}variant="danger">Delete</Button>
                                     </div>
                                 )
                             })

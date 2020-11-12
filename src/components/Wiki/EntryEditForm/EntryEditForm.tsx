@@ -200,18 +200,18 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                 </Modal>
                 <Form id="editForm" onSubmit={this.handleEntryUpdateSubmit}>
                     <Form.Group>
-                        <Form.Label className="editEntryLabel">Title</Form.Label>
+                        <Form.Label className="editEntryLabel"><u>Title</u></Form.Label>
                         <Form.Control id="title" name="title" onChange={this.handleEntryChange} value={this.state.entryData.title}></Form.Control>
-                        <Form.Label className="editEntryLabel">Description</Form.Label>
+                        <Form.Label className="editEntryLabel"><u>Description</u></Form.Label>
                         <Form.Control name="text" onChange={this.handleEntryChange} value={this.state.entryData.text}></Form.Control>
-                        <Form.Label className="editEntryLabel">Headings</Form.Label>
+                        <Form.Label className="editEntryLabel"><u>Headings</u></Form.Label>
                         {this.state.headingEditElements}
                     </Form.Group>
                     <Form.Group id="headingButton">
                         <Button onClick={this.handleNewHeadingModalShow}>Add Heading</Button>
                     </Form.Group>
                     <Form.Group id="sideBarLabelGroup">
-                        <Form.Label className="editEntryLabel">Sidebar</Form.Label>
+                        <Form.Label className="editEntryLabel"><u>Sidebar</u></Form.Label>
                     </Form.Group>
                     <Form.Group id="sideBarEdit" >
                         {this.state.sideBarElements}
