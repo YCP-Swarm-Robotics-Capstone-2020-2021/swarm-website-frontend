@@ -39,51 +39,42 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
             deleteEntryModal: false,
             addHeadingModal: false
         }
-        this.handleEntryDeleteModalHide = this.handleEntryDeleteModalHide.bind(this);
-        this.handleEntryDeleteModalShow = this.handleEntryDeleteModalShow.bind(this);
-        this.handleNewHeadingModalHide = this.handleNewHeadingModalHide.bind(this);
-        this.handleNewHeadingModalShow = this.handleNewHeadingModalShow.bind(this);
-
-        this.handleEntryDeleteSubmit = this.handleEntryDeleteSubmit.bind(this);
-        this.handleEntryUpdateSubmit = this.handleEntryUpdateSubmit.bind(this);
-        this.handleNewHeadingSubmit = this.handleNewHeadingSubmit.bind(this);
-        this.buildSideBarElements = this.buildSideBarElements.bind(this);
     }
 
-    handleEntryDeleteModalHide(){
+    handleEntryDeleteModalHide = () => {
         this.setState({
             deleteEntryModal: false
         })
     }
 
-    handleEntryDeleteModalShow(){
+    handleEntryDeleteModalShow = () => {
         this.setState({
             deleteEntryModal: true
         })
     }
 
-    handleNewHeadingModalHide(){
+    handleNewHeadingModalHide = () => {
         this.setState({
             addHeadingModal: false
         })
     }
 
-    handleNewHeadingModalShow(){
+    handleNewHeadingModalShow = () =>{
         this.setState({
             addHeadingModal: true
         })
     }
 
-    handleEntryDeleteSubmit(){
+    handleEntryDeleteSubmit = () =>{
         deleteEntry(this.props.entryData);
     }
 
-    handleEntryUpdateSubmit(e: React.FormEvent<HTMLFormElement>){
+    handleEntryUpdateSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
         updateEntry(this.state.entryData);
     }
 
-    handleNewHeadingSubmit(e: React.FormEvent<HTMLFormElement>){
+    handleNewHeadingSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
         postNewHeading(
             this.state.newHeading,
@@ -128,7 +119,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         })
     }
 
-    buildSideBarElements(){
+    buildSideBarElements = () =>{
         if(this.state.sideBarData.content !== null) {
             for (const [key, value] of Object.entries(this.state.sideBarData.content)) {
                 this.setState({
@@ -209,18 +200,18 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                 </Modal>
                 <Form id="editForm" onSubmit={this.handleEntryUpdateSubmit}>
                     <Form.Group>
-                        <Form.Label className="editEntryLabel">Title</Form.Label>
+                        <Form.Label className="editEntryLabel"><u>Title</u></Form.Label>
                         <Form.Control id="title" name="title" onChange={this.handleEntryChange} value={this.state.entryData.title}></Form.Control>
-                        <Form.Label className="editEntryLabel">Description</Form.Label>
+                        <Form.Label className="editEntryLabel"><u>Description</u></Form.Label>
                         <Form.Control name="text" onChange={this.handleEntryChange} value={this.state.entryData.text}></Form.Control>
-                        <Form.Label className="editEntryLabel">Headings</Form.Label>
+                        <Form.Label className="editEntryLabel"><u>Headings</u></Form.Label>
                         {this.state.headingEditElements}
                     </Form.Group>
                     <Form.Group id="headingButton">
                         <Button onClick={this.handleNewHeadingModalShow}>Add Heading</Button>
                     </Form.Group>
                     <Form.Group id="sideBarLabelGroup">
-                        <Form.Label className="editEntryLabel">Sidebar</Form.Label>
+                        <Form.Label className="editEntryLabel"><u>Sidebar</u></Form.Label>
                     </Form.Group>
                     <Form.Group id="sideBarEdit" >
                         {this.state.sideBarElements}
