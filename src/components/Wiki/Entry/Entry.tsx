@@ -139,6 +139,10 @@ class Entry extends React.Component<entryProps, entryState>{
                                     return response.json()
                                 }
                             }).then(data => {
+                                let deleteButton: JSX.Element = <></>;
+                                if(commentData['user'] === this.props.currentUser.id){
+                                    deleteButton = <Button className="ml-1" variant="danger" size="sm"><span>x</span></Button>;
+                                }
                                 this.setState({
                                     comments: this.state.comments.concat(data as commentData),
                                     commentElements: this.state.commentElements.concat(
@@ -147,7 +151,8 @@ class Entry extends React.Component<entryProps, entryState>{
                                                 <Image src={logo} roundedCircle width={25} height={25}/>
                                                 <strong className="mr-auto ml-2" id={"commentUser"+commentData['id']}>{data['username']}</strong>
                                                 <small className="mr-1">{commentData['dateTime'].substring(0,10)}</small>
-                                                <Button variant="success" className="replyButton ml-1" size="sm" onClick={() => this.handleShow(commentData['id'].toString())}><small>reply</small></Button>
+                                                <Button id="replyButton" variant="success" className="ml-1" size="sm" onClick={() => this.handleShow(commentData['id'].toString())}><small>reply</small></Button>
+                                                {deleteButton}
                                             </Toast.Header>
                                             <Toast.Body id={"commentText"+commentData['id']}>{commentData['text']}</Toast.Body>
                                         </Toast>
