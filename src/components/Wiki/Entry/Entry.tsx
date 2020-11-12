@@ -8,6 +8,7 @@ import {headingData} from "../../../utils/getInterfaces/headingData";
 import {newCommentData} from "../../../utils/postInterfaces/newCommentData";
 
 import {postComment} from "./postComment";
+import {deleteComment} from "./deleteComment";
 
 import './Entry.css';
 import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
@@ -29,6 +30,8 @@ const logo = require('../../../images/swarmLogoIcon.png');
 interface entryState{
     replyModalShow: boolean
     replyModalQuote: string
+    deleteCommentShow: boolean
+    commentToDelete: number
     data: entryData
     sideBar: sideBarData
     sideBarElements: JSX.Element[]
@@ -52,6 +55,8 @@ class Entry extends React.Component<entryProps, entryState>{
         this.state = {
             replyModalShow : false,
             replyModalQuote: "test",
+            deleteCommentShow: false,
+            commentToDelete: 0,
             data: {id: 0, title: '', text: '', sideBar: 0, comments: [], contributors: [], headings: [], log: []},
             sideBar: {id: 0, content: {}},
             sideBarElements: [],
@@ -62,20 +67,16 @@ class Entry extends React.Component<entryProps, entryState>{
             headingElements: [],
             headingEditElements: []
         };
-        this.handleHide = this.handleHide.bind(this);
-        this.handleShow = this.handleShow.bind(this);
-        this.handleCommentTextChange = this.handleCommentTextChange.bind(this);
-        this.handleNewCommentSubmit = this.handleNewCommentSubmit.bind(this);
     }
 
-    handleHide(){
+    handleReplyHide = () => {
         this.setState({
             replyModalShow: false,
             replyModalQuote: ""
         })
     }
 
-    handleShow(commentId: string){
+    handleReplyShow = (commentId: string) => {
         //@ts-ignore
         let commentText = document.getElementById("commentText" + commentId).textContent.toString();
         //@ts-ignore
@@ -86,8 +87,22 @@ class Entry extends React.Component<entryProps, entryState>{
         })
     }
 
+    handleDeleteCommentShow = (commentId: number): void => {
+        this.setState({
+            deleteCommentShow: true,
+            commentToDelete: commentId
+        });
+    }
+
+    handleDeleteCommentHide = () => {
+        this.setState({
+            deleteCommentShow: false,
+            commentToDelete: 0
+        });
+    }
+
     //update state when text is change in form
-    handleCommentTextChange(e: React.ChangeEvent<HTMLInputElement>){
+    handleCommentTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             newComment: {
                 text: e.target.value,
@@ -96,7 +111,7 @@ class Entry extends React.Component<entryProps, entryState>{
         });
     }
 
-    handleNewCommentSubmit(e: React.FormEvent<HTMLFormElement>){
+    handleNewCommentSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         postComment({
             text: this.state.newComment.text,
@@ -139,6 +154,10 @@ class Entry extends React.Component<entryProps, entryState>{
                                     return response.json()
                                 }
                             }).then(data => {
+                                let deleteButton: JSX.Element = <></>;
+                                if(commentData['user'] === this.props.currentUser.id){
+                                    deleteButton = <Button className="ml-1" variant="danger" size="sm" onClick={() => this.handleDeleteCommentShow(commentData['id'])}><span>x</span></Button>;
+                                }
                                 this.setState({
                                     comments: this.state.comments.concat(data as commentData),
                                     commentElements: this.state.commentElements.concat(
@@ -147,7 +166,8 @@ class Entry extends React.Component<entryProps, entryState>{
                                                 <Image src={logo} roundedCircle width={25} height={25}/>
                                                 <strong className="mr-auto ml-2" id={"commentUser"+commentData['id']}>{data['username']}</strong>
                                                 <small className="mr-1">{commentData['dateTime'].substring(0,10)}</small>
-                                                <Button variant="success" className="replyButton ml-1" size="sm" onClick={() => this.handleShow(commentData['id'].toString())}><small>reply</small></Button>
+                                                <Button id="replyButton" variant="success" className="ml-1" size="sm" onClick={() => this.handleReplyShow(commentData['id'].toString())}><small>reply</small></Button>
+                                                {deleteButton}
                                             </Toast.Header>
                                             <Toast.Body id={"commentText"+commentData['id']}>{commentData['text']}</Toast.Body>
                                         </Toast>
@@ -254,7 +274,7 @@ class Entry extends React.Component<entryProps, entryState>{
 
                 </Tab>
                 <Tab eventKey="comments" title="Comments" transition={false}>
-                    <Modal id="replyModal" show={this.state.replyModalShow} onHide={this.handleHide}>
+                    <Modal id="replyModal" show={this.state.replyModalShow} onHide={this.handleReplyHide}>
                         <Modal.Header closeButton>
                             <Modal.Title>Reply</Modal.Title>
                         </Modal.Header>
@@ -264,6 +284,18 @@ class Entry extends React.Component<entryProps, entryState>{
                                     <Form.Control as="textarea" rows={5} value={this.state.replyModalQuote}/>
                                 </Form.Group>
                                 <Button variant="success" type="submit">Comment</Button>
+                            </Form>
+                        </Modal.Body>
+                    </Modal>
+                    <Modal id="deleteCommentModal" show={this.state.deleteCommentShow} onHide={this.handleDeleteCommentHide}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Delete</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <p>Are you sure you want to delete this comment?</p>
+                            <Form>
+                                <Button variant="danger" type="button" onClick={() => deleteComment(this.state.commentToDelete)}>Delete</Button>
+                                <Button className="ml-4" variant="secondary" type="button" onClick={this.handleDeleteCommentHide}>Cancel</Button>
                             </Form>
                         </Modal.Body>
                     </Modal>
