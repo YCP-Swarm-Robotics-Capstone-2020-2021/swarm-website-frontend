@@ -229,6 +229,13 @@ class Entry extends React.Component<entryProps, entryState>{
     }
 
     render(){
+        let editTabElements: JSX.Element = <></>
+        if(this.props.currentUser.accountLevel === 0){
+            editTabElements =
+                <Tab eventKey="edit" title="Edit" transition={false}>
+                    <EntryEditForm headingEditElements={this.state.headingEditElements} entryData={this.state.data} sideBarData={this.state.sideBar} currentUser={this.props.currentUser}></EntryEditForm>
+                </Tab>;
+        }
         return(
             <Tabs id="tabs" defaultActiveKey="details" variant="pills" bg="dark" transition={false}>
                 <Tab eventKey="details" title="Details" transition={false}>
@@ -271,9 +278,7 @@ class Entry extends React.Component<entryProps, entryState>{
                     {this.state.commentElements}
 
                 </Tab>
-                <Tab eventKey="edit" title="Edit" transition={false}>
-                    <EntryEditForm headingEditElements={this.state.headingEditElements} entryData={this.state.data} sideBarData={this.state.sideBar} currentUser={this.props.currentUser}></EntryEditForm>
-                </Tab>
+                {editTabElements}
             </Tabs>
         );
     }
