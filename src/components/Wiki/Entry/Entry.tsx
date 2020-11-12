@@ -8,6 +8,7 @@ import {headingData} from "../../../utils/getInterfaces/headingData";
 import {newCommentData} from "../../../utils/postInterfaces/newCommentData";
 
 import {postComment} from "./postComment";
+import {deleteComment} from "./deleteComment";
 
 import './Entry.css';
 import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
@@ -141,7 +142,7 @@ class Entry extends React.Component<entryProps, entryState>{
                             }).then(data => {
                                 let deleteButton: JSX.Element = <></>;
                                 if(commentData['user'] === this.props.currentUser.id){
-                                    deleteButton = <Button className="ml-1" variant="danger" size="sm"><span>x</span></Button>;
+                                    deleteButton = <Button className="ml-1" variant="danger" size="sm" onClick={() => deleteComment(commentData['id'])}><span>x</span></Button>;
                                 }
                                 this.setState({
                                     comments: this.state.comments.concat(data as commentData),
