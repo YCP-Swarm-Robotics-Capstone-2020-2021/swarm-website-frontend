@@ -1,3 +1,6 @@
+//This file is used within conjucntion of 
+//React script rewired, the package was removed for other testing
+
 const path = require('path');
 
 module.exports = function override(config, env) {
