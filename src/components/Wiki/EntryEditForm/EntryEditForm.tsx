@@ -197,7 +197,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                         <Modal.Title>Confirmation</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
-                        <p>Confirm deletion of Wiki "<b>test</b>"</p>
+                        <p>Confirm deletion of current wiki</p>
                         <Button variant="danger" type="button" onClick={this.handleWikiDeleteSubmit}>Delete</Button>
                         <Button className="ml-4" variant="secondary" type="button" onClick={this.handleWikiDeleteModalHide}>Cancel</Button>
                     </Modal.Body>
