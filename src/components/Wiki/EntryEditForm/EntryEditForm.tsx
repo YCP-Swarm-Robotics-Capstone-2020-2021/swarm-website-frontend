@@ -218,7 +218,8 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                     </Form.Group>
                     <Form.Group id="submitGroup">
                         <Button id="submitButton" variant="success" type="submit">Save</Button>
-                        <Button onClick={this.handleEntryDeleteModalShow} variant="danger" type="button">Delete Entry</Button>
+                        <Button onClick={this.handleEntryDeleteModalShow} variant="danger" type="button" className="mr-4">Delete Entry</Button>
+                        <Button onClick={() => console.log("delete wiki button hit")} variant="warning" type="button">Delete Wiki</Button>
                     </Form.Group>
                 </Form>
             </div>
