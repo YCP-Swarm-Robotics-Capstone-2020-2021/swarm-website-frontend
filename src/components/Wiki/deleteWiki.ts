@@ -10,7 +10,7 @@ export function deleteWiki(wikiId: number){
         if(!response.ok){
             console.log("Wiki deletion failed...");
         }else{
-            window.location.reload()
+            window.location.href="/home";
         }
     })
 }

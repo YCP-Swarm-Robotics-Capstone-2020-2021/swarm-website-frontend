@@ -8,13 +8,15 @@ import {newHeadingData} from "../../../utils/postInterfaces/newHeadingData";
 import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
 import {postHeading} from "./postHeading";
 import {userData} from "../../../utils/getInterfaces/userData";
+import {deleteWiki} from "../deleteWiki";
 
 
 interface entryEditFormProps{
     headingEditElements: JSX.Element[],
     entryData: entryData,
     sideBarData: sideBarData,
-    currentUser: userData
+    currentUser: userData,
+    wikiId: number
 }
 
 interface entryEditFormState{
@@ -77,6 +79,10 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         this.setState({
             addHeadingModal: true
         })
+    }
+
+    handleWikiDeleteSubmit = () =>{
+        deleteWiki(this.props.wikiId);
     }
 
     handleEntryDeleteSubmit = () =>{
@@ -192,6 +198,8 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                     </Modal.Header>
                     <Modal.Body>
                         <p>Confirm deletion of Wiki "<b>test</b>"</p>
+                        <Button variant="danger" type="button" onClick={this.handleWikiDeleteSubmit}>Delete</Button>
+                        <Button className="ml-4" variant="secondary" type="button" onClick={this.handleWikiDeleteModalHide}>Cancel</Button>
                     </Modal.Body>
                 </Modal>
                 <Modal id="deleteEntryModal" show={this.state.deleteEntryModal} onHide={this.handleEntryDeleteModalHide}>
