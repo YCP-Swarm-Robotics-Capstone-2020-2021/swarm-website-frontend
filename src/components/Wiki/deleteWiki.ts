@@ -1,8 +1,8 @@
 import {url} from "../../utils/DetermineUrl";
 
 export function deleteWiki(wikiId: number){
-    fetch(url+'/wiki/'+wikiId, {
-        method: "DELETE",
+    fetch(url+'/wiki/delete_wiki?id='+wikiId, {
+        method: "GET",
         headers:  {
             "Content-Type": "application/json"
         }
