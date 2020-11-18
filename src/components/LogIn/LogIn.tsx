@@ -39,7 +39,10 @@ class LogIn extends React.Component<LoginProps, LoginState> {
         setTimeout(function (){
             // @ts-ignore, object could possibly be null
             document.getElementById('loginBox').classList.add('fade-in');
-        }, 1)
+        }, 1);
+        
+        let bgNum = Math.floor(Math.random() * 5) + 1;
+        cookies.set('bgNum', bgNum);
     }
 
     handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
