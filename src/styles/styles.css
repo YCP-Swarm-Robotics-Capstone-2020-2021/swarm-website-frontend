@@ -29,6 +29,10 @@ body{
     background-color: #8dcfd4;
 }
 
+#profilePage{
+    color: #b7b2b2
+}
+
 @media (max-width: 994px) {
     #wikiDropdown{
         margin-left: 0;
