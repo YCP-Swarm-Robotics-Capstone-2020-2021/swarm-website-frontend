@@ -23,6 +23,7 @@ interface entryEditFormState{
     headingEditElements: JSX.Element[],
     sideBarElements: JSX.Element[],
     newHeading: newHeadingData
+    deleteWikiModal: boolean
     deleteEntryModal: boolean
     addHeadingModal: boolean
 }
@@ -36,9 +37,22 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
             headingEditElements: [],
             sideBarElements: [],
             newHeading: {title: '', text: '', log: []},
+            deleteWikiModal: false,
             deleteEntryModal: false,
             addHeadingModal: false
         }
+    }
+
+    handleWikiDeleteModalHide = () => {
+        this.setState({
+            deleteWikiModal: false
+        })
+    }
+
+    handleWikiDeleteModalShow = () => {
+        this.setState({
+            deleteWikiModal: true
+        })
     }
 
     handleEntryDeleteModalHide = () => {
@@ -172,6 +186,14 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
     render(){
         return(
             <div>
+                <Modal id="deleteWikiModal" show={this.state.deleteWikiModal} onHide={this.handleWikiDeleteModalHide}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Confirmation</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>Confirm deletion of Wiki "<b>test</b>"</p>
+                    </Modal.Body>
+                </Modal>
                 <Modal id="deleteEntryModal" show={this.state.deleteEntryModal} onHide={this.handleEntryDeleteModalHide}>
                     <Modal.Header closeButton>
                         <Modal.Title>Confirmation</Modal.Title>
@@ -219,7 +241,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                     <Form.Group id="submitGroup">
                         <Button id="submitButton" variant="success" type="submit">Save</Button>
                         <Button onClick={this.handleEntryDeleteModalShow} variant="danger" type="button" className="mr-4">Delete Entry</Button>
-                        <Button onClick={() => console.log("delete wiki button hit")} variant="warning" type="button">Delete Wiki</Button>
+                        <Button onClick={this.handleWikiDeleteModalShow} variant="warning" type="button">Delete Wiki</Button>
                     </Form.Group>
                 </Form>
             </div>
