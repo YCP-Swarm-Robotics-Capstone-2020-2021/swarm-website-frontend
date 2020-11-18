@@ -6,7 +6,7 @@ import {entryData} from "../../../utils/getInterfaces/entryData";
 import './EntryEditForm.css';
 import {newHeadingData} from "../../../utils/postInterfaces/newHeadingData";
 import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
-import {postNewHeading} from "./postNewHeading";
+import {postHeading} from "./postHeading";
 import {userData} from "../../../utils/getInterfaces/userData";
 
 
@@ -76,7 +76,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
 
     handleNewHeadingSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
-        postNewHeading(
+        postHeading(
             this.state.newHeading,
             {
                 context: this.state.newHeading.title,
