@@ -19,7 +19,8 @@ interface entryMenuState{
     entryList: JSX.Element[]
     addEntryModalShow: boolean
     newTitle: string,
-    newText: string
+    newText: string,
+    lastUpdated: string
 }
 
 class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
@@ -29,7 +30,8 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
             entryList: [],
             addEntryModalShow: false,
             newTitle: '',
-            newText: ''
+            newText: '',
+            lastUpdated: ''
         }
         this.handleHide = this.handleHide.bind(this);
         this.handleShow = this.handleShow.bind(this);
@@ -98,6 +100,20 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
                                                                               variant="dark">{data['title']}</ListGroupItem>)
                     }))
             );
+
+            fetch(url+'/wiki/get_last_updated?id='+this.props.wikiId, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if(!response.ok){
+                    console.log("Last updated get failed...");
+                }
+                return response.json()
+            }).then(data => {
+                this.setState({lastUpdated: data['date'].substring(0,10)})
+            })
         }, 300);
     }
 
@@ -130,7 +146,7 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
                         </Modal>
 
                     </ListGroup>
-                    <Card.Footer className="text-center">Last Updated 10/23/2020</Card.Footer>
+                    <Card.Footer className="text-center">Last Updated: {this.state.lastUpdated}</Card.Footer>
                 </Card>
             </div>
         );
