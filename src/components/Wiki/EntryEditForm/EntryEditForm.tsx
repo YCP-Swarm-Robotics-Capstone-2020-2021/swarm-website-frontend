@@ -10,6 +10,7 @@ import {postHeading} from "./postHeading";
 import {userData} from "../../../utils/getInterfaces/userData";
 import {deleteWiki} from "../deleteWiki";
 import {wikiData} from "../../../utils/getInterfaces/wikiData";
+import {updateWiki} from "../updateWiki";
 
 
 interface entryEditFormProps{
@@ -95,6 +96,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
     handleEditFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         updateEntry(this.state.entryData);
+        updateWiki(this.state.wikiData);
     }
 
     handleNewHeadingSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
