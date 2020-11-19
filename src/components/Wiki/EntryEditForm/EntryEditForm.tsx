@@ -69,7 +69,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         deleteEntry(this.props.entryData);
     }
 
-    handleEntryUpdateSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
+    handleEditFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         updateEntry(this.state.entryData);
     }
@@ -198,7 +198,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                         </Form>
                     </Modal.Body>
                 </Modal>
-                <Form id="editForm" onSubmit={this.handleEntryUpdateSubmit}>
+                <Form id="editForm" onSubmit={this.handleEditFormSubmit}>
                     <Form.Group>
                         <Form.Label className="editEntryLabel"><u>Title</u></Form.Label>
                         <Form.Control id="title" name="title" onChange={this.handleEntryChange} value={this.state.entryData.title}></Form.Control>
