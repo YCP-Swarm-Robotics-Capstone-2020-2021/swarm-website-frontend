@@ -45,7 +45,8 @@ interface entryState{
 
 interface entryProps{
     id: string,
-    currentUser: userData
+    currentUser: userData,
+    wikiId: number,
 }
 
 //component has no props, hence {}
@@ -254,7 +255,7 @@ class Entry extends React.Component<entryProps, entryState>{
         if(this.props.currentUser.accountLevel === 0){
             editTabElements =
                 <Tab eventKey="edit" title="Edit" transition={false}>
-                    <EntryEditForm headingEditElements={this.state.headingEditElements} entryData={this.state.data} sideBarData={this.state.sideBar} currentUser={this.props.currentUser}></EntryEditForm>
+                    <EntryEditForm headingEditElements={this.state.headingEditElements} entryData={this.state.data} sideBarData={this.state.sideBar} currentUser={this.props.currentUser} wikiId={this.props.wikiId}></EntryEditForm>
                 </Tab>;
         }
         return(

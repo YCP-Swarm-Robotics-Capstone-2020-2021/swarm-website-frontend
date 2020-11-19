@@ -3,7 +3,7 @@ import {newChangeData} from "../../../utils/postInterfaces/newChangeData";
 import {entryData} from "../../../utils/getInterfaces/entryData";
 import {url} from "../../../utils/DetermineUrl";
 
-export function postNewHeading(heading: newHeadingData, change: newChangeData, entryData: entryData){
+export function postHeading(heading: newHeadingData, change: newChangeData, entryData: entryData){
     fetch(url+'/change', {
         method: 'POST',
         body: JSON.stringify(change),
