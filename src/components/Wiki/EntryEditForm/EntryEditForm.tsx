@@ -21,6 +21,7 @@ interface entryEditFormProps{
 }
 
 interface entryEditFormState{
+    wikiData: wikiData,
     entryData: entryData,
     sideBarData: sideBarData,
     headingEditElements: JSX.Element[],
@@ -35,6 +36,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
     constructor(props: entryEditFormProps) {
         super(props);
         this.state = {
+            wikiData: this.props.wiki,
             entryData: {id: 0, title: '', text: '', sideBar: 0, comments: [], contributors: [], headings: [], log: []},
             sideBarData: {id: 0, content: {}},
             headingEditElements: [],
@@ -105,6 +107,15 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                 user: this.props.currentUser.id
             },
             this.props.entryData);
+    }
+
+    handleWikiChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        const wikiInfo = this.state.wikiData;
+        const newWikiInfo = {
+            ...wikiInfo,
+            [e.target.name]: e.target.value
+        }
+        this.setState({wikiData: newWikiInfo})
     }
 
     handleEntryChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
