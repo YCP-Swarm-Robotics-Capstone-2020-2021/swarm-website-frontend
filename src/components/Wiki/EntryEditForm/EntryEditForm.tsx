@@ -9,6 +9,7 @@ import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
 import {postHeading} from "./postHeading";
 import {userData} from "../../../utils/getInterfaces/userData";
 import {deleteWiki} from "../deleteWiki";
+import {wikiData} from "../../../utils/getInterfaces/wikiData";
 
 
 interface entryEditFormProps{
@@ -16,7 +17,7 @@ interface entryEditFormProps{
     entryData: entryData,
     sideBarData: sideBarData,
     currentUser: userData,
-    wikiId: number
+    wiki: wikiData
 }
 
 interface entryEditFormState{
@@ -82,7 +83,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
     }
 
     handleWikiDeleteSubmit = () =>{
-        deleteWiki(this.props.wikiId);
+        deleteWiki(this.props.wiki);
     }
 
     handleEntryDeleteSubmit = () =>{
