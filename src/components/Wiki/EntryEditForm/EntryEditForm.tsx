@@ -242,9 +242,14 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                 </Modal>
                 <Form id="editForm" onSubmit={this.handleEditFormSubmit}>
                     <Form.Group>
-                        <Form.Label className="editEntryLabel"><u>Title</u></Form.Label>
+                        <Form.Label className="editEntryLabel"><u>Wiki Title</u></Form.Label>
+                        <Form.Control id="title" name="title" onChange={this.handleWikiChange} value={this.state.wikiData.title}></Form.Control>
+                        <Form.Label className="editEntryLabel"><u>Wiki Description</u></Form.Label>
+                        <Form.Control id="description" name="briefDescription" onChange={this.handleWikiChange} value={this.state.wikiData.briefDescription}></Form.Control>
+                        <br/>
+                        <Form.Label className="editEntryLabel"><u>Entry Title</u></Form.Label>
                         <Form.Control id="title" name="title" onChange={this.handleEntryChange} value={this.state.entryData.title}></Form.Control>
-                        <Form.Label className="editEntryLabel"><u>Description</u></Form.Label>
+                        <Form.Label className="editEntryLabel"><u>Entry Description</u></Form.Label>
                         <Form.Control name="text" onChange={this.handleEntryChange} value={this.state.entryData.text}></Form.Control>
                         <Form.Label className="editEntryLabel"><u>Headings</u></Form.Label>
                         {this.state.headingEditElements}
