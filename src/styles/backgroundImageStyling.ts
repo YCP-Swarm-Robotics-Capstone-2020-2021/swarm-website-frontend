@@ -1,5 +1,11 @@
+import {cookies} from '../utils/Cookies'
+
 export default function BackgroundImageStyling() {
-    let bgNum = Math.floor(Math.random() * 5) + 1;
+    let bgNum = cookies.get('bgNum');
+
+    if(!bgNum){
+        bgNum = 1;
+    }
 
     const backgroundImageStyling = {
         backgroundImage: "url(" + require('../images/loginbgs/bg'+bgNum+'.jpg') + ")",
