@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Form, Modal} from "react-bootstrap";
 import {deleteEntry} from "../Entry/deleteEntry";
-import {updateEntry} from "./UpdateEntry";
+import {updateEntry} from "./updateEntry";
 import {entryData} from "../../../utils/getInterfaces/entryData";
 import './EntryEditForm.css';
 import {newHeadingData} from "../../../utils/postInterfaces/newHeadingData";
