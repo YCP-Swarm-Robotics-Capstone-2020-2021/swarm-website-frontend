@@ -187,6 +187,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                 entryData: this.props.entryData,
                 sideBarData: this.props.sideBarData,
                 sideBarElements: [],
+                headingData: this.props.initHeadingData,
                 headingEditElements: this.props.headingEditElements
             });
             this.buildSideBarElements();
