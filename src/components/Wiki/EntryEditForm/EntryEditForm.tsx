@@ -6,15 +6,17 @@ import {entryData} from "../../../utils/getInterfaces/entryData";
 import './EntryEditForm.css';
 import {newHeadingData} from "../../../utils/postInterfaces/newHeadingData";
 import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
-import {postNewHeading} from "./postNewHeading";
+import {postHeading} from "./postHeading";
 import {userData} from "../../../utils/getInterfaces/userData";
+import {deleteWiki} from "../deleteWiki";
 
 
 interface entryEditFormProps{
     headingEditElements: JSX.Element[],
     entryData: entryData,
     sideBarData: sideBarData,
-    currentUser: userData
+    currentUser: userData,
+    wikiId: number
 }
 
 interface entryEditFormState{
@@ -23,6 +25,7 @@ interface entryEditFormState{
     headingEditElements: JSX.Element[],
     sideBarElements: JSX.Element[],
     newHeading: newHeadingData
+    deleteWikiModal: boolean
     deleteEntryModal: boolean
     addHeadingModal: boolean
 }
@@ -36,9 +39,22 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
             headingEditElements: [],
             sideBarElements: [],
             newHeading: {title: '', text: '', log: []},
+            deleteWikiModal: false,
             deleteEntryModal: false,
             addHeadingModal: false
         }
+    }
+
+    handleWikiDeleteModalHide = () => {
+        this.setState({
+            deleteWikiModal: false
+        })
+    }
+
+    handleWikiDeleteModalShow = () => {
+        this.setState({
+            deleteWikiModal: true
+        })
     }
 
     handleEntryDeleteModalHide = () => {
@@ -65,6 +81,10 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         })
     }
 
+    handleWikiDeleteSubmit = () =>{
+        deleteWiki(this.props.wikiId);
+    }
+
     handleEntryDeleteSubmit = () =>{
         deleteEntry(this.props.entryData);
     }
@@ -76,7 +96,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
 
     handleNewHeadingSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
-        postNewHeading(
+        postHeading(
             this.state.newHeading,
             {
                 context: this.state.newHeading.title,
@@ -172,6 +192,16 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
     render(){
         return(
             <div>
+                <Modal id="deleteWikiModal" show={this.state.deleteWikiModal} onHide={this.handleWikiDeleteModalHide}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Confirmation</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>Confirm deletion of current wiki</p>
+                        <Button variant="danger" type="button" onClick={this.handleWikiDeleteSubmit}>Delete</Button>
+                        <Button className="ml-4" variant="secondary" type="button" onClick={this.handleWikiDeleteModalHide}>Cancel</Button>
+                    </Modal.Body>
+                </Modal>
                 <Modal id="deleteEntryModal" show={this.state.deleteEntryModal} onHide={this.handleEntryDeleteModalHide}>
                     <Modal.Header closeButton>
                         <Modal.Title>Confirmation</Modal.Title>
@@ -218,7 +248,8 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                     </Form.Group>
                     <Form.Group id="submitGroup">
                         <Button id="submitButton" variant="success" type="submit">Save</Button>
-                        <Button onClick={this.handleEntryDeleteModalShow} variant="danger" type="button">Delete Entry</Button>
+                        <Button onClick={this.handleEntryDeleteModalShow} variant="danger" type="button" className="mr-4">Delete Entry</Button>
+                        <Button onClick={this.handleWikiDeleteModalShow} variant="warning" type="button">Delete Wiki</Button>
                     </Form.Group>
                 </Form>
             </div>
