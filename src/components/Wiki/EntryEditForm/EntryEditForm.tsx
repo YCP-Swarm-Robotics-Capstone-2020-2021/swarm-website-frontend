@@ -9,9 +9,11 @@ import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
 import {postHeading} from "./postHeading";
 import {userData} from "../../../utils/getInterfaces/userData";
 import {deleteWiki} from "../deleteWiki";
+import {headingData} from "../../../utils/getInterfaces/headingData";
 
 
 interface entryEditFormProps{
+    initHeadingData: headingData[],
     headingEditElements: JSX.Element[],
     entryData: entryData,
     sideBarData: sideBarData,
@@ -22,6 +24,7 @@ interface entryEditFormProps{
 interface entryEditFormState{
     entryData: entryData,
     sideBarData: sideBarData,
+    headingData: headingData[],
     headingEditElements: JSX.Element[],
     sideBarElements: JSX.Element[],
     newHeading: newHeadingData
@@ -36,6 +39,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         this.state = {
             entryData: {id: 0, title: '', text: '', sideBar: 0, comments: [], contributors: [], headings: [], log: []},
             sideBarData: {id: 0, content: {}},
+            headingData: [],
             headingEditElements: [],
             sideBarElements: [],
             newHeading: {title: '', text: '', log: []},
@@ -161,6 +165,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                     entryData: this.props.entryData,
                     sideBarData: this.props.sideBarData,
                     sideBarElements: [],
+                    headingData: this.props.initHeadingData,
                     headingEditElements: this.props.headingEditElements
                 })
                 this.buildSideBarElements();
