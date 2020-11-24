@@ -96,7 +96,7 @@ class Entry extends React.Component<entryProps, entryState>{
         postReplyComment(this.state.replyModalQuote, {
             text: this.state.replyText,
             user: this.props.currentUser.id
-        })
+        }, this.state.data.id)
     }
 
     handleReplyTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
