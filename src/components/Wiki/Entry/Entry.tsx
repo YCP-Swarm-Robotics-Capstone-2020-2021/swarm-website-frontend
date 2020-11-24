@@ -14,6 +14,7 @@ import './Entry.css';
 import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
 import {userData} from "../../../utils/getInterfaces/userData";
 import {url} from "../../../utils/DetermineUrl";
+import {postReplyComment} from "./postReplyComment";
 const logo = require('../../../images/swarmLogoIcon.png');
 
 /*
@@ -30,6 +31,7 @@ const logo = require('../../../images/swarmLogoIcon.png');
 interface entryState{
     replyModalShow: boolean
     replyModalQuote: string
+    replyText: string
     deleteCommentShow: boolean
     commentToDelete: number
     data: entryData
@@ -56,6 +58,7 @@ class Entry extends React.Component<entryProps, entryState>{
         this.state = {
             replyModalShow : false,
             replyModalQuote: "test",
+            replyText: '',
             deleteCommentShow: false,
             commentToDelete: 0,
             data: {id: 0, title: '', text: '', sideBar: 0, comments: [], contributors: [], headings: [], log: []},
@@ -84,7 +87,21 @@ class Entry extends React.Component<entryProps, entryState>{
         let commentUser = document.getElementById("commentUser" + commentId).textContent.toString();
         this.setState({
             replyModalShow: true,
-            replyModalQuote: commentUser+": \""+commentText+"\""
+            replyModalQuote: commentUser+": \""+commentText+"\"\n\n"
+        })
+    }
+
+    handleNewReplySubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        postReplyComment(this.state.replyModalQuote, {
+            text: this.state.replyText,
+            user: this.props.currentUser.id
+        })
+    }
+
+    handleReplyTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({
+            replyText: e.target.value
         })
     }
 
@@ -278,12 +295,13 @@ class Entry extends React.Component<entryProps, entryState>{
                 <Tab eventKey="comments" title="Comments" transition={false}>
                     <Modal id="replyModal" show={this.state.replyModalShow} onHide={this.handleReplyHide}>
                         <Modal.Header closeButton>
-                            <Modal.Title>Reply</Modal.Title>
+                            <Modal.Title>Reply to...</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <Form>
+                            <Form onSubmit={this.handleNewReplySubmit}>
                                 <Form.Group>
-                                    <Form.Control as="textarea" rows={5} value={this.state.replyModalQuote}/>
+                                    <p>{this.state.replyModalQuote}</p>
+                                    <Form.Control as="textarea" rows={5} value={this.state.replyText} onChange={this.handleReplyTextChange}/>
                                 </Form.Group>
                                 <Button variant="success" type="submit">Comment</Button>
                             </Form>
