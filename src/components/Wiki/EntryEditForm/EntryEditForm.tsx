@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Form, Modal} from "react-bootstrap";
 import {deleteEntry} from "../Entry/deleteEntry";
-import {updateEntry} from "./UpdateEntry";
+import {updateEntry} from "./updateEntry";
 import {entryData} from "../../../utils/getInterfaces/entryData";
 import './EntryEditForm.css';
 import {newHeadingData} from "../../../utils/postInterfaces/newHeadingData";
@@ -10,6 +10,8 @@ import {postHeading} from "./postHeading";
 import {userData} from "../../../utils/getInterfaces/userData";
 import {deleteWiki} from "../deleteWiki";
 import {headingData} from "../../../utils/getInterfaces/headingData";
+import {wikiData} from "../../../utils/getInterfaces/wikiData";
+import {updateWiki} from "../updateWiki";
 
 
 interface entryEditFormProps{
@@ -18,10 +20,11 @@ interface entryEditFormProps{
     entryData: entryData,
     sideBarData: sideBarData,
     currentUser: userData,
-    wikiId: number
+    wiki: wikiData
 }
 
 interface entryEditFormState{
+    wikiData: wikiData,
     entryData: entryData,
     sideBarData: sideBarData,
     headingData: headingData[],
@@ -37,6 +40,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
     constructor(props: entryEditFormProps) {
         super(props);
         this.state = {
+            wikiData: this.props.wiki,
             entryData: {id: 0, title: '', text: '', sideBar: 0, comments: [], contributors: [], headings: [], log: []},
             sideBarData: {id: 0, content: {}},
             headingData: [],
@@ -86,16 +90,17 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
     }
 
     handleWikiDeleteSubmit = () =>{
-        deleteWiki(this.props.wikiId);
+        deleteWiki(this.props.wiki);
     }
 
     handleEntryDeleteSubmit = () =>{
         deleteEntry(this.props.entryData);
     }
 
-    handleEntryUpdateSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
+    handleEditFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         updateEntry(this.state.entryData);
+        updateWiki(this.state.wikiData);
     }
 
     handleNewHeadingSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
@@ -108,6 +113,15 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                 user: this.props.currentUser.id
             },
             this.props.entryData);
+    }
+
+    handleWikiChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        const wikiInfo = this.state.wikiData;
+        const newWikiInfo = {
+            ...wikiInfo,
+            [e.target.name]: e.target.value
+        }
+        this.setState({wikiData: newWikiInfo})
     }
 
     handleEntryChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -234,11 +248,16 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                         </Form>
                     </Modal.Body>
                 </Modal>
-                <Form id="editForm" onSubmit={this.handleEntryUpdateSubmit}>
+                <Form id="editForm" onSubmit={this.handleEditFormSubmit}>
                     <Form.Group>
-                        <Form.Label className="editEntryLabel"><u>Title</u></Form.Label>
+                        <Form.Label className="editEntryLabel"><u>Wiki Title</u></Form.Label>
+                        <Form.Control id="title" name="title" onChange={this.handleWikiChange} value={this.state.wikiData.title}></Form.Control>
+                        <Form.Label className="editEntryLabel"><u>Wiki Description</u></Form.Label>
+                        <Form.Control id="description" name="briefDescription" onChange={this.handleWikiChange} value={this.state.wikiData.briefDescription}></Form.Control>
+                        <br/>
+                        <Form.Label className="editEntryLabel"><u>Entry Title</u></Form.Label>
                         <Form.Control id="title" name="title" onChange={this.handleEntryChange} value={this.state.entryData.title}></Form.Control>
-                        <Form.Label className="editEntryLabel"><u>Description</u></Form.Label>
+                        <Form.Label className="editEntryLabel"><u>Entry Description</u></Form.Label>
                         <Form.Control name="text" onChange={this.handleEntryChange} value={this.state.entryData.text}></Form.Control>
                         <Form.Label className="editEntryLabel"><u>Headings</u></Form.Label>
                         {this.state.headingEditElements}
