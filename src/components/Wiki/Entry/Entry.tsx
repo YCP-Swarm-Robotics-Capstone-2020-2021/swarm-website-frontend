@@ -14,6 +14,7 @@ import './Entry.css';
 import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
 import {userData} from "../../../utils/getInterfaces/userData";
 import {url} from "../../../utils/DetermineUrl";
+import {wikiData} from "../../../utils/getInterfaces/wikiData";
 const logo = require('../../../images/swarmLogoIcon.png');
 
 /*
@@ -46,7 +47,7 @@ interface entryState{
 interface entryProps{
     id: string,
     currentUser: userData,
-    wikiId: number,
+    wiki: wikiData,
 }
 
 //component has no props, hence {}
@@ -255,7 +256,7 @@ class Entry extends React.Component<entryProps, entryState>{
         if(this.props.currentUser.accountLevel === 0){
             editTabElements =
                 <Tab eventKey="edit" title="Edit" transition={false}>
-                    <EntryEditForm headingEditElements={this.state.headingEditElements} entryData={this.state.data} sideBarData={this.state.sideBar} currentUser={this.props.currentUser} wikiId={this.props.wikiId}></EntryEditForm>
+                    <EntryEditForm headingEditElements={this.state.headingEditElements} entryData={this.state.data} sideBarData={this.state.sideBar} currentUser={this.props.currentUser} wiki={this.props.wiki}></EntryEditForm>
                 </Tab>;
         }
         return(
