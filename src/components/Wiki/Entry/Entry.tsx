@@ -87,7 +87,7 @@ class Entry extends React.Component<entryProps, entryState>{
         let commentUser = document.getElementById("commentUser" + commentId).textContent.toString();
         this.setState({
             replyModalShow: true,
-            replyModalQuote: commentUser+": \""+commentText+"\"\n\n"
+            replyModalQuote: commentUser+": \""+commentText+"\""
         })
     }
 
@@ -96,7 +96,7 @@ class Entry extends React.Component<entryProps, entryState>{
         postReplyComment(this.state.replyModalQuote, {
             text: this.state.replyText,
             user: this.props.currentUser.id
-        }, this.state.data.id)
+        }, this.state.data.comments, this.state.data.id)
     }
 
     handleReplyTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -187,7 +187,7 @@ class Entry extends React.Component<entryProps, entryState>{
                                                 <Button id="replyButton" variant="success" className="ml-1" size="sm" onClick={() => this.handleReplyShow(commentData['id'].toString())}><small>reply</small></Button>
                                                 {deleteButton}
                                             </Toast.Header>
-                                            <Toast.Body id={"commentText"+commentData['id']}>{commentData['text']}</Toast.Body>
+                                            <Toast.Body id={"commentText"+commentData['id']}><p>{commentData['text']}</p></Toast.Body>
                                         </Toast>
                                     )
                                 })
