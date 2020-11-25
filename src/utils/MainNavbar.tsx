@@ -125,6 +125,11 @@ class MainNavbar extends React.Component<Props, State>{
                             </Form>
                         </Modal.Body>
                     </Modal>
+
+                    <Form inline>
+                        <Nav.Link href='/userProfilePage' id='profilePage'>User Profile</Nav.Link>
+                    </Form>
+
                 </Navbar>
             </>
             );

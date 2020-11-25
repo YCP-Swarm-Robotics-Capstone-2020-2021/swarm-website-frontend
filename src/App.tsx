@@ -9,6 +9,7 @@ import Error from './components/Error/Error';
 import SignUp from "./components/SignUp/SignUp";
 import PersonalPage from './components/PersonalPage/PersonalPage';
 import WikiNotFound from './components/Wiki/WikiNotFound/WikiNotFound';
+import ProfilePage from './components/ProfilePage/ProfilePage'
 import Dog from './components/Dog/Dog';
 
 function  App(){
@@ -21,6 +22,7 @@ function  App(){
                 <Route path='/home' component={HomePage} exact/>
                 <Route path='/signup' component={SignUp}/>
                 <Route path='/personalpage' component={PersonalPage} exact/>
+                <Route path='/userProfilePage' component={ProfilePage} exact />
                 <Route path='/dog' component={Dog} exact/>
                 <Route component={Error} />
             </Switch>
