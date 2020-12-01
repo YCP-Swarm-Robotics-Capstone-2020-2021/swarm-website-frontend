@@ -231,6 +231,7 @@ class Entry extends React.Component<entryProps, entryState>{
                 commentElements: [],
                 sideBarElements: [],
                 headingElements: [],
+                headings: []
             })
             this.getEntry();
         }
