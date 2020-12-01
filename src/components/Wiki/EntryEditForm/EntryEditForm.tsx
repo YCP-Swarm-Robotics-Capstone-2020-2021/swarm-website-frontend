@@ -12,11 +12,12 @@ import {deleteWiki} from "../deleteWiki";
 import {headingData} from "../../../utils/getInterfaces/headingData";
 import {wikiData} from "../../../utils/getInterfaces/wikiData";
 import {updateWiki} from "../updateWiki";
+import {deleteHeading} from "./deleteHeading";
+import {updateHeadings} from "./updateHeadings";
 
 
 interface entryEditFormProps{
     initHeadingData: headingData[],
-    headingEditElements: JSX.Element[],
     entryData: entryData,
     sideBarData: sideBarData,
     currentUser: userData,
@@ -49,7 +50,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
             newHeading: {title: '', text: '', log: []},
             deleteWikiModal: false,
             deleteEntryModal: false,
-            addHeadingModal: false
+            addHeadingModal: false,
         }
     }
 
@@ -101,6 +102,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         e.preventDefault();
         updateEntry(this.state.entryData);
         updateWiki(this.state.wikiData);
+        updateHeadings(this.state.headingData);
     }
 
     handleNewHeadingSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
@@ -142,6 +144,15 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         this.setState({newHeading: newNewHeadingInfo})
     }
 
+    handleHeadingChange = (e: React.ChangeEvent<HTMLInputElement>) : void => {
+        let index: number = parseInt(e.target.id);
+
+        let newArray = [...this.state.headingData];
+        newArray[index] = {...newArray[index], [e.target.name]: e.target.value};
+
+        this.setState({headingData: newArray}, () => {console.log(this.state.headingData)});
+    }
+
     handleSideBarChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         let sideBarContentString = JSON.stringify(this.state.sideBarData.content);
 
@@ -172,6 +183,27 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         }
     }
 
+    buildHeadingEditElements = () => {
+        if(this.state.headingData.length > 0) {
+            let i: number;
+            for (i = 0; i < this.state.headingData.length; i++) {
+                this.setState({
+                    headingEditElements: this.state.headingEditElements.concat(
+                        <div>
+                            <Form.Control id={i.toString()} className="heading" as="input"
+                                          defaultValue={this.state.headingData[i].title} name="title"
+                                          onChange={this.handleHeadingChange}></Form.Control>
+                            <Form.Control id={i.toString()} defaultValue={this.state.headingData[i].text} as="textarea"
+                                          rows={4} name="text" onChange={this.handleHeadingChange}></Form.Control>
+                            <Button onClick={() => deleteHeading(this.state.headingData[i].id)}
+                                    variant="danger">Delete</Button>
+                        </div>
+                    )
+                })
+            }
+        }
+    }
+
     componentDidUpdate(prevProps: Readonly<entryEditFormProps>, prevState: Readonly<entryEditFormState>, snapshot?: any) {
         if(prevProps.entryData.id !== this.props.entryData.id){
             setTimeout( () => {
@@ -180,9 +212,10 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                     sideBarData: this.props.sideBarData,
                     sideBarElements: [],
                     headingData: this.props.initHeadingData,
-                    headingEditElements: this.props.headingEditElements
+                    headingEditElements: []
                 })
                 this.buildSideBarElements();
+                this.buildHeadingEditElements();
             }, 200)
         }
         // else if(prevState.sideBarData.content !== this.state.sideBarData.content){
@@ -202,9 +235,10 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                 sideBarData: this.props.sideBarData,
                 sideBarElements: [],
                 headingData: this.props.initHeadingData,
-                headingEditElements: this.props.headingEditElements
+                headingEditElements: []
             });
             this.buildSideBarElements();
+            this.buildHeadingEditElements();
         }, 200)
 
     }
