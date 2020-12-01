@@ -19,6 +19,8 @@
 
 .visualizationImage{
     display: block;
+    height: auto;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
 }
