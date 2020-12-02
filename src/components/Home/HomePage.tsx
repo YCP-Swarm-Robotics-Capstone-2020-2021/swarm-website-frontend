@@ -4,19 +4,37 @@ import './HomePage.css';
 import backgroundImageStyling from '../../styles/backgroundImageStyling';
 import MainNavbar from "../../utils/MainNavbar";
 import { Button } from 'react-bootstrap';
+import {RouteComponentProps} from "react-router-dom";
+import verifyUserIsLoggedIn from "../../utils/verifiyUserIsLoggedIn/verifyLoggedIn";
 
 //require any images
 const logo = require('../../images/swarmLogoIcon.png');
 
 const background = backgroundImageStyling();
 
+interface HomeProps extends  RouteComponentProps<{}>{}
 
-class HomePage extends React.Component{
+interface HomeState{
+}
+
+class HomePage extends React.Component<HomeProps, HomeState>{
+
+    constructor(props: HomeProps) {
+        super(props);
+
+        verifyUserIsLoggedIn().then((value => {
+            if(value){
+                props.history.push('/');
+            }
+        })).catch((error) => {
+           console.log("There was a problem loading the page: " + error);
+        });
+    }
 
     render(){
         return(
             <section style={background}>
-                <MainNavbar logo={logo}></MainNavbar>
+                <MainNavbar logo={logo}/>
 
                 <div id={'missionStatement'}>
                     <div >
@@ -25,7 +43,7 @@ class HomePage extends React.Component{
                         <h3 className={'fontMedium'}>For Controlled Environments</h3>
                     </div>
                     <div id={'missionStatementButton'}>
-                        <Button id={'visualizationRedirectButton'}>Visualization</Button>{' '}
+                        <Button id={'visualizationRedirectButton'} href={"/visualization"}>Visualization</Button>{' '}
                     </div>
                 </div>
 

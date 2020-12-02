@@ -1,26 +1,38 @@
 import React from 'react';
 import {Button, Form, Modal} from "react-bootstrap";
 import {deleteEntry} from "../Entry/deleteEntry";
-import {updateEntry} from "./UpdateEntry";
+import {updateEntry} from "./updateEntry";
 import {entryData} from "../../../utils/getInterfaces/entryData";
 import './EntryEditForm.css';
 import {newHeadingData} from "../../../utils/postInterfaces/newHeadingData";
 import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
-import {postNewHeading} from "./postNewHeading";
+import {postHeading} from "./postHeading";
+import {userData} from "../../../utils/getInterfaces/userData";
+import {deleteWiki} from "../deleteWiki";
+import {headingData} from "../../../utils/getInterfaces/headingData";
+import {wikiData} from "../../../utils/getInterfaces/wikiData";
+import {updateWiki} from "../updateWiki";
+import {deleteHeading} from "./deleteHeading";
+import {updateHeadings} from "./updateHeadings";
 
 
 interface entryEditFormProps{
-    headingEditElements: JSX.Element[],
+    initHeadingData: headingData[],
     entryData: entryData,
-    sideBarData: sideBarData
+    sideBarData: sideBarData,
+    currentUser: userData,
+    wiki: wikiData
 }
 
 interface entryEditFormState{
+    wikiData: wikiData,
     entryData: entryData,
     sideBarData: sideBarData,
+    headingData: headingData[],
     headingEditElements: JSX.Element[],
     sideBarElements: JSX.Element[],
     newHeading: newHeadingData
+    deleteWikiModal: boolean
     deleteEntryModal: boolean
     addHeadingModal: boolean
 }
@@ -29,68 +41,89 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
     constructor(props: entryEditFormProps) {
         super(props);
         this.state = {
+            wikiData: this.props.wiki,
             entryData: {id: 0, title: '', text: '', sideBar: 0, comments: [], contributors: [], headings: [], log: []},
             sideBarData: {id: 0, content: {}},
+            headingData: [],
             headingEditElements: [],
             sideBarElements: [],
             newHeading: {title: '', text: '', log: []},
+            deleteWikiModal: false,
             deleteEntryModal: false,
-            addHeadingModal: false
+            addHeadingModal: false,
         }
-        this.handleEntryDeleteModalHide = this.handleEntryDeleteModalHide.bind(this);
-        this.handleEntryDeleteModalShow = this.handleEntryDeleteModalShow.bind(this);
-        this.handleNewHeadingModalHide = this.handleNewHeadingModalHide.bind(this);
-        this.handleNewHeadingModalShow = this.handleNewHeadingModalShow.bind(this);
-
-        this.handleEntryDeleteSubmit = this.handleEntryDeleteSubmit.bind(this);
-        this.handleEntryUpdateSubmit = this.handleEntryUpdateSubmit.bind(this);
-        this.handleNewHeadingSubmit = this.handleNewHeadingSubmit.bind(this);
-        this.buildSideBarElements = this.buildSideBarElements.bind(this);
     }
 
-    handleEntryDeleteModalHide(){
+    handleWikiDeleteModalHide = () => {
+        this.setState({
+            deleteWikiModal: false
+        })
+    }
+
+    handleWikiDeleteModalShow = () => {
+        this.setState({
+            deleteWikiModal: true
+        })
+    }
+
+    handleEntryDeleteModalHide = () => {
         this.setState({
             deleteEntryModal: false
         })
     }
 
-    handleEntryDeleteModalShow(){
+    handleEntryDeleteModalShow = () => {
         this.setState({
             deleteEntryModal: true
         })
     }
 
-    handleNewHeadingModalHide(){
+    handleNewHeadingModalHide = () => {
         this.setState({
             addHeadingModal: false
         })
     }
 
-    handleNewHeadingModalShow(){
+    handleNewHeadingModalShow = () =>{
         this.setState({
             addHeadingModal: true
         })
     }
 
-    handleEntryDeleteSubmit(){
+    handleWikiDeleteSubmit = () =>{
+        deleteWiki(this.props.wiki);
+    }
+
+    handleEntryDeleteSubmit = () =>{
         deleteEntry(this.props.entryData);
     }
 
-    handleEntryUpdateSubmit(e: React.FormEvent<HTMLFormElement>){
+    handleEditFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         updateEntry(this.state.entryData);
+        updateWiki(this.state.wikiData);
+        updateHeadings(this.state.headingData);
     }
 
-    handleNewHeadingSubmit(e: React.FormEvent<HTMLFormElement>){
+    handleNewHeadingSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
-        postNewHeading(
+        postHeading(
             this.state.newHeading,
             {
                 context: this.state.newHeading.title,
                 textAdded: this.state.newHeading.text,
-                user: 1
+                user: this.props.currentUser.id
             },
             this.props.entryData);
+    }
+
+    handleWikiChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        const wikiInfo = this.state.wikiData;
+        const newWikiInfo = {
+            ...wikiInfo,
+            [e.target.name]: e.target.value
+        }
+        this.setState({wikiData: newWikiInfo})
     }
 
     handleEntryChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -111,6 +144,15 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         this.setState({newHeading: newNewHeadingInfo})
     }
 
+    handleHeadingChange = (e: React.ChangeEvent<HTMLInputElement>) : void => {
+        let index: number = parseInt(e.target.id);
+
+        let newArray = [...this.state.headingData];
+        newArray[index] = {...newArray[index], [e.target.name]: e.target.value};
+
+        this.setState({headingData: newArray}, () => {console.log(this.state.headingData)});
+    }
+
     handleSideBarChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
         let sideBarContentString = JSON.stringify(this.state.sideBarData.content);
 
@@ -126,7 +168,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         })
     }
 
-    buildSideBarElements(){
+    buildSideBarElements = () =>{
         if(this.state.sideBarData.content !== null) {
             for (const [key, value] of Object.entries(this.state.sideBarData.content)) {
                 this.setState({
@@ -141,6 +183,27 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         }
     }
 
+    buildHeadingEditElements = () => {
+        if(this.state.headingData.length > 0) {
+            let i: number;
+            for (i = 0; i < this.state.headingData.length; i++) {
+                this.setState({
+                    headingEditElements: this.state.headingEditElements.concat(
+                        <div>
+                            <Form.Control id={i.toString()} className="heading" as="input"
+                                          defaultValue={this.state.headingData[i].title} name="title"
+                                          onChange={this.handleHeadingChange}></Form.Control>
+                            <Form.Control id={i.toString()} defaultValue={this.state.headingData[i].text} as="textarea"
+                                          rows={4} name="text" onChange={this.handleHeadingChange}></Form.Control>
+                            <Button onClick={() => deleteHeading(this.state.headingData[i].id)}
+                                    variant="danger">Delete</Button>
+                        </div>
+                    )
+                })
+            }
+        }
+    }
+
     componentDidUpdate(prevProps: Readonly<entryEditFormProps>, prevState: Readonly<entryEditFormState>, snapshot?: any) {
         if(prevProps.entryData.id !== this.props.entryData.id){
             setTimeout( () => {
@@ -148,9 +211,11 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                     entryData: this.props.entryData,
                     sideBarData: this.props.sideBarData,
                     sideBarElements: [],
-                    headingEditElements: this.props.headingEditElements
+                    headingData: this.props.initHeadingData,
+                    headingEditElements: []
                 })
                 this.buildSideBarElements();
+                this.buildHeadingEditElements();
             }, 200)
         }
         // else if(prevState.sideBarData.content !== this.state.sideBarData.content){
@@ -169,9 +234,11 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                 entryData: this.props.entryData,
                 sideBarData: this.props.sideBarData,
                 sideBarElements: [],
-                headingEditElements: this.props.headingEditElements
+                headingData: this.props.initHeadingData,
+                headingEditElements: []
             });
             this.buildSideBarElements();
+            this.buildHeadingEditElements();
         }, 200)
 
     }
@@ -179,6 +246,16 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
     render(){
         return(
             <div>
+                <Modal id="deleteWikiModal" show={this.state.deleteWikiModal} onHide={this.handleWikiDeleteModalHide}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Confirmation</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>Confirm deletion of current wiki</p>
+                        <Button variant="danger" type="button" onClick={this.handleWikiDeleteSubmit}>Delete</Button>
+                        <Button className="ml-4" variant="secondary" type="button" onClick={this.handleWikiDeleteModalHide}>Cancel</Button>
+                    </Modal.Body>
+                </Modal>
                 <Modal id="deleteEntryModal" show={this.state.deleteEntryModal} onHide={this.handleEntryDeleteModalHide}>
                     <Modal.Header closeButton>
                         <Modal.Title>Confirmation</Modal.Title>
@@ -205,27 +282,33 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                         </Form>
                     </Modal.Body>
                 </Modal>
-                <Form id="editForm" onSubmit={this.handleEntryUpdateSubmit}>
+                <Form id="editForm" onSubmit={this.handleEditFormSubmit}>
                     <Form.Group>
-                        <Form.Label className="editEntryLabel">Title</Form.Label>
+                        <Form.Label className="editEntryLabel"><u>Wiki Title</u></Form.Label>
+                        <Form.Control id="title" name="title" onChange={this.handleWikiChange} value={this.state.wikiData.title}></Form.Control>
+                        <Form.Label className="editEntryLabel"><u>Wiki Description</u></Form.Label>
+                        <Form.Control id="description" name="briefDescription" onChange={this.handleWikiChange} value={this.state.wikiData.briefDescription}></Form.Control>
+                        <br/>
+                        <Form.Label className="editEntryLabel"><u>Entry Title</u></Form.Label>
                         <Form.Control id="title" name="title" onChange={this.handleEntryChange} value={this.state.entryData.title}></Form.Control>
-                        <Form.Label className="editEntryLabel">Description</Form.Label>
+                        <Form.Label className="editEntryLabel"><u>Entry Description</u></Form.Label>
                         <Form.Control name="text" onChange={this.handleEntryChange} value={this.state.entryData.text}></Form.Control>
-                        <Form.Label className="editEntryLabel">Headings</Form.Label>
+                        <Form.Label className="editEntryLabel"><u>Headings</u></Form.Label>
                         {this.state.headingEditElements}
                     </Form.Group>
                     <Form.Group id="headingButton">
                         <Button onClick={this.handleNewHeadingModalShow}>Add Heading</Button>
                     </Form.Group>
                     <Form.Group id="sideBarLabelGroup">
-                        <Form.Label className="editEntryLabel">Sidebar</Form.Label>
+                        <Form.Label className="editEntryLabel"><u>Sidebar</u></Form.Label>
                     </Form.Group>
                     <Form.Group id="sideBarEdit" >
                         {this.state.sideBarElements}
                     </Form.Group>
                     <Form.Group id="submitGroup">
                         <Button id="submitButton" variant="success" type="submit">Save</Button>
-                        <Button onClick={this.handleEntryDeleteModalShow} variant="danger" type="button">Delete Entry</Button>
+                        <Button onClick={this.handleEntryDeleteModalShow} variant="danger" type="button" className="mr-4">Delete Entry</Button>
+                        <Button onClick={this.handleWikiDeleteModalShow} variant="warning" type="button">Delete Wiki</Button>
                     </Form.Group>
                 </Form>
             </div>

@@ -1,15 +1,14 @@
-import {entryData} from "../../../utils/getInterfaces/entryData";
 import {url} from "../../../utils/DetermineUrl";
 
-export function deleteEntry(entry: entryData){
-    fetch(url+'/entry/delete_entry?id='+entry.id, {
+export function deleteHeading(headingId: number){
+    fetch(url+'/heading/delete_heading?id='+headingId, {
         method: "GET",
         headers:  {
             "Content-Type": "application/json"
         }
     }).then(response => {
         if(!response.ok){
-            console.log("Entry deletion failed...");
+            console.log("Removing heading failed...");
         }else{
             window.location.reload()
         }

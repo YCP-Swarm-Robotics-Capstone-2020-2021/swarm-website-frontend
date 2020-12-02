@@ -1,10 +1,11 @@
 import {newEntryData} from "../../../utils/postInterfaces/newEntryData";
 import {newChangeData} from "../../../utils/postInterfaces/newChangeData";
+import {url} from "../../../utils/DetermineUrl";
 
 export function postEntry(entry: newEntryData, change: newChangeData, wikiId: number, entries: number[]) {
 
     //create a new sidebar for the new entry
-    fetch('http://localhost:8000/sidebar', {
+    fetch(url+'/sidebar', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -19,7 +20,7 @@ export function postEntry(entry: newEntryData, change: newChangeData, wikiId: nu
         entry['sideBar'] = data['id'];
 
         //create inital change
-        fetch('http://localhost:8000/change', {
+        fetch(url+'/change', {
             method: 'POST',
             body: JSON.stringify(change),
             headers: {
@@ -35,7 +36,7 @@ export function postEntry(entry: newEntryData, change: newChangeData, wikiId: nu
             entry['log'] = [data['id']];
 
             //save new entry object
-            fetch('http://localhost:8000/entry', {
+            fetch(url+'/entry', {
                 method: 'POST',
                 body: JSON.stringify(entry),
                 headers: {
@@ -49,7 +50,7 @@ export function postEntry(entry: newEntryData, change: newChangeData, wikiId: nu
             }).then(data => {
 
                 //patch new entry into wiki object
-                fetch('http://localhost:8000/wiki/'+wikiId, {
+                fetch(url+'/wiki/'+wikiId, {
                     method: 'PATCH',
                     body: JSON.stringify({entries: entries.concat(data['id'])}),
                     headers: {

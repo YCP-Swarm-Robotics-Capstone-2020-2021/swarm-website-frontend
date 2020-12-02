@@ -1,7 +1,8 @@
 import {entryData} from "../../../utils/getInterfaces/entryData";
+import {url} from "../../../utils/DetermineUrl";
 
 export function updateEntry(entry: entryData){
-    fetch('http://localhost:8000/entry/'+entry.id, {
+    fetch(url+'/entry/'+entry.id, {
         method: "PUT",
         body: JSON.stringify(entry),
         headers: {

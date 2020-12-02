@@ -1,7 +1,8 @@
 import {newCommentData} from "../../../utils/postInterfaces/newCommentData";
+import {url} from "../../../utils/DetermineUrl";
 
 export function postComment(comment: newCommentData, comments: number[], entryId: number){
-    fetch('http://localhost:8000/comment', {
+    fetch(url+'/comment', {
         method: "POST",
         body: JSON.stringify(comment),
         headers: {
@@ -17,7 +18,7 @@ export function postComment(comment: newCommentData, comments: number[], entryId
         comments = comments.concat(data['id'])
 
         //patch into entry's comment field
-        fetch('http://localhost:8000/entry/'+entryId, {
+        fetch(url+'/entry/'+entryId, {
             method: 'PATCH',
             body: JSON.stringify({comments: comments}),
             headers: {

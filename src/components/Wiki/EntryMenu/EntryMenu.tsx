@@ -4,19 +4,23 @@ import './EntryMenu.css';
 
 import {Button, Card, Form, ListGroup, ListGroupItem, Modal} from 'react-bootstrap';
 import {postEntry} from "./postEntry";
+import {userData} from "../../../utils/getInterfaces/userData";
+import {url} from "../../../utils/DetermineUrl";
 
 interface entryMenuProps{
     action: (entryId: string) => void,
     wikiTitle: string,
     wikiId: number,
     entries: number[],
+    currentUser: userData
 }
 
 interface entryMenuState{
     entryList: JSX.Element[]
     addEntryModalShow: boolean
     newTitle: string,
-    newText: string
+    newText: string,
+    lastUpdated: string
 }
 
 class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
@@ -26,7 +30,8 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
             entryList: [],
             addEntryModalShow: false,
             newTitle: '',
-            newText: ''
+            newText: '',
+            lastUpdated: ''
         }
         this.handleHide = this.handleHide.bind(this);
         this.handleShow = this.handleShow.bind(this);
@@ -70,19 +75,19 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
             title: this.state.newTitle,
             text: this.state.newText,
             sideBar: null,
-            contributors: [1],
+            contributors: [this.props.currentUser.id],
             log: null
         }, {
             context: this.state.newTitle,
             textAdded: this.state.newText,
-            user: 1
+            user: this.props.currentUser.id
         }, this.props.wikiId, this.props.entries)
     }
 
     componentDidMount() {
         setTimeout(() => {
             this.props.entries.forEach(entryId =>
-                fetch('http://localhost:8000/entry/' + entryId, {
+                fetch(url+'/entry/' + entryId, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -95,6 +100,20 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
                                                                               variant="dark">{data['title']}</ListGroupItem>)
                     }))
             );
+
+            fetch(url+'/wiki/get_last_updated?id='+this.props.wikiId, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if(!response.ok){
+                    console.log("Last updated get failed...");
+                }
+                return response.json()
+            }).then(data => {
+                this.setState({lastUpdated: data['date'].substring(0,10)})
+            })
         }, 300);
     }
 
@@ -127,7 +146,7 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
                         </Modal>
 
                     </ListGroup>
-                    <Card.Footer className="text-center">Last Updated 10/23/2020</Card.Footer>
+                    <Card.Footer className="text-center">Last Updated: {this.state.lastUpdated}</Card.Footer>
                 </Card>
             </div>
         );

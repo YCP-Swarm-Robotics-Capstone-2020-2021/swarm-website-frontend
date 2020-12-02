@@ -1,7 +1,8 @@
 import {newWikiData} from "../../utils/postInterfaces/newWikiData";
+import {url} from "../../utils/DetermineUrl";
 
 export function postWiki(wiki: newWikiData){
-    fetch('http://localhost:8000/wiki', {
+    fetch(url+'/wiki', {
         method: "POST",
         body: JSON.stringify(wiki),
         headers:{

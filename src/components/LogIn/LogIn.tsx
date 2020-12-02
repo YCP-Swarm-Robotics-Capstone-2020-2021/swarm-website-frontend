@@ -5,6 +5,7 @@ import './LogIn.css';
 import Image from "../../utils/Image";
 import {Link, RouteComponentProps} from "react-router-dom";
 import {LoginState, verifyUser} from "./LoginApi";
+import {cookies} from '../../utils/Cookies';
 
 const loginLogo = require('../../images/swarmLogoIcon.png');
 const background = backgroundImageStyling();
@@ -38,7 +39,10 @@ class LogIn extends React.Component<LoginProps, LoginState> {
         setTimeout(function (){
             // @ts-ignore, object could possibly be null
             document.getElementById('loginBox').classList.add('fade-in');
-        }, 1)
+        }, 1);
+        
+        let bgNum = Math.floor(Math.random() * 5) + 1;
+        cookies.set('bgNum', bgNum);
     }
 
     handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -57,6 +61,7 @@ class LogIn extends React.Component<LoginProps, LoginState> {
         const response = await verifyUser(this.state.data.username, this.state.data.password);
 
         if(response.Status){
+            cookies.set('username', this.state.data.username);
             this.props.history.push('/home')
         }else{
             this.setState({failedLogin: true});
