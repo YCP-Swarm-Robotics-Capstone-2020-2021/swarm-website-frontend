@@ -6,7 +6,7 @@ import {Button, Card, Form, ListGroup, ListGroupItem, Modal} from 'react-bootstr
 import {postEntry} from "./postEntry";
 import {userData} from "../../../utils/getInterfaces/userData";
 import {url} from "../../../utils/DetermineUrl";
-import {getEntryMenuMember} from "./apiCalls";
+import {getEntryMenuMember, getLastUpdatedDate} from "./apiCalls";
 
 interface entryMenuProps{
     action: (entryId: string) => void,
@@ -102,21 +102,21 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
         }
     }
 
+    getLastUpdatedDate = async () => {
+        let response = await getLastUpdatedDate(this.props.wikiId);
+
+        if(!response.ok){
+            console.log('Issues getting last updated date...');
+        }else{
+            return response.json().then(json => {
+                this.setState({lastUpdated: json['date'].substring(0,10)})
+            })
+        }
+    }
+
     componentDidMount() {
         this.buildEntryMenu();
-        fetch(url+'/wiki/get_last_updated?id='+this.props.wikiId, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(response => {
-            if(!response.ok){
-                console.log("Last updated get failed...");
-            }
-            return response.json()
-        }).then(data => {
-            this.setState({lastUpdated: data['date'].substring(0,10)})
-        })
+        this.getLastUpdatedDate();
     }
 
     render(){
