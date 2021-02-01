@@ -27,34 +27,32 @@ class Landing extends React.Component<landingProps, landingState>{
     }
 
     componentDidMount() {
-        setTimeout(() => {
-            this.props.entries.forEach(entryId => {
-                fetch(url+'/entry/'+entryId,{
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        this.setState({
-                            numComments: this.state.numComments + data['comments'].length,
-                        })
-
-                        //if entry has contributors not accounted for, add to allContributors state var
-                        data['contributors'].forEach((contributorId: number) => {
-                            if(!this.state.allContributors.includes(contributorId)){
-                                this.setState({
-                                    allContributors: this.state.allContributors.concat(contributorId)
-                                })
-                            }
-                        })
+        this.props.entries.forEach(entryId => {
+            fetch(url+'/entry/'+entryId,{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    this.setState({
+                        numComments: this.state.numComments + data['comments'].length,
                     })
-            })
-            this.setState({
-                numEntries: this.props.entries.length
-            })
-        }, 100);
+
+                    //if entry has contributors not accounted for, add to allContributors state var
+                    data['contributors'].forEach((contributorId: number) => {
+                        if(!this.state.allContributors.includes(contributorId)){
+                            this.setState({
+                                allContributors: this.state.allContributors.concat(contributorId)
+                            })
+                        }
+                    })
+                })
+        })
+        this.setState({
+            numEntries: this.props.entries.length
+        })
     }
 
     render(){
