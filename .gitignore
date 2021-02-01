@@ -120,3 +120,4 @@ coverage/
 
 package-lock.json
 .idea/
+webpack-stats.json
