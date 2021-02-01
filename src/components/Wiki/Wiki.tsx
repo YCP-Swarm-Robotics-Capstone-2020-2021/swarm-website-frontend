@@ -3,7 +3,6 @@ import {Redirect, RouteComponentProps} from "react-router";
 import {wikiData} from "../../utils/getInterfaces/wikiData";
 import {userData} from "../../utils/getInterfaces/userData";
 import {Spinner} from 'react-bootstrap';
-import {url} from "../../utils/DetermineUrl";
 
 import './Wiki.css';
 import backgroundImageStyling from "../../styles/backgroundImageStyling";

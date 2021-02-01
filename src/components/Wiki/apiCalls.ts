@@ -1,5 +1,4 @@
 import {url} from '../../utils/DetermineUrl';
-import {cookies} from "../../utils/Cookies";
 
 export async function getWiki(id: string){
     const response = await fetch(url+'/wiki/'+id,{

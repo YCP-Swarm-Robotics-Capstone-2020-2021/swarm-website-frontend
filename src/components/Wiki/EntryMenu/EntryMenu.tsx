@@ -5,7 +5,6 @@ import './EntryMenu.css';
 import {Button, Card, Form, ListGroup, ListGroupItem, Modal} from 'react-bootstrap';
 import {postEntry} from "./postEntry";
 import {userData} from "../../../utils/getInterfaces/userData";
-import {url} from "../../../utils/DetermineUrl";
 import {getEntryMenuMember, getLastUpdatedDate} from "./apiCalls";
 
 interface entryMenuProps{
