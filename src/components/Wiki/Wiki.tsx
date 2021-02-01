@@ -45,9 +45,7 @@ class Wiki extends React.Component<wikiProps, wikiState>{
         })).catch((error) => {
             console.log("There was a problem loading the page: " + error);
         });
-
-        this.rightPaneHandler = this.rightPaneHandler.bind(this);
-
+        
         this.state = {
             view: "landing",
             data: {id: 0, title: '', briefDescription: '', entries: []},
@@ -56,10 +54,10 @@ class Wiki extends React.Component<wikiProps, wikiState>{
         }
     }
 
-    rightPaneHandler(entryId: string){
+    rightPaneHandler = (entryId: string) => {
         this.setState({
             view: entryId
-        });
+        })
     }
 
     componentDidMount() {
