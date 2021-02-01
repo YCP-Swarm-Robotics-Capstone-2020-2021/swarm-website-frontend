@@ -86,7 +86,6 @@ class Wiki extends React.Component<wikiProps, wikiState>{
         }else{
             return response.json().then(json => {
                 this.setState({currentUser: json[0] as userData});
-                console.log(json[0]);
             })
         }
     }

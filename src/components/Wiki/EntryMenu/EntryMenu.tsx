@@ -3,9 +3,8 @@ import React from 'react';
 import './EntryMenu.css';
 
 import {Button, Card, Form, ListGroup, ListGroupItem, Modal} from 'react-bootstrap';
-import {postEntry} from "./postEntry";
 import {userData} from "../../../utils/getInterfaces/userData";
-import {getEntryMenuMember, getLastUpdatedDate} from "./apiCalls";
+import {getEntryMenuMember, getLastUpdatedDate, postEntry} from "./apiCalls";
 
 interface entryMenuProps{
     action: (entryId: string) => void,
@@ -86,16 +85,15 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
             if(!response.ok){
                 console.log("Issues fetching entry menu member "+entryId);
             }else{
-                return response.json().then(json => {
-                    this.setState({
-                        entryList: this.state.entryList.concat(
-                            <ListGroupItem
-                                key={entryId}
-                                onClick={() => this.props.action(entryId.toString())}
-                                variant="dark"
-                            >{json['title']}</ListGroupItem>
-                        )
-                    })
+                let json = await response.json();
+                this.setState({
+                    entryList: this.state.entryList.concat(
+                        <ListGroupItem
+                            key={entryId}
+                            onClick={() => this.props.action(entryId.toString())}
+                            variant="dark"
+                        >{json['title']}</ListGroupItem>
+                    )
                 })
             }
         }
