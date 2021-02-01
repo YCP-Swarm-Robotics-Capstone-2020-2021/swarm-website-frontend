@@ -13,6 +13,7 @@ import Landing from "./Landing/Landing";
 import Entry from "./Entry/Entry";
 import verifyUserIsLoggedIn from "../../utils/verifiyUserIsLoggedIn/verifyLoggedIn";
 import {cookies} from "../../utils/Cookies";
+import {getWiki} from './apiCalls';
 
 //TODO:
 // [x] remake with bootstrap components
@@ -45,7 +46,7 @@ class Wiki extends React.Component<wikiProps, wikiState>{
         })).catch((error) => {
             console.log("There was a problem loading the page: " + error);
         });
-        
+
         this.state = {
             view: "landing",
             data: {id: 0, title: '', briefDescription: '', entries: []},
@@ -60,27 +61,28 @@ class Wiki extends React.Component<wikiProps, wikiState>{
         })
     }
 
+    getWiki = async () => {
+        let id = this.props.match.params.id;
+        let response = await getWiki(id);
+
+        if(!response.ok){
+            this.setState({
+                redirect: true
+            });
+        }else{
+            return response.json().then(json => {
+                json['entries'] = json['entries'].sort();
+                this.setState({data: json as wikiData});
+            })
+        }
+    }
+
     componentDidMount() {
         // @ts-ignore, object could possibly be null
         document.getElementsByTagName("BODY")[0].classList.add('wikiBody');
+        
+        this.getWiki();
 
-        let id = this.props.match.params.id;
-        fetch(url+'/wiki/'+id,{
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => {
-                if(!response.ok){
-                    this.setState({redirect: true})
-                }
-                return response.json()
-            })
-            .then(data => {
-                data['entries'] = data['entries'].sort();
-                this.setState({data: data as wikiData});
-            })
 
         fetch(url+'/user?username='+cookies.get("username"),{
             method: 'GET',
