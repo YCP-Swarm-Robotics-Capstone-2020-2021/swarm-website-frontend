@@ -33,43 +33,38 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
             newText: '',
             lastUpdated: ''
         }
-        this.handleHide = this.handleHide.bind(this);
-        this.handleShow = this.handleShow.bind(this);
-        this.handleTextChange = this.handleTextChange.bind(this);
-        this.handleTitleChange = this.handleTitleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     //modal hide
-    handleHide(){
+    handleHide = () => {
         this.setState({
             addEntryModalShow: false
         })
     }
 
     //modal show
-    handleShow(){
+    handleShow = () => {
         this.setState({
             addEntryModalShow: true
         })
     }
 
     //update state when title is change in form
-    handleTitleChange(e: React.ChangeEvent<HTMLInputElement>){
+    handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             newTitle: e.target.value
         });
     }
 
     //update state when text is change in form
-    handleTextChange(e: React.ChangeEvent<HTMLInputElement>){
+    handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             newText: e.target.value
         });
     }
 
     //submit data based on updated state
-    handleSubmit(e: React.FormEvent<HTMLFormElement>){
+    handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         postEntry({
             title: this.state.newTitle,
