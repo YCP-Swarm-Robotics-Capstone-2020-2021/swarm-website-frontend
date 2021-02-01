@@ -6,6 +6,7 @@ import {Button, Card, Form, ListGroup, ListGroupItem, Modal} from 'react-bootstr
 import {postEntry} from "./postEntry";
 import {userData} from "../../../utils/getInterfaces/userData";
 import {url} from "../../../utils/DetermineUrl";
+import {getEntryMenuMember} from "./apiCalls";
 
 interface entryMenuProps{
     action: (entryId: string) => void,
@@ -79,37 +80,43 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
         }, this.props.wikiId, this.props.entries)
     }
 
-    componentDidMount() {
-        setTimeout(() => {
-            this.props.entries.forEach(entryId =>
-                fetch(url+'/entry/' + entryId, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                    .then(response => response.json())
-                    .then(data => this.setState({
-                        entryList: this.state.entryList.concat(<ListGroupItem key={entryId}
-                                                                              onClick={() => this.props.action(entryId.toString())}
-                                                                              variant="dark">{data['title']}</ListGroupItem>)
-                    }))
-            );
+    buildEntryMenu = async () => {
+        for(const entryId of this.props.entries){
+            let response = await getEntryMenuMember(entryId);
 
-            fetch(url+'/wiki/get_last_updated?id='+this.props.wikiId, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then(response => {
-                if(!response.ok){
-                    console.log("Last updated get failed...");
-                }
-                return response.json()
-            }).then(data => {
-                this.setState({lastUpdated: data['date'].substring(0,10)})
-            })
-        }, 300);
+            if(!response.ok){
+                console.log("Issues fetching entry menu member "+entryId);
+            }else{
+                return response.json().then(json => {
+                    this.setState({
+                        entryList: this.state.entryList.concat(
+                            <ListGroupItem
+                                key={entryId}
+                                onClick={() => this.props.action(entryId.toString())}
+                                variant="dark"
+                            >{json['title']}</ListGroupItem>
+                        )
+                    })
+                })
+            }
+        }
+    }
+
+    componentDidMount() {
+        this.buildEntryMenu();
+        fetch(url+'/wiki/get_last_updated?id='+this.props.wikiId, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(response => {
+            if(!response.ok){
+                console.log("Last updated get failed...");
+            }
+            return response.json()
+        }).then(data => {
+            this.setState({lastUpdated: data['date'].substring(0,10)})
+        })
     }
 
     render(){

@@ -2,6 +2,7 @@ import React from 'react';
 import {Redirect, RouteComponentProps} from "react-router";
 import {wikiData} from "../../utils/getInterfaces/wikiData";
 import {userData} from "../../utils/getInterfaces/userData";
+import {Spinner} from 'react-bootstrap';
 import {url} from "../../utils/DetermineUrl";
 
 import './Wiki.css';
@@ -111,7 +112,7 @@ class Wiki extends React.Component<wikiProps, wikiState>{
             <section style={background}>
                 <MainNavbar logo={logo} />
                 <div id='contentWiki'>
-                  <EntryMenu action={this.rightPaneHandler} wikiTitle={this.state.data.title} wikiId={this.state.data.id} entries={this.state.data.entries} currentUser={this.state.currentUser}/>
+                    {this.state.data.id !== 0 ? <EntryMenu action={this.rightPaneHandler} wikiTitle={this.state.data.title} wikiId={this.state.data.id} entries={this.state.data.entries} currentUser={this.state.currentUser}/> : <Spinner animation='border'/>}
                   <div id='rightPane' className="bg-dark">
                       {rightPaneComponent}
                   </div>
