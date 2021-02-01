@@ -13,7 +13,7 @@ import Landing from "./Landing/Landing";
 import Entry from "./Entry/Entry";
 import verifyUserIsLoggedIn from "../../utils/verifiyUserIsLoggedIn/verifyLoggedIn";
 import {cookies} from "../../utils/Cookies";
-import {getWiki} from './apiCalls';
+import {getWiki, getUser} from './apiCalls';
 
 //TODO:
 // [x] remake with bootstrap components
@@ -77,28 +77,26 @@ class Wiki extends React.Component<wikiProps, wikiState>{
         }
     }
 
+    getUser = async () => {
+        let username = cookies.get("username");
+        let response = await getUser(username);
+
+        if(!response.ok){
+            console.log("Issue fetching user data...");
+        }else{
+            return response.json().then(json => {
+                this.setState({currentUser: json[0] as userData});
+                console.log(json[0]);
+            })
+        }
+    }
+
     componentDidMount() {
         // @ts-ignore, object could possibly be null
         document.getElementsByTagName("BODY")[0].classList.add('wikiBody');
-        
+
         this.getWiki();
-
-
-        fetch(url+'/user?username='+cookies.get("username"),{
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => {
-                if(!response.ok){
-                    console.log("Issue fetching user data...");
-                }
-                return response.json()
-            })
-            .then(data => {
-                this.setState({currentUser: data[0] as userData});
-            })
+        this.getUser();
     }
 
     render(){
