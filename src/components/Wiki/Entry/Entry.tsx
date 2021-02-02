@@ -7,7 +7,6 @@ import {commentData} from "../../../utils/getInterfaces/commentData";
 import {headingData} from "../../../utils/getInterfaces/headingData";
 import {newCommentData} from "../../../utils/postInterfaces/newCommentData";
 import {deleteHeading} from "../EntryEditForm/deleteHeading";
-import {postComment} from "./postComment";
 import {deleteComment} from "./deleteComment";
 
 import './Entry.css';
@@ -15,7 +14,7 @@ import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
 import {userData} from "../../../utils/getInterfaces/userData";
 import {url} from "../../../utils/DetermineUrl";
 import {wikiData} from "../../../utils/getInterfaces/wikiData";
-import {getEntry, getComment, getUser, getHeading, getSideBar} from "./apiCalls";
+import {getEntry, getComment, getUser, getHeading, getSideBar, postComment} from "./apiCalls";
 const logo = require('../../../images/swarmLogoIcon.png');
 
 /*
