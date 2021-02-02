@@ -7,14 +7,12 @@ import {commentData} from "../../../utils/getInterfaces/commentData";
 import {headingData} from "../../../utils/getInterfaces/headingData";
 import {newCommentData} from "../../../utils/postInterfaces/newCommentData";
 import {deleteHeading} from "../EntryEditForm/deleteHeading";
-import {deleteComment} from "./deleteComment";
 
 import './Entry.css';
 import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
 import {userData} from "../../../utils/getInterfaces/userData";
-import {url} from "../../../utils/DetermineUrl";
 import {wikiData} from "../../../utils/getInterfaces/wikiData";
-import {getEntry, getComment, getUser, getHeading, getSideBar, postComment} from "./apiCalls";
+import {getEntry, getComment, getUser, getHeading, getSideBar, postComment, deleteComment} from "./apiCalls";
 const logo = require('../../../images/swarmLogoIcon.png');
 
 /*
@@ -117,6 +115,17 @@ class Entry extends React.Component<entryProps, entryState>{
             text: this.state.newComment.text,
             user: this.props.currentUser.id
         }, this.state.data.comments, this.state.data.id)
+    }
+
+    handleDeleteCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        let response = await deleteComment(this.state.commentToDelete);
+
+        if(!response.ok){
+            console.log("Removing comment failed...");
+        }else{
+            window.location.reload();
+        }
     }
 
     getEntry = async () => {
@@ -253,8 +262,8 @@ class Entry extends React.Component<entryProps, entryState>{
                         </Modal.Header>
                         <Modal.Body>
                             <p>Are you sure you want to delete this comment?</p>
-                            <Form>
-                                <Button variant="danger" type="button" onClick={() => deleteComment(this.state.commentToDelete)}>Delete</Button>
+                            <Form onSubmit={this.handleDeleteCommentSubmit}>
+                                <Button variant="danger" type="submit">Delete</Button>
                                 <Button className="ml-4" variant="secondary" type="button" onClick={this.handleDeleteCommentHide}>Cancel</Button>
                             </Form>
                         </Modal.Body>

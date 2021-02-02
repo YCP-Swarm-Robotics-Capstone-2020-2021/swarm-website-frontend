@@ -83,3 +83,13 @@ export async function postComment(comment: newCommentData, comments: number[], e
         }
     }
 }
+
+export async function deleteComment(commentId: number){
+    let response = await fetch(url+'/comment/'+commentId, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    return response;
+}
