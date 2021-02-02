@@ -6,7 +6,6 @@ import {entryData} from "../../../utils/getInterfaces/entryData";
 import {commentData} from "../../../utils/getInterfaces/commentData";
 import {headingData} from "../../../utils/getInterfaces/headingData";
 import {newCommentData} from "../../../utils/postInterfaces/newCommentData";
-import {deleteHeading} from "../EntryEditForm/deleteHeading";
 
 import './Entry.css';
 import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
