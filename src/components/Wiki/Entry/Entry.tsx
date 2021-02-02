@@ -15,6 +15,7 @@ import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
 import {userData} from "../../../utils/getInterfaces/userData";
 import {url} from "../../../utils/DetermineUrl";
 import {wikiData} from "../../../utils/getInterfaces/wikiData";
+import {getEntry, getComment, getUser, getHeading, getSideBar} from "./apiCalls";
 const logo = require('../../../images/swarmLogoIcon.png');
 
 /*
@@ -119,108 +120,74 @@ class Entry extends React.Component<entryProps, entryState>{
         }, this.state.data.comments, this.state.data.id)
     }
 
-    getEntry(){
-        fetch(url+'/entry/' + this.props.id, {
-            method: 'GET',
-            headers:{
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                this.setState({data: data as entryData})
-            })
-            .then(() => {
-                //get commentData/commentElements
-                this.state.data.comments.forEach(commentId => {
-                    fetch(url+'/comment/' + commentId, {
-                        method: 'GET',
-                        headers:{
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            let commentData = data as commentData;
-                            fetch(url+'/user/'+data['user'], {
-                                method: 'GET',
-                                headers:{
-                                    'Content-Type': 'application/json'
-                                }
-                            }).then(response => {
-                                if(!response.ok){
-                                    console.log("error retrieving user information for comment "+commentId);
-                                }else{
-                                    return response.json()
-                                }
-                            }).then(data => {
-                                let deleteButton: JSX.Element = <></>;
-                                if(commentData['user'] === this.props.currentUser.id){
-                                    deleteButton = <Button className="ml-1" variant="danger" size="sm" onClick={() => this.handleDeleteCommentShow(commentData['id'])}><span>x</span></Button>;
-                                }
-                                this.setState({
-                                    comments: this.state.comments.concat(data as commentData),
-                                    commentElements: this.state.commentElements.concat(
-                                        <Toast id={"comment"+commentData['id']} key={commentId} className='comment'>
-                                            <Toast.Header>
-                                                <Image src={logo} roundedCircle width={25} height={25}/>
-                                                <strong className="mr-auto ml-2" id={"commentUser"+commentData['id']}>{data['username']}</strong>
-                                                <small className="mr-1">{commentData['dateTime'].substring(0,10)}</small>
-                                                <Button id="replyButton" variant="success" className="ml-1" size="sm" onClick={() => this.handleReplyShow(commentData['id'].toString())}><small>reply</small></Button>
-                                                {deleteButton}
-                                            </Toast.Header>
-                                            <Toast.Body id={"commentText"+commentData['id']}>{commentData['text']}</Toast.Body>
-                                        </Toast>
-                                    )
-                                })
-                            })
-                        })
-                })
+    getEntry = async () => {
+        //get entry data
+        let responseEntries = await getEntry(this.props.id);
+        let jsonEntries = await responseEntries.json();
 
-                //get headingData/headingElements
-                this.state.data.headings.forEach(headingId => {
-                    fetch(url+'/heading/'+headingId, {
-                        method: 'GET',
-                        headers:{
-                            "Content-type": "application/json"
-                        }
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            this.setState({
-                                headings: this.state.headings.concat(data as headingData),
-                                headingElements: this.state.headingElements.concat(
-                                    <div id="headingDiv">
-                                        <Card.Title>{data['title']}</Card.Title>
-                                        <Card.Text>{data['text']}</Card.Text>
-                                    </div>
-                                )
-                            })
-                        })
-                })
+        this.setState({
+            data: jsonEntries as entryData
+        })
+
+        //get comment data/build elements
+        for(const commentId of jsonEntries['comments']){
+            let responseComments = await getComment(commentId);
+            let jsonComment = await responseComments.json();
+
+            let responseUser = await getUser(jsonComment['user']);
+            let jsonUser = await responseUser.json();
+
+            let deleteButton: JSX.Element = <></>;
+            if(jsonComment['user'] === this.props.currentUser.id){
+                deleteButton = <Button className="ml-1" variant="danger" size="sm" onClick={() => this.handleDeleteCommentShow(jsonComment['id'])}><span>x</span></Button>;
+            }
+            this.setState({
+                comments: this.state.comments.concat(jsonComment as commentData),
+                commentElements: this.state.commentElements.concat(
+                    <Toast id={"comment"+jsonComment['id']} key={commentId} className='comment'>
+                        <Toast.Header>
+                            <Image src={logo} roundedCircle width={25} height={25}/>
+                            <strong className="mr-auto ml-2" id={"commentUser"+jsonComment['id']}>{jsonUser['username']}</strong>
+                            <small className="mr-1">{jsonComment['dateTime'].substring(0,10)}</small>
+                            <Button id="replyButton" variant="success" className="ml-1" size="sm" onClick={() => this.handleReplyShow(jsonComment['id'].toString())}><small>reply</small></Button>
+                            {deleteButton}
+                        </Toast.Header>
+                        <Toast.Body id={"commentText"+jsonComment['id']}>{jsonComment['text']}</Toast.Body>
+                    </Toast>
+                )
             })
-            .then(() => {
-                //get sidebar
-                fetch(url+'/sidebar/'+this.state.data.sideBar, {
-                    method: 'GET',
-                    headers:{
-                        'Content-Type': 'application/json'
-                    }
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        this.setState({sideBar: data as sideBarData})
-                        if(this.state.sideBar.content !== null){
-                            for (const [key, value] of Object.entries(this.state.sideBar.content)) {
-                                this.setState({
-                                    sideBarElements: this.state.sideBarElements.concat(
-                                        <Card.Text><span className="sideBarKey"><b>{key}</b></span> <span className="sideBarValue">{value}</span></Card.Text>
-                                    )
-                                })
-                            }
-                        }
-                    })
+        }
+
+        //get heading data/build elements
+        for(const headingId of jsonEntries['headings']){
+            let responseHeading = await getHeading(headingId);
+            let jsonHeading = await responseHeading.json();
+
+            this.setState({
+                headings: this.state.headings.concat(jsonHeading as headingData),
+                headingElements: this.state.headingElements.concat(
+                    <div id="headingDiv">
+                        <Card.Title>{jsonHeading['title']}</Card.Title>
+                        <Card.Text>{jsonHeading['text']}</Card.Text>
+                    </div>
+                )
             })
+        }
+
+        //get sideBar data/build elements
+        let responseSideBar = await getSideBar(jsonEntries['sideBar']);
+        let jsonSideBar = await responseSideBar.json();
+
+        this.setState({sideBar: jsonSideBar as sideBarData})
+        if(this.state.sideBar.content !== null){
+            for (const [key, value] of Object.entries(this.state.sideBar.content)) {
+                this.setState({
+                    sideBarElements: this.state.sideBarElements.concat(
+                        <Card.Text><span className="sideBarKey"><b>{key}</b></span> <span className="sideBarValue">{value}</span></Card.Text>
+                    )
+                })
+            }
+        }
     }
 
 
