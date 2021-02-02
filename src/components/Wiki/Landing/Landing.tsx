@@ -1,9 +1,9 @@
 import React from 'react';
-import {url} from "../../../utils/DetermineUrl";
 
 import {Card} from 'react-bootstrap';
 
 import './Landing.css';
+import {getEntryStats} from "./apiCalls";
 
 interface landingProps{
     entries: number[],
@@ -26,33 +26,31 @@ class Landing extends React.Component<landingProps, landingState>{
         }
     }
 
-    componentDidMount() {
-        this.props.entries.forEach(entryId => {
-            fetch(url+'/entry/'+entryId,{
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
+    buildLandingStats = async () => {
+        for(const entryId of this.props.entries){
+            let response = await getEntryStats(entryId);
+            let json = await response.json();
+
+            this.setState({
+                numComments: this.state.numComments + json['comments'].length
+            })
+
+            json['contributors'].forEach((contributorId: number) => {
+                if(!this.state.allContributors.includes(contributorId)){
+                    this.setState({
+                        allContributors: this.state.allContributors.concat(contributorId)
+                    })
                 }
             })
-                .then(response => response.json())
-                .then(data => {
-                    this.setState({
-                        numComments: this.state.numComments + data['comments'].length,
-                    })
+        }
 
-                    //if entry has contributors not accounted for, add to allContributors state var
-                    data['contributors'].forEach((contributorId: number) => {
-                        if(!this.state.allContributors.includes(contributorId)){
-                            this.setState({
-                                allContributors: this.state.allContributors.concat(contributorId)
-                            })
-                        }
-                    })
-                })
-        })
         this.setState({
             numEntries: this.props.entries.length
         })
+    }
+
+    componentDidMount() {
+        this.buildLandingStats()
     }
 
     render(){
