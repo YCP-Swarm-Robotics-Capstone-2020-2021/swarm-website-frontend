@@ -3,9 +3,8 @@ import React from 'react';
 import './EntryMenu.css';
 
 import {Button, Card, Form, ListGroup, ListGroupItem, Modal} from 'react-bootstrap';
-import {postEntry} from "./postEntry";
 import {userData} from "../../../utils/getInterfaces/userData";
-import {url} from "../../../utils/DetermineUrl";
+import {getEntryMenuMember, getLastUpdatedDate, postEntry} from "./apiCalls";
 
 interface entryMenuProps{
     action: (entryId: string) => void,
@@ -33,43 +32,38 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
             newText: '',
             lastUpdated: ''
         }
-        this.handleHide = this.handleHide.bind(this);
-        this.handleShow = this.handleShow.bind(this);
-        this.handleTextChange = this.handleTextChange.bind(this);
-        this.handleTitleChange = this.handleTitleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     //modal hide
-    handleHide(){
+    handleHide = () => {
         this.setState({
             addEntryModalShow: false
         })
     }
 
     //modal show
-    handleShow(){
+    handleShow = () => {
         this.setState({
             addEntryModalShow: true
         })
     }
 
     //update state when title is change in form
-    handleTitleChange(e: React.ChangeEvent<HTMLInputElement>){
+    handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             newTitle: e.target.value
         });
     }
 
     //update state when text is change in form
-    handleTextChange(e: React.ChangeEvent<HTMLInputElement>){
+    handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             newText: e.target.value
         });
     }
 
     //submit data based on updated state
-    handleSubmit(e: React.FormEvent<HTMLFormElement>){
+    handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         postEntry({
             title: this.state.newTitle,
@@ -84,37 +78,42 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
         }, this.props.wikiId, this.props.entries)
     }
 
-    componentDidMount() {
-        setTimeout(() => {
-            this.props.entries.forEach(entryId =>
-                fetch(url+'/entry/' + entryId, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                    .then(response => response.json())
-                    .then(data => this.setState({
-                        entryList: this.state.entryList.concat(<ListGroupItem key={entryId}
-                                                                              onClick={() => this.props.action(entryId.toString())}
-                                                                              variant="dark">{data['title']}</ListGroupItem>)
-                    }))
-            );
+    buildEntryMenu = async () => {
+        for(const entryId of this.props.entries){
+            let response = await getEntryMenuMember(entryId);
 
-            fetch(url+'/wiki/get_last_updated?id='+this.props.wikiId, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then(response => {
-                if(!response.ok){
-                    console.log("Last updated get failed...");
-                }
-                return response.json()
-            }).then(data => {
-                this.setState({lastUpdated: data['date'].substring(0,10)})
+            if(!response.ok){
+                console.log("Issues fetching entry menu member "+entryId);
+            }else{
+                let json = await response.json();
+                this.setState({
+                    entryList: this.state.entryList.concat(
+                        <ListGroupItem
+                            key={entryId}
+                            onClick={() => this.props.action(entryId.toString())}
+                            variant="dark"
+                        >{json['title']}</ListGroupItem>
+                    )
+                })
+            }
+        }
+    }
+
+    getLastUpdatedDate = async () => {
+        let response = await getLastUpdatedDate(this.props.wikiId);
+
+        if(!response.ok){
+            console.log('Issues getting last updated date...');
+        }else{
+            return response.json().then(json => {
+                this.setState({lastUpdated: json['date'].substring(0,10)})
             })
-        }, 300);
+        }
+    }
+
+    componentDidMount() {
+        this.buildEntryMenu();
+        this.getLastUpdatedDate();
     }
 
     render(){

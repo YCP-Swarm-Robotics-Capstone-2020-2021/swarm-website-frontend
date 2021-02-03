@@ -2,7 +2,7 @@ import React from 'react';
 import {Redirect, RouteComponentProps} from "react-router";
 import {wikiData} from "../../utils/getInterfaces/wikiData";
 import {userData} from "../../utils/getInterfaces/userData";
-import {url} from "../../utils/DetermineUrl";
+import {Spinner} from 'react-bootstrap';
 
 import './Wiki.css';
 import backgroundImageStyling from "../../styles/backgroundImageStyling";
@@ -13,6 +13,7 @@ import Landing from "./Landing/Landing";
 import Entry from "./Entry/Entry";
 import verifyUserIsLoggedIn from "../../utils/verifiyUserIsLoggedIn/verifyLoggedIn";
 import {cookies} from "../../utils/Cookies";
+import {getWiki, getUser} from './apiCalls';
 
 //TODO:
 // [x] remake with bootstrap components
@@ -46,8 +47,6 @@ class Wiki extends React.Component<wikiProps, wikiState>{
             console.log("There was a problem loading the page: " + error);
         });
 
-        this.rightPaneHandler = this.rightPaneHandler.bind(this);
-
         this.state = {
             view: "landing",
             data: {id: 0, title: '', briefDescription: '', entries: []},
@@ -56,49 +55,47 @@ class Wiki extends React.Component<wikiProps, wikiState>{
         }
     }
 
-    rightPaneHandler(entryId: string){
+    rightPaneHandler = (entryId: string) => {
         this.setState({
             view: entryId
-        });
+        })
+    }
+
+    getWiki = async () => {
+        let id = this.props.match.params.id;
+        let response = await getWiki(id);
+
+        if(!response.ok){
+            this.setState({
+                redirect: true
+            });
+        }else{
+            return response.json().then(json => {
+                json['entries'] = json['entries'].sort();
+                this.setState({data: json as wikiData});
+            })
+        }
+    }
+
+    getUser = async () => {
+        let username = cookies.get("username");
+        let response = await getUser(username);
+
+        if(!response.ok){
+            console.log("Issue fetching user data...");
+        }else{
+            return response.json().then(json => {
+                this.setState({currentUser: json[0] as userData});
+            })
+        }
     }
 
     componentDidMount() {
         // @ts-ignore, object could possibly be null
         document.getElementsByTagName("BODY")[0].classList.add('wikiBody');
 
-        let id = this.props.match.params.id;
-        fetch(url+'/wiki/'+id,{
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => {
-                if(!response.ok){
-                    this.setState({redirect: true})
-                }
-                return response.json()
-            })
-            .then(data => {
-                data['entries'] = data['entries'].sort();
-                this.setState({data: data as wikiData});
-            })
-
-        fetch(url+'/user?username='+cookies.get("username"),{
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => {
-                if(!response.ok){
-                    console.log("Issue fetching user data...");
-                }
-                return response.json()
-            })
-            .then(data => {
-                this.setState({currentUser: data[0] as userData});
-            })
+        this.getWiki();
+        this.getUser();
     }
 
     render(){
@@ -113,9 +110,9 @@ class Wiki extends React.Component<wikiProps, wikiState>{
             <section style={background}>
                 <MainNavbar logo={logo} />
                 <div id='contentWiki'>
-                  <EntryMenu action={this.rightPaneHandler} wikiTitle={this.state.data.title} wikiId={this.state.data.id} entries={this.state.data.entries} currentUser={this.state.currentUser}/>
+                    {this.state.data.id !== 0 ? <EntryMenu action={this.rightPaneHandler} wikiTitle={this.state.data.title} wikiId={this.state.data.id} entries={this.state.data.entries} currentUser={this.state.currentUser}/> : <Spinner animation='border'/>}
                   <div id='rightPane' className="bg-dark">
-                      {rightPaneComponent}
+                      {this.state.data.id !== 0 ? rightPaneComponent : <Spinner animation='border'/>}
                   </div>
                 </div>
             </section>
