@@ -14,15 +14,17 @@ interface LoginData{
 
 export async function verifyUser(username: string, password: string){
     const response = await fetch(
-        url + "/user/verify_password?username=" +
-        username + "&password=" + password, {
-        method: 'GET',
+        url + "/user/verify_password", {
+        method: 'POST',
         headers: {
-            'Content-Type': 'application-json'
-        }})
+            'Content-Type': 'application/json'
+            },
+        body: JSON.stringify({
+            username: username,
+            password: password
+            })
+        })
 
-    const responseToJson = await response.json();
-
-    return responseToJson;
+    return await response.json();
 
 }
