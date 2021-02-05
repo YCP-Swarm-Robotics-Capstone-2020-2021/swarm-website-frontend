@@ -44,7 +44,7 @@ class Dog extends React.Component<{}, dogState>{
                 <MainNavbar logo={logo} />
                 <div id='contentDog'>
                     <div>
-                        <img src={this.state.url}></img>
+                        <img src={this.state.url} alt='A dog'></img>
                     </div>
                 </div>
             </section>

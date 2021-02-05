@@ -241,7 +241,7 @@ class Entry extends React.Component<entryProps, entryState>{
         if(this.props.currentUser.accountLevel === 0){
             editTabElements =
                 <Tab eventKey="edit" title="Edit" transition={false}>
-                    <EntryEditForm initHeadingData={this.state.headings} entryData={this.state.data} sideBarData={this.state.sideBar} currentUser={this.props.currentUser} wiki={this.props.wiki}></EntryEditForm>
+                    <EntryEditForm initHeadingData={this.state.headings} entryData={this.state.data} sideBarData={this.state.sideBar} currentUser={this.props.currentUser} wiki={this.props.wiki} reloadEntry={this.reloadEntry}></EntryEditForm>
                 </Tab>;
         }
         return(

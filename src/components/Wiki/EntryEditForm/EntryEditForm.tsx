@@ -21,7 +21,8 @@ interface entryEditFormProps{
     entryData: entryData,
     sideBarData: sideBarData,
     currentUser: userData,
-    wiki: wikiData
+    wiki: wikiData,
+    reloadEntry: () => void
 }
 
 interface entryEditFormState{
