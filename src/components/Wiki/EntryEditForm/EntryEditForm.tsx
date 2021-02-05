@@ -6,7 +6,6 @@ import {entryData} from "../../../utils/getInterfaces/entryData";
 import './EntryEditForm.css';
 import {newHeadingData} from "../../../utils/postInterfaces/newHeadingData";
 import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
-import {postHeading} from "./postHeading";
 import {userData} from "../../../utils/getInterfaces/userData";
 import {deleteWiki} from "../deleteWiki";
 import {headingData} from "../../../utils/getInterfaces/headingData";
@@ -14,6 +13,8 @@ import {wikiData} from "../../../utils/getInterfaces/wikiData";
 import {updateWiki} from "../updateWiki";
 import {deleteHeading} from "./deleteHeading";
 import {updateHeadings} from "./updateHeadings";
+
+import {postHeading} from "./apiCalls";
 
 
 interface entryEditFormProps{
@@ -106,9 +107,9 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         updateHeadings(this.state.headingData);
     }
 
-    handleNewHeadingSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
+    handleNewHeadingSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
-        postHeading(
+        let result = await postHeading(
             this.state.newHeading,
             {
                 context: this.state.newHeading.title,
@@ -116,6 +117,14 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                 user: this.props.currentUser.id
             },
             this.props.entryData);
+
+        if(result){
+            this.setState({
+                newHeading: {title: '', text: '', log: []}
+            })
+            this.handleNewHeadingModalHide();
+            this.props.reloadEntry();
+        }
     }
 
     handleWikiChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
