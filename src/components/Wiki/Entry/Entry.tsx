@@ -142,7 +142,8 @@ class Entry extends React.Component<entryProps, entryState>{
         if(!response.ok){
             console.log("Removing comment failed...");
         }else{
-            window.location.reload();
+            this.handleDeleteCommentHide();
+            this.reloadEntry();
         }
     }
 
