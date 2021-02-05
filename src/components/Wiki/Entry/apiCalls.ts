@@ -77,9 +77,10 @@ export async function postComment(comment: newCommentData, comments: number[], e
         })
 
         if(!responseEntry.ok){
-            console.log("Patching entry w/ new comment failed...")
+            console.log("Patching entry w/ new comment failed...");
+            return false;
         }else{
-            window.location.reload();
+            return true;
         }
     }
 }
