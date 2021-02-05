@@ -196,16 +196,16 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
     buildHeadingEditElements = () => {
         if(this.state.headingData.length > 0) {
             let i: number;
-            for (i = 0; i < this.state.headingData.length; i++) {
+            for(const heading of this.state.headingData) {
                 this.setState({
                     headingEditElements: this.state.headingEditElements.concat(
                         <div>
-                            <Form.Control id={i.toString()} className="heading" as="input"
-                                          defaultValue={this.state.headingData[i].title} name="title"
+                            <Form.Control id={this.state.headingData.indexOf(heading).toString()} className="heading" as="input"
+                                          defaultValue={heading.title} name="title"
                                           onChange={this.handleHeadingChange}></Form.Control>
-                            <Form.Control id={i.toString()} defaultValue={this.state.headingData[i].text} as="textarea"
+                            <Form.Control id={this.state.headingData.indexOf(heading).toString()} defaultValue={heading.text} as="textarea"
                                           rows={4} name="text" onChange={this.handleHeadingChange}></Form.Control>
-                            <Button onClick={() => deleteHeading(this.state.headingData[i].id)}
+                            <Button onClick={() => deleteHeading(heading.id)}
                                     variant="danger">Delete</Button>
                         </div>
                     )
@@ -246,9 +246,10 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                 sideBarElements: [],
                 headingData: this.props.initHeadingData,
                 headingEditElements: []
+            }, () => {
+                this.buildSideBarElements();
+                this.buildHeadingEditElements();
             });
-            this.buildSideBarElements();
-            this.buildHeadingEditElements();
         }, 200)
 
     }
