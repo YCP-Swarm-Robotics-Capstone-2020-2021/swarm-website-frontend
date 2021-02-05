@@ -11,10 +11,9 @@ import {deleteWiki} from "../deleteWiki";
 import {headingData} from "../../../utils/getInterfaces/headingData";
 import {wikiData} from "../../../utils/getInterfaces/wikiData";
 import {updateWiki} from "../updateWiki";
-import {deleteHeading} from "./deleteHeading";
 import {updateHeadings} from "./updateHeadings";
 
-import {postHeading} from "./apiCalls";
+import {postHeading, deleteHeading} from "./apiCalls";
 
 
 interface entryEditFormProps{
@@ -92,8 +91,17 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         })
     }
 
-    handleWikiDeleteSubmit = () =>{
+    handleWikiDeleteSubmit = async () =>{
         deleteWiki(this.props.wiki);
+    }
+
+    handleDeleteHeadingSubmit = async (headingId: string) => {
+        let response = await deleteHeading(headingId);
+        if(!response.ok){
+            console.log("Removing heading failed...");
+        }else{
+            this.props.reloadEntry();
+        }
     }
 
     handleEntryDeleteSubmit = () =>{
@@ -205,7 +213,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                                           onChange={this.handleHeadingChange}></Form.Control>
                             <Form.Control id={this.state.headingData.indexOf(heading).toString()} defaultValue={heading.text} as="textarea"
                                           rows={4} name="text" onChange={this.handleHeadingChange}></Form.Control>
-                            <Button onClick={() => deleteHeading(heading.id)}
+                            <Button onClick={() => this.handleDeleteHeadingSubmit(heading.id.toString())}
                                     variant="danger">Delete</Button>
                         </div>
                     )
