@@ -8,6 +8,7 @@ import {getEntryMenuMember, getLastUpdatedDate, postEntry} from "./apiCalls";
 
 interface entryMenuProps{
     action: (entryId: string) => void,
+    reloadWiki: () => void,
     wikiTitle: string,
     wikiId: number,
     entries: number[],
@@ -32,6 +33,18 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
             newText: '',
             lastUpdated: ''
         }
+    }
+
+    //need to reloadWiki as the Wiki component passes the entry list via props.
+    reloadEntryMenu = () => {
+        this.setState({
+            entryList: [],
+            lastUpdated: ''
+        }, () => {
+            this.props.reloadWiki();
+            this.reloadEntryMenu();
+            this.getLastUpdatedDate();
+        })
     }
 
     //modal hide
@@ -63,9 +76,9 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
     }
 
     //submit data based on updated state
-    handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        postEntry({
+        let result = await postEntry({
             title: this.state.newTitle,
             text: this.state.newText,
             sideBar: null,
@@ -76,6 +89,11 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
             textAdded: this.state.newText,
             user: this.props.currentUser.id
         }, this.props.wikiId, this.props.entries)
+
+        if(result){
+            this.handleHide();
+            this.reloadEntryMenu();
+        }
     }
 
     buildEntryMenu = async () => {

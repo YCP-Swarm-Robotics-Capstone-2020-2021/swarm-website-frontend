@@ -34,7 +34,7 @@ export async function postEntry(entry: newEntryData, change: newChangeData, wiki
 
     if(!responseSideBar.ok){
         console.log("Saving new sideBar failed...");
-        return;
+        return false;
     }else{
         //initial sideBar posted, create initial Change
         let jsonSideBar = await responseSideBar.json();
@@ -50,7 +50,7 @@ export async function postEntry(entry: newEntryData, change: newChangeData, wiki
 
         if(!responseInitChange.ok){
             console.log("Saving new change failed...");
-            return;
+            return false;
         }else{
             //initial Change posted, create entry object
             let jsonInitChange = await responseInitChange.json()
@@ -66,7 +66,7 @@ export async function postEntry(entry: newEntryData, change: newChangeData, wiki
 
             if(!responseEntry.ok){
                 console.log('Saving new entry failed...');
-                return;
+                return false;
             }else{
                 //entry posted, patch entry into wiki
                 let jsonEntry = await responseEntry.json();
@@ -83,7 +83,7 @@ export async function postEntry(entry: newEntryData, change: newChangeData, wiki
                 if(!responseWiki.ok){
                     console.log("Patching wiki w/ new entry failed...");
                 }else{
-                    window.location.reload();
+                    return true;
                 }
             }
         }
