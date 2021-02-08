@@ -76,3 +76,14 @@ export async function deleteWiki(wiki: wikiData){
 
     return response;
 }
+
+export async function deleteEntry(entry: entryData){
+    let response = await fetch(url+'/entry/delete_entry?id='+entry.id, {
+        method: "GET",
+        headers:  {
+            "Content-Type": "application/json"
+        }
+    })
+
+    return response;
+}

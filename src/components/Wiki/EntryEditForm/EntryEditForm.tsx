@@ -1,6 +1,5 @@
 import React from 'react';
 import {Button, Form, Modal} from "react-bootstrap";
-import {deleteEntry} from "../Entry/deleteEntry";
 import {updateEntry} from "./updateEntry";
 import {entryData} from "../../../utils/getInterfaces/entryData";
 import './EntryEditForm.css';
@@ -12,7 +11,7 @@ import {wikiData} from "../../../utils/getInterfaces/wikiData";
 import {updateWiki} from "../updateWiki";
 import {updateHeadings} from "./updateHeadings";
 
-import {postHeading, deleteHeading, deleteWiki} from "./apiCalls";
+import {postHeading, deleteHeading, deleteWiki, deleteEntry} from "./apiCalls";
 
 
 interface entryEditFormProps{
@@ -108,8 +107,13 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         }
     }
 
-    handleEntryDeleteSubmit = () =>{
-        deleteEntry(this.props.entryData);
+    handleEntryDeleteSubmit = async () =>{
+        let response = await deleteEntry(this.props.entryData);
+        if(!response.ok){
+            console.log("Entry deletion failed...");
+        }else{
+            window.location.href="/wiki/"+this.props.wiki.id;
+        }
     }
 
     handleEditFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
