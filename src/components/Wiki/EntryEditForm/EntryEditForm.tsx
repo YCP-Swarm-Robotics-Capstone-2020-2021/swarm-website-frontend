@@ -7,13 +7,12 @@ import './EntryEditForm.css';
 import {newHeadingData} from "../../../utils/postInterfaces/newHeadingData";
 import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
 import {userData} from "../../../utils/getInterfaces/userData";
-import {deleteWiki} from "../deleteWiki";
 import {headingData} from "../../../utils/getInterfaces/headingData";
 import {wikiData} from "../../../utils/getInterfaces/wikiData";
 import {updateWiki} from "../updateWiki";
 import {updateHeadings} from "./updateHeadings";
 
-import {postHeading, deleteHeading} from "./apiCalls";
+import {postHeading, deleteHeading, deleteWiki} from "./apiCalls";
 
 
 interface entryEditFormProps{
@@ -92,7 +91,12 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
     }
 
     handleWikiDeleteSubmit = async () =>{
-        deleteWiki(this.props.wiki);
+        let response = await deleteWiki(this.props.wiki);
+        if(!response.ok){
+            console.log("Wiki deletion failed...");
+        }else{
+            window.location.href="/home";
+        }
     }
 
     handleDeleteHeadingSubmit = async (headingId: string) => {

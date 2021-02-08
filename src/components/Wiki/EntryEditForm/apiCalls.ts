@@ -2,6 +2,7 @@ import {url} from "../../../utils/DetermineUrl";
 import {newHeadingData} from "../../../utils/postInterfaces/newHeadingData";
 import {newChangeData} from "../../../utils/postInterfaces/newChangeData";
 import {entryData} from "../../../utils/getInterfaces/entryData";
+import {wikiData} from "../../../utils/getInterfaces/wikiData";
 
 export async function postHeading(heading: newHeadingData, change: newChangeData, entryData: entryData){
     let changeResponse = await fetch(url+'/change', {
@@ -56,6 +57,17 @@ export async function postHeading(heading: newHeadingData, change: newChangeData
 
 export async function deleteHeading(headingId: string){
     let response = await fetch(url+'/heading/delete_heading?id='+headingId, {
+        method: "GET",
+        headers:  {
+            "Content-Type": "application/json"
+        }
+    })
+
+    return response;
+}
+
+export async function deleteWiki(wiki: wikiData){
+    let response = await fetch(url+'/wiki/delete_wiki?id='+wiki.id, {
         method: "GET",
         headers:  {
             "Content-Type": "application/json"
