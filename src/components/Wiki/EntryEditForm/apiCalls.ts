@@ -55,6 +55,18 @@ export async function postHeading(heading: newHeadingData, change: newChangeData
     }
 }
 
+export async function updateEntry(entry: entryData){
+    let response = await fetch(url+'/entry/'+entry.id, {
+        method: "PUT",
+        body: JSON.stringify(entry),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+
+    return response;
+}
+
 export async function deleteHeading(headingId: string){
     let response = await fetch(url+'/heading/delete_heading?id='+headingId, {
         method: "GET",

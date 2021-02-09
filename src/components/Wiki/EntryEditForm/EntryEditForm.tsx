@@ -1,6 +1,5 @@
 import React from 'react';
 import {Button, Form, Modal} from "react-bootstrap";
-import {updateEntry} from "./updateEntry";
 import {entryData} from "../../../utils/getInterfaces/entryData";
 import './EntryEditForm.css';
 import {newHeadingData} from "../../../utils/postInterfaces/newHeadingData";
@@ -11,8 +10,7 @@ import {wikiData} from "../../../utils/getInterfaces/wikiData";
 import {updateWiki} from "../updateWiki";
 import {updateHeadings} from "./updateHeadings";
 
-import {postHeading, deleteHeading, deleteWiki, deleteEntry} from "./apiCalls";
-
+import {postHeading, deleteHeading, deleteWiki, deleteEntry, updateEntry} from "./apiCalls";
 
 interface entryEditFormProps{
     initHeadingData: headingData[],
@@ -116,9 +114,14 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         }
     }
 
-    handleEditFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    handleEditFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        updateEntry(this.state.entryData);
+        let responseUpdateEntry = await updateEntry(this.state.entryData);
+        if(!responseUpdateEntry.ok){
+            console.log('Entry update failed...');
+        }else{
+            this.props.reloadEntry();
+        }
         updateWiki(this.state.wikiData);
         updateHeadings(this.state.headingData);
     }
