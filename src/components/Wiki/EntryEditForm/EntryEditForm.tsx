@@ -188,7 +188,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         let newArray = [...this.state.headingData];
         newArray[index] = {...newArray[index], [e.target.name]: e.target.value};
 
-        this.setState({headingData: newArray}, () => {console.log(this.state.headingData)});
+        this.setState({headingData: newArray});
     }
 
     handleSideBarChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
