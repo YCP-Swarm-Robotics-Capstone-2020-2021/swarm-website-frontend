@@ -2,7 +2,7 @@ import React from "react";
 import {Nav, Navbar, Dropdown, Modal, Form, Button} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {newWikiData} from "./postInterfaces/newWikiData";
-import {postWiki} from "../components/Wiki/postWiki";
+// import {postWiki} from "../components/Wiki/postWiki";
 import {url} from "./DetermineUrl";
 
 interface Props{
@@ -42,6 +42,23 @@ class MainNavbar extends React.Component<Props, State>{
         }
     }
 
+    postWiki = async () => {
+        let response = await fetch(url+'/wiki', {
+            method: "POST",
+            body: JSON.stringify(this.state.newWiki),
+            headers:{
+                "Content-Type": 'application/json'
+            }
+        })
+        let json = await response.json();
+
+        if(!response.ok){
+            console.log('Adding new wiki failed...');
+        }else{
+            window.location.href = '/wiki/'+json['id'];
+        }
+    }
+
     //modal show
     handleShow = () => {
         this.setState({
@@ -67,7 +84,7 @@ class MainNavbar extends React.Component<Props, State>{
 
     handleNewWikiSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        postWiki(this.state.newWiki);
+        this.postWiki();
     }
 
     componentDidMount() {
