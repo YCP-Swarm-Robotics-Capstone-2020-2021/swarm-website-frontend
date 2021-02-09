@@ -223,7 +223,6 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
 
     buildHeadingEditElements = () => {
         if(this.state.headingData.length > 0) {
-            let i: number;
             for(const heading of this.state.headingData) {
                 this.setState({
                     headingEditElements: this.state.headingEditElements.concat(
