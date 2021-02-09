@@ -44,6 +44,7 @@ interface entryProps{
     id: string,
     currentUser: userData,
     wiki: wikiData,
+    reloadWiki: () => void
 }
 
 //component has no props, hence {}
@@ -241,7 +242,7 @@ class Entry extends React.Component<entryProps, entryState>{
         if(this.props.currentUser.accountLevel === 0 && this.state.data.id !== 0 && this.state.headings !== []){
             editTabElements =
                 <Tab eventKey="edit" title="Edit" transition={false}>
-                    <EntryEditForm initHeadingData={this.state.headings} entryData={this.state.data} sideBarData={this.state.sideBar} currentUser={this.props.currentUser} wiki={this.props.wiki} reloadEntry={this.reloadEntry}></EntryEditForm>
+                    <EntryEditForm initHeadingData={this.state.headings} entryData={this.state.data} sideBarData={this.state.sideBar} currentUser={this.props.currentUser} wiki={this.props.wiki} reloadEntry={this.reloadEntry} reloadWiki={this.props.reloadWiki}></EntryEditForm>
                 </Tab>;
         }
         return(

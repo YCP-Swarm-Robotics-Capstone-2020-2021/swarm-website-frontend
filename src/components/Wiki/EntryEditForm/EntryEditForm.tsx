@@ -7,10 +7,8 @@ import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
 import {userData} from "../../../utils/getInterfaces/userData";
 import {headingData} from "../../../utils/getInterfaces/headingData";
 import {wikiData} from "../../../utils/getInterfaces/wikiData";
-import {updateWiki} from "../updateWiki";
-import {updateHeadings} from "./updateHeadings";
 
-import {postHeading, deleteHeading, deleteWiki, deleteEntry, updateEntry} from "./apiCalls";
+import {postHeading, deleteHeading, deleteWiki, deleteEntry, updateEntry, updateWiki, updateHeadings} from "./apiCalls";
 
 interface entryEditFormProps{
     initHeadingData: headingData[],
@@ -18,7 +16,8 @@ interface entryEditFormProps{
     sideBarData: sideBarData,
     currentUser: userData,
     wiki: wikiData,
-    reloadEntry: () => void
+    reloadEntry: () => void,
+    reloadWiki: () => void
 }
 
 interface entryEditFormState{
@@ -119,11 +118,21 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         let responseUpdateEntry = await updateEntry(this.state.entryData);
         if(!responseUpdateEntry.ok){
             console.log('Entry update failed...');
-        }else{
-            this.props.reloadEntry();
         }
-        updateWiki(this.state.wikiData);
-        updateHeadings(this.state.headingData);
+
+        let responseUpdateWiki = await updateWiki(this.state.wikiData);
+        if(!responseUpdateWiki.ok){
+            console.log('Wiki update failed...');
+        }
+
+        for(const heading of this.state.headingData){
+            let responseHeading = await updateHeadings(heading);
+            if(!responseHeading.ok){
+                console.log("Heading '"+heading.title+"' update failed...");
+            }
+        }
+
+        this.props.reloadWiki();
     }
 
     handleNewHeadingSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{

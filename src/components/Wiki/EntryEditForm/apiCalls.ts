@@ -3,6 +3,7 @@ import {newHeadingData} from "../../../utils/postInterfaces/newHeadingData";
 import {newChangeData} from "../../../utils/postInterfaces/newChangeData";
 import {entryData} from "../../../utils/getInterfaces/entryData";
 import {wikiData} from "../../../utils/getInterfaces/wikiData";
+import {headingData} from "../../../utils/getInterfaces/headingData";
 
 export async function postHeading(heading: newHeadingData, change: newChangeData, entryData: entryData){
     let changeResponse = await fetch(url+'/change', {
@@ -59,6 +60,30 @@ export async function updateEntry(entry: entryData){
     let response = await fetch(url+'/entry/'+entry.id, {
         method: "PUT",
         body: JSON.stringify(entry),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+
+    return response;
+}
+
+export async function updateWiki(wiki: wikiData){
+    let response = await fetch(url+'/wiki/'+wiki.id, {
+        method: "PUT",
+        body: JSON.stringify(wiki),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+
+    return response;
+}
+
+export async function updateHeadings(heading: headingData){
+    let response = await fetch(url+'/heading/'+heading.id, {
+        method: "PUT",
+        body: JSON.stringify(heading),
         headers: {
             "Content-Type": "application/json"
         }
