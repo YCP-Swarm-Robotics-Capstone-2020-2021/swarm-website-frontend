@@ -51,6 +51,16 @@ export async function getSideBar(sideBarId: string){
     return response;
 }
 
+export async function getChange(changeId: string){
+    let response = await fetch(url+'/change/'+changeId, {
+        method: 'GET',
+        headers:{
+            'Content-Type': 'application/json'
+        }
+    })
+    return response;
+}
+
 export async function postComment(comment: newCommentData, comments: number[], entryId: number){
     let responseComment = await fetch(url+'/comment', {
         method: "POST",
