@@ -314,6 +314,9 @@ class Entry extends React.Component<entryProps, entryState>{
                     {this.state.commentElements}
 
                 </Tab>
+                <Tab eventKey="changes" title="Changes" transition={false}>
+                    {this.state.changeElements}
+                </Tab>
                 {editTabElements}
             </Tabs>
         );
