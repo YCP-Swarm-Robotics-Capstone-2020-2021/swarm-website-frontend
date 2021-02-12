@@ -81,7 +81,9 @@ class Entry extends React.Component<entryProps, entryState>{
             commentElements: [],
             newComment: {text: '', user: 0},
             headings: [],
-            headingElements: []
+            headingElements: [],
+            changes: [],
+            changeElements: []
         }, () => {
             this.getEntry();
         })
