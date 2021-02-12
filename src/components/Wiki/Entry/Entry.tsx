@@ -227,8 +227,24 @@ class Entry extends React.Component<entryProps, entryState>{
             let responseChange = await getChange(changeId);
             let jsonChange = await responseChange.json();
 
+            let responseUser = await getUser(jsonChange['user']);
+            let jsonUser = await responseUser.json();
+
             this.setState({
-                changes: this.state.changes.concat(jsonChange as changeData)
+                changes: this.state.changes.concat(jsonChange as changeData),
+                changeElements: this.state.changeElements.concat(
+                    <Toast className={'change'}>
+                        <Toast.Header>
+                            <Image src={logo} roundedCircle width={25} height={25}/>
+                            <strong className={'ml-2 mr-auto'}>{jsonUser['username']}</strong>
+                            <small className="mr-1">{jsonChange['dateTime'].substring(0,10)+" "+jsonChange['dateTime'].substring(11,19)}</small>
+                        </Toast.Header>
+                        <Toast.Body>
+                            <h5>{jsonChange['context']}</h5>
+                            <p>{jsonChange['textAdded']}</p>
+                        </Toast.Body>
+                    </Toast>
+                )
             })
         }
     }
