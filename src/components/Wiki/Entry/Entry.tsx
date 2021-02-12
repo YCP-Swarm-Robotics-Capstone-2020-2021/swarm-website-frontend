@@ -39,6 +39,8 @@ interface entryState{
     newComment: newCommentData
     headings: headingData[]
     headingElements: JSX.Element[]
+    changes: changeData[]
+    changeElements: JSX.Element[]
 }
 
 interface entryProps{
@@ -65,6 +67,8 @@ class Entry extends React.Component<entryProps, entryState>{
             newComment: {text: '', user: 0},
             headings: [],
             headingElements: [],
+            changes: [],
+            changeElements: []
         };
     }
 
@@ -216,6 +220,16 @@ class Entry extends React.Component<entryProps, entryState>{
                     )
                 })
             }
+        }
+
+        //get change data/build elements
+        for(const changeId of jsonEntries['log']){
+            let responseChange = await getChange(changeId);
+            let jsonChange = await responseChange.json();
+
+            this.setState({
+                changes: this.state.changes.concat(jsonChange as changeData)
+            })
         }
     }
 
