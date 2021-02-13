@@ -94,7 +94,7 @@ class MainNavbar extends React.Component<Props, State>{
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
                             <Nav.Link href="/home">Home</Nav.Link>
-                            <Nav.Link href="/visualization">Visualization</Nav.Link>
+                            <Nav.Link href="https://visualization.swarmrobotics.io/" target={'_blank'}>Visualization</Nav.Link>
                             <Nav.Link href="/gallery">Gallery</Nav.Link>
                             <Dropdown id="wikiDropdown">
                                 <Dropdown.Toggle variant="success">
