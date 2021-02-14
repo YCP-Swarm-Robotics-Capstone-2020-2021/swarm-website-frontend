@@ -55,6 +55,14 @@ class Wiki extends React.Component<wikiProps, wikiState>{
         }
     }
 
+    reloadWiki = () => {
+        this.setState({
+            data: {id: 0, title: '', briefDescription: '', entries: []}
+        }, () => {
+            this.getWiki();
+        })
+    }
+
     rightPaneHandler = (entryId: string) => {
         this.setState({
             view: entryId
@@ -104,13 +112,13 @@ class Wiki extends React.Component<wikiProps, wikiState>{
         }
 
         let rightPaneComponent;
-        this.state.view === "landing" ? rightPaneComponent = <Landing entries={this.state.data.entries} wikiDescription={this.state.data.briefDescription}/> : rightPaneComponent = <Entry id={this.state.view} currentUser={this.state.currentUser} wiki={this.state.data}/>
+        this.state.view === "landing" ? rightPaneComponent = <Landing entries={this.state.data.entries} wikiDescription={this.state.data.briefDescription}/> : rightPaneComponent = <Entry id={this.state.view} currentUser={this.state.currentUser} wiki={this.state.data} reloadWiki={this.reloadWiki}/>
         
         return(
             <section style={background}>
                 <MainNavbar logo={logo} />
                 <div id='contentWiki'>
-                    {this.state.data.id !== 0 ? <EntryMenu action={this.rightPaneHandler} wikiTitle={this.state.data.title} wikiId={this.state.data.id} entries={this.state.data.entries} currentUser={this.state.currentUser}/> : <Spinner animation='border'/>}
+                    {this.state.data.id !== 0 ? <EntryMenu action={this.rightPaneHandler} wikiTitle={this.state.data.title} wikiId={this.state.data.id} entries={this.state.data.entries} currentUser={this.state.currentUser} reloadWiki={this.reloadWiki}/> : <Spinner animation='border'/>}
                   <div id='rightPane' className="bg-dark">
                       {this.state.data.id !== 0 ? rightPaneComponent : <Spinner animation='border'/>}
                   </div>

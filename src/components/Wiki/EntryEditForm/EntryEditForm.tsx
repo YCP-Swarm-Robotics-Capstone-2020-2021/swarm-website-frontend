@@ -1,27 +1,23 @@
 import React from 'react';
 import {Button, Form, Modal} from "react-bootstrap";
-import {deleteEntry} from "../Entry/deleteEntry";
-import {updateEntry} from "./updateEntry";
 import {entryData} from "../../../utils/getInterfaces/entryData";
 import './EntryEditForm.css';
 import {newHeadingData} from "../../../utils/postInterfaces/newHeadingData";
 import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
-import {postHeading} from "./postHeading";
 import {userData} from "../../../utils/getInterfaces/userData";
-import {deleteWiki} from "../deleteWiki";
 import {headingData} from "../../../utils/getInterfaces/headingData";
 import {wikiData} from "../../../utils/getInterfaces/wikiData";
-import {updateWiki} from "../updateWiki";
-import {deleteHeading} from "./deleteHeading";
-import {updateHeadings} from "./updateHeadings";
 
+import {postHeading, deleteHeading, deleteWiki, deleteEntry, updateEntry, updateWiki, updateHeadings} from "./apiCalls";
 
 interface entryEditFormProps{
     initHeadingData: headingData[],
     entryData: entryData,
     sideBarData: sideBarData,
     currentUser: userData,
-    wiki: wikiData
+    wiki: wikiData,
+    reloadEntry: () => void,
+    reloadWiki: () => void
 }
 
 interface entryEditFormState{
@@ -90,24 +86,58 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         })
     }
 
-    handleWikiDeleteSubmit = () =>{
-        deleteWiki(this.props.wiki);
+    handleWikiDeleteSubmit = async () =>{
+        let response = await deleteWiki(this.props.wiki);
+        if(!response.ok){
+            console.log("Wiki deletion failed...");
+        }else{
+            window.location.href="/home";
+        }
     }
 
-    handleEntryDeleteSubmit = () =>{
-        deleteEntry(this.props.entryData);
+    handleDeleteHeadingSubmit = async (headingId: string) => {
+        let response = await deleteHeading(headingId);
+        if(!response.ok){
+            console.log("Removing heading failed...");
+        }else{
+            this.props.reloadEntry();
+        }
     }
 
-    handleEditFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    handleEntryDeleteSubmit = async () =>{
+        let response = await deleteEntry(this.props.entryData);
+        if(!response.ok){
+            console.log("Entry deletion failed...");
+        }else{
+            window.location.href="/wiki/"+this.props.wiki.id;
+        }
+    }
+
+    handleEditFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        updateEntry(this.state.entryData);
-        updateWiki(this.state.wikiData);
-        updateHeadings(this.state.headingData);
+        let responseUpdateEntry = await updateEntry(this.state.entryData);
+        if(!responseUpdateEntry.ok){
+            console.log('Entry update failed...');
+        }
+
+        let responseUpdateWiki = await updateWiki(this.state.wikiData);
+        if(!responseUpdateWiki.ok){
+            console.log('Wiki update failed...');
+        }
+
+        for(const heading of this.state.headingData){
+            let responseHeading = await updateHeadings(heading);
+            if(!responseHeading.ok){
+                console.log("Heading '"+heading.title+"' update failed...");
+            }
+        }
+
+        this.props.reloadWiki();
     }
 
-    handleNewHeadingSubmit = (e: React.FormEvent<HTMLFormElement>) =>{
+    handleNewHeadingSubmit = async (e: React.FormEvent<HTMLFormElement>) =>{
         e.preventDefault();
-        postHeading(
+        let result = await postHeading(
             this.state.newHeading,
             {
                 context: this.state.newHeading.title,
@@ -115,6 +145,14 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                 user: this.props.currentUser.id
             },
             this.props.entryData);
+
+        if(result){
+            this.setState({
+                newHeading: {title: '', text: '', log: []}
+            })
+            this.handleNewHeadingModalHide();
+            this.props.reloadEntry();
+        }
     }
 
     handleWikiChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -150,7 +188,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         let newArray = [...this.state.headingData];
         newArray[index] = {...newArray[index], [e.target.name]: e.target.value};
 
-        this.setState({headingData: newArray}, () => {console.log(this.state.headingData)});
+        this.setState({headingData: newArray});
     }
 
     handleSideBarChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -185,17 +223,16 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
 
     buildHeadingEditElements = () => {
         if(this.state.headingData.length > 0) {
-            let i: number;
-            for (i = 0; i < this.state.headingData.length; i++) {
+            for(const heading of this.state.headingData) {
                 this.setState({
                     headingEditElements: this.state.headingEditElements.concat(
                         <div>
-                            <Form.Control id={i.toString()} className="heading" as="input"
-                                          defaultValue={this.state.headingData[i].title} name="title"
+                            <Form.Control id={this.state.headingData.indexOf(heading).toString()} className="heading" as="input"
+                                          defaultValue={heading.title} name="title"
                                           onChange={this.handleHeadingChange}></Form.Control>
-                            <Form.Control id={i.toString()} defaultValue={this.state.headingData[i].text} as="textarea"
+                            <Form.Control id={this.state.headingData.indexOf(heading).toString()} defaultValue={heading.text} as="textarea"
                                           rows={4} name="text" onChange={this.handleHeadingChange}></Form.Control>
-                            <Button onClick={() => deleteHeading(this.state.headingData[i].id)}
+                            <Button onClick={() => this.handleDeleteHeadingSubmit(heading.id.toString())}
                                     variant="danger">Delete</Button>
                         </div>
                     )
@@ -236,9 +273,10 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                 sideBarElements: [],
                 headingData: this.props.initHeadingData,
                 headingEditElements: []
+            }, () => {
+                this.buildSideBarElements();
+                this.buildHeadingEditElements();
             });
-            this.buildSideBarElements();
-            this.buildHeadingEditElements();
         }, 200)
 
     }

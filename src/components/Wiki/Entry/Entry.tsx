@@ -44,6 +44,7 @@ interface entryProps{
     id: string,
     currentUser: userData,
     wiki: wikiData,
+    reloadWiki: () => void
 }
 
 //component has no props, hence {}
@@ -64,6 +65,21 @@ class Entry extends React.Component<entryProps, entryState>{
             headings: [],
             headingElements: [],
         };
+    }
+
+    reloadEntry = () => {
+        this.setState({
+            data: {id: 0, title: '', text: '', sideBar: 0, comments: [], contributors: [], headings: [], log: []},
+            sideBar: {id: 0, content: {}},
+            sideBarElements: [],
+            comments: [],
+            commentElements: [],
+            newComment: {text: '', user: 0},
+            headings: [],
+            headingElements: []
+        }, () => {
+            this.getEntry();
+        })
     }
 
     handleReplyHide = () => {
@@ -108,12 +124,16 @@ class Entry extends React.Component<entryProps, entryState>{
         });
     }
 
-    handleNewCommentSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    handleNewCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        postComment({
+        let result = await postComment({
             text: this.state.newComment.text,
             user: this.props.currentUser.id
-        }, this.state.data.comments, this.state.data.id)
+        }, this.state.data.comments, this.state.data.id);
+
+        if(result){
+            this.reloadEntry();
+        }
     }
 
     handleDeleteCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -123,7 +143,8 @@ class Entry extends React.Component<entryProps, entryState>{
         if(!response.ok){
             console.log("Removing comment failed...");
         }else{
-            window.location.reload();
+            this.handleDeleteCommentHide();
+            this.reloadEntry();
         }
     }
 
@@ -218,10 +239,10 @@ class Entry extends React.Component<entryProps, entryState>{
 
     render(){
         let editTabElements: JSX.Element = <></>
-        if(this.props.currentUser.accountLevel === 0){
+        if(this.props.currentUser.accountLevel === 0 && this.state.data.id !== 0 && this.state.headings !== []){
             editTabElements =
                 <Tab eventKey="edit" title="Edit" transition={false}>
-                    <EntryEditForm initHeadingData={this.state.headings} entryData={this.state.data} sideBarData={this.state.sideBar} currentUser={this.props.currentUser} wiki={this.props.wiki}></EntryEditForm>
+                    <EntryEditForm initHeadingData={this.state.headings} entryData={this.state.data} sideBarData={this.state.sideBar} currentUser={this.props.currentUser} wiki={this.props.wiki} reloadEntry={this.reloadEntry} reloadWiki={this.props.reloadWiki}></EntryEditForm>
                 </Tab>;
         }
         return(
@@ -270,7 +291,7 @@ class Entry extends React.Component<entryProps, entryState>{
                     <Form id="newCommentForm" onSubmit={this.handleNewCommentSubmit}>
                         <Form.Group>
                             <Image id="newCommentProfPic" src={logo} roundedCircle width={50} height={50} />
-                            <Form.Control as="textarea" rows={3} placeholder="Leave a comment" onChange={this.handleCommentTextChange} />
+                            <Form.Control as="textarea" rows={3} placeholder="Leave a comment" onChange={this.handleCommentTextChange} value={this.state.newComment.text}/>
                         </Form.Group>
                         <Button variant="success" type="submit">Comment</Button>
                     </Form>

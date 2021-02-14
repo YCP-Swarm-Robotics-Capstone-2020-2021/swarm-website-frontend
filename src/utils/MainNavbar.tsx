@@ -1,9 +1,8 @@
 import React from "react";
 import {Nav, Navbar, Dropdown, Modal, Form, Button} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import {wikiData} from "./getInterfaces/wikiData";
 import {newWikiData} from "./postInterfaces/newWikiData";
-import {postWiki} from "../components/Wiki/postWiki";
+// import {postWiki} from "../components/Wiki/postWiki";
 import {url} from "./DetermineUrl";
 import {cookies} from './Cookies';
 
@@ -25,39 +24,51 @@ class MainNavbar extends React.Component<Props, State>{
             addWikiModalShow: false,
             newWiki: {title: '', briefDescription: ''}
         }
-        this.handleShow = this.handleShow.bind(this);
-        this.handleHide = this.handleHide.bind(this);
-        this.handleNewWikiSubmit = this.handleNewWikiSubmit.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleLogout = this.handleLogout.bind(this);
     }
-    componentDidMount() {
-        fetch(url+'/wiki', {
+
+    buildWikiDropDown = async () => {
+        let response = await fetch(url+'/wiki', {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
             }
         })
-            .then(response => response.json())
-            .then(data => {
-                data.forEach((wiki: wikiData) => {
-                    this.setState({wikiDropdownItems: this.state.wikiDropdownItems.concat(
-                            <Dropdown.Item key={wiki.id} href={"/wiki/"+wiki.id}>{wiki.title}</Dropdown.Item>
-                        )
-                    })
-                })
+        let json = await response.json();
+
+        for(const wiki of json){
+            this.setState({wikiDropdownItems: this.state.wikiDropdownItems.concat(
+                    <Dropdown.Item key={wiki['id']} href={"/wiki/"+wiki['id']}>{wiki['title']}</Dropdown.Item>
+                )
             })
+        }
+    }
+
+    postWiki = async () => {
+        let response = await fetch(url+'/wiki', {
+            method: "POST",
+            body: JSON.stringify(this.state.newWiki),
+            headers:{
+                "Content-Type": 'application/json'
+            }
+        })
+        let json = await response.json();
+
+        if(!response.ok){
+            console.log('Adding new wiki failed...');
+        }else{
+            window.location.href = '/wiki/'+json['id'];
+        }
     }
 
     //modal show
-    handleShow(){
+    handleShow = () => {
         this.setState({
             addWikiModalShow: true
         })
     }
 
     //modal hide
-    handleHide(){
+    handleHide = () => {
         this.setState({
             addWikiModalShow: false
         })
@@ -72,14 +83,17 @@ class MainNavbar extends React.Component<Props, State>{
         this.setState({newWiki: newNewWikiInfo})
     }
 
-    handleNewWikiSubmit(e: React.FormEvent<HTMLFormElement>){
+    handleNewWikiSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        postWiki(this.state.newWiki);
+        this.postWiki();
+    }
+
+    componentDidMount() {
+        this.buildWikiDropDown();
     }
 
     handleLogout(){
         cookies.remove('username');
-        window.location.reload();
     }
 
     render(){
