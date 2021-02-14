@@ -28,6 +28,24 @@ body{
     background-color: #8dcfd4;
 }
 
+#userDropdown {
+    margin-top: .2rem;
+    margin-left: .5rem;
+}
+
+#userDropdown button{
+    background-color: #2d7536;
+    border: none !important;
+    color: #b7b2b2;
+    outline: none;
+}
+
+#logoutLink{
+    color: black;
+    text-decoration: none;
+}
+
+
 @media (max-width: 994px) {
     #wikiDropdown{
         margin-left: 0;

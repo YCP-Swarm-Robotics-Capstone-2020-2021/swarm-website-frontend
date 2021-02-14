@@ -5,6 +5,7 @@ import {wikiData} from "./getInterfaces/wikiData";
 import {newWikiData} from "./postInterfaces/newWikiData";
 import {postWiki} from "../components/Wiki/postWiki";
 import {url} from "./DetermineUrl";
+import {cookies} from './Cookies';
 
 interface Props{
     logo: string;
@@ -28,6 +29,7 @@ class MainNavbar extends React.Component<Props, State>{
         this.handleHide = this.handleHide.bind(this);
         this.handleNewWikiSubmit = this.handleNewWikiSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
     }
     componentDidMount() {
         fetch(url+'/wiki', {
@@ -75,6 +77,11 @@ class MainNavbar extends React.Component<Props, State>{
         postWiki(this.state.newWiki);
     }
 
+    handleLogout(){
+        cookies.remove('username');
+        window.location.reload();
+    }
+
     render(){
         return(
             <>
@@ -106,9 +113,18 @@ class MainNavbar extends React.Component<Props, State>{
                                     <Dropdown.Item id="addWikiLink" onClick={() => this.handleShow()}>Add Wiki</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
-
+                            <Dropdown id="userDropdown">
+                                <Dropdown.Toggle variant="success">User</Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                    <Dropdown.Divider />
+                                    <Dropdown.Item onClick={this.handleLogout}>
+                                        <Link id="logoutLink" to="/" > Logout </Link>
+                                    </Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
                         </Nav>
                     </Navbar.Collapse>
+
                     <Modal id="newWikiModal" show={this.state.addWikiModalShow} onHide={this.handleHide}>
                         <Modal.Header closeButton>
                             <Modal.Title>Add a wiki</Modal.Title>
