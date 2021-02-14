@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import {newWikiData} from "./postInterfaces/newWikiData";
 // import {postWiki} from "../components/Wiki/postWiki";
 import {url} from "./DetermineUrl";
+import {cookies} from './Cookies';
 
 interface Props{
     logo: string;
@@ -91,6 +92,10 @@ class MainNavbar extends React.Component<Props, State>{
         this.buildWikiDropDown();
     }
 
+    handleLogout(){
+        cookies.remove('username');
+    }
+
     render(){
         return(
             <>
@@ -110,7 +115,7 @@ class MainNavbar extends React.Component<Props, State>{
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
                             <Nav.Link href="/home">Home</Nav.Link>
-                            <Nav.Link href="/visualization">Visualization</Nav.Link>
+                            <Nav.Link href="https://visualization.swarmrobotics.io/" target={'_blank'}>Visualization</Nav.Link>
                             <Nav.Link href="/gallery">Gallery</Nav.Link>
                             <Dropdown id="wikiDropdown">
                                 <Dropdown.Toggle variant="success">
@@ -122,9 +127,18 @@ class MainNavbar extends React.Component<Props, State>{
                                     <Dropdown.Item id="addWikiLink" onClick={() => this.handleShow()}>Add Wiki</Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
-
+                            <Dropdown id="userDropdown">
+                                <Dropdown.Toggle variant="success">User</Dropdown.Toggle>
+                                <Dropdown.Menu>
+                                    <Dropdown.Divider />
+                                    <Dropdown.Item onClick={this.handleLogout}>
+                                        <Link id="logoutLink" to="/" > Logout </Link>
+                                    </Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
                         </Nav>
                     </Navbar.Collapse>
+
                     <Modal id="newWikiModal" show={this.state.addWikiModalShow} onHide={this.handleHide}>
                         <Modal.Header closeButton>
                             <Modal.Title>Add a wiki</Modal.Title>
