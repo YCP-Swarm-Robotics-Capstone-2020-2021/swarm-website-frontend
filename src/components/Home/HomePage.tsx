@@ -43,7 +43,7 @@ class HomePage extends React.Component<HomeProps, HomeState>{
                         <h3 className={'fontMedium'}>For Controlled Environments</h3>
                     </div>
                     <div id={'missionStatementButton'}>
-                        <Button id={'visualizationRedirectButton'} href={"/visualization"}>Visualization</Button>{' '}
+                        <Button id={'visualizationRedirectButton'} href={"https://visualization.swarmrobotics.io/"} target={'_blank'}>Visualization</Button>{' '}
                     </div>
                 </div>
 
