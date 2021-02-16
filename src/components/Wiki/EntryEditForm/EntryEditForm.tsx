@@ -139,7 +139,12 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
             })[0]
 
             if(originalHeadingData !== heading){
-                let responseHeading = await updateHeadings(heading);
+                let responseHeading = await updateHeadings(heading,
+                    {
+                        context: heading.title,
+                        textAdded: heading.text,
+                        user: this.props.currentUser.id
+                    });
                 if(!responseHeading.ok){
                     console.log("Heading '"+heading.title+"' update failed...");
                 }
