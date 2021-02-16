@@ -224,7 +224,8 @@ class Entry extends React.Component<entryProps, entryState>{
             }
         }
 
-        //get change data/build elements
+        //get change data/build elements, reverse sort as to sort (newest -> oldest)
+        jsonEntries['log'].reverse();
         for(const changeId of jsonEntries['log']){
             let responseChange = await getChange(changeId);
             let jsonChange = await responseChange.json();

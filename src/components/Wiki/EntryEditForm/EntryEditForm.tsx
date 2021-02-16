@@ -115,11 +115,19 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
 
     handleEditFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        let responseUpdateEntry = await updateEntry(this.state.entryData);
-        if(!responseUpdateEntry.ok){
-            console.log('Entry update failed...');
-        }
 
+        if(this.state.entryData !== this.props.entryData){
+            let responseUpdateEntry = await updateEntry(this.state.entryData,
+                {
+                    context: this.state.entryData.title,
+                    textAdded: this.state.entryData.text,
+                    user: this.props.currentUser.id
+                });
+            if(!responseUpdateEntry.ok){
+                console.log('Entry update failed...');
+            }
+        }
+        
         let responseUpdateWiki = await updateWiki(this.state.wikiData);
         if(!responseUpdateWiki.ok){
             console.log('Wiki update failed...');
