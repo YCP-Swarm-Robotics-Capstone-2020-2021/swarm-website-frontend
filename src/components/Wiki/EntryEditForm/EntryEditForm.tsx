@@ -127,16 +127,22 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
                 console.log('Entry update failed...');
             }
         }
-        
+
         let responseUpdateWiki = await updateWiki(this.state.wikiData);
         if(!responseUpdateWiki.ok){
             console.log('Wiki update failed...');
         }
 
         for(const heading of this.state.headingData){
-            let responseHeading = await updateHeadings(heading);
-            if(!responseHeading.ok){
-                console.log("Heading '"+heading.title+"' update failed...");
+            let originalHeadingData = this.props.initHeadingData.filter(function(headingOriginal){
+                return headingOriginal.id == heading.id;
+            })[0]
+
+            if(originalHeadingData !== heading){
+                let responseHeading = await updateHeadings(heading);
+                if(!responseHeading.ok){
+                    console.log("Heading '"+heading.title+"' update failed...");
+                }
             }
         }
 
