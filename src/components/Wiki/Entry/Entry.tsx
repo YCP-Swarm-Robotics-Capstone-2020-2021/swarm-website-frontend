@@ -227,7 +227,6 @@ class Entry extends React.Component<entryProps, entryState>{
         //get change data/build elements, reverse sort as to sort (newest -> oldest)
         let responseChanges = await getAllChanges(this.props.id);
         let jsonChanges = await responseChanges.json();
-        jsonChanges.reverse();
 
         for(const change of jsonChanges){
             let responseUser = await getUser(change['user']);
