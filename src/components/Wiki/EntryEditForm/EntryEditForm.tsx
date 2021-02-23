@@ -135,7 +135,7 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
 
         for(const heading of this.state.headingData){
             let originalHeadingData = this.props.initHeadingData.filter(function(headingOriginal){
-                return headingOriginal.id == heading.id;
+                return headingOriginal.id === heading.id;
             })[0]
 
             if(originalHeadingData !== heading){
