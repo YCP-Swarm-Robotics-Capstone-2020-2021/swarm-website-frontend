@@ -12,7 +12,7 @@ import './Entry.css';
 import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
 import {userData} from "../../../utils/getInterfaces/userData";
 import {wikiData} from "../../../utils/getInterfaces/wikiData";
-import {getEntry, getComment, getUser, getHeading, getSideBar, postComment, deleteComment, getChange} from "./apiCalls";
+import {getEntry, getComment, getUser, getHeading, getSideBar, postComment, deleteComment, getAllChanges} from "./apiCalls";
 const logo = require('../../../images/swarmLogoIcon.png');
 
 /*
@@ -225,26 +225,25 @@ class Entry extends React.Component<entryProps, entryState>{
         }
 
         //get change data/build elements, reverse sort as to sort (newest -> oldest)
-        jsonEntries['log'].reverse();
-        for(const changeId of jsonEntries['log']){
-            let responseChange = await getChange(changeId);
-            let jsonChange = await responseChange.json();
+        let responseChanges = await getAllChanges(this.props.id);
+        let jsonChanges = await responseChanges.json();
+        jsonChanges.reverse();
 
-            let responseUser = await getUser(jsonChange['user']);
+        for(const change of jsonChanges){
+            let responseUser = await getUser(change['user']);
             let jsonUser = await responseUser.json();
-
             this.setState({
-                changes: this.state.changes.concat(jsonChange as changeData),
+                changes: this.state.changes.concat(change as changeData),
                 changeElements: this.state.changeElements.concat(
                     <Toast className={'change'}>
                         <Toast.Header>
                             <Image src={logo} roundedCircle width={25} height={25}/>
                             <strong className={'ml-2 mr-auto'}>{jsonUser['username']}</strong>
-                            <small className="mr-1">{jsonChange['dateTime'].substring(0,10)+" "+jsonChange['dateTime'].substring(11,19)}</small>
+                            <small className="mr-1">{change['dateTime'].substring(0,10)+" "+change['dateTime'].substring(11,19)}</small>
                         </Toast.Header>
                         <Toast.Body>
-                            <h5>{jsonChange['context']}</h5>
-                            <p>{jsonChange['textAdded']}</p>
+                            <h5>{change['context']}</h5>
+                            <p>{change['textAdded']}</p>
                         </Toast.Body>
                     </Toast>
                 )
