@@ -5,6 +5,6 @@ function handleUrl() {
         return 'http://localhost:8000/api'
     }
     if(process.env.NODE_ENV === 'production'){
-        return 'http://swarmrobotics.io/api'
+        return 'https://swarmrobotics.io/api'
     }
 }
