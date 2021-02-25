@@ -229,7 +229,7 @@ class Entry extends React.Component<entryProps, entryState>{
         let jsonChanges = await responseChanges.json();
 
         for(const change of jsonChanges){
-            let responseUser = await getUser(change['user']);
+            let responseUser = await getUser(change['user_id']);
             let jsonUser = await responseUser.json();
             this.setState({
                 changes: this.state.changes.concat(change as changeData),
@@ -271,7 +271,7 @@ class Entry extends React.Component<entryProps, entryState>{
 
     render(){
         let editTabElements: JSX.Element = <></>
-        if(this.props.currentUser.accountLevel === 0 && this.state.data.id !== 0 && this.state.headings !== []){
+        if(this.props.currentUser.accountLevel === 0 && this.state.data.id !== 0 && this.state.headings.length === this.state.data.headings.length){
             editTabElements =
                 <Tab eventKey="edit" title="Edit" transition={false}>
                     <EntryEditForm initHeadingData={this.state.headings} entryData={this.state.data} sideBarData={this.state.sideBar} currentUser={this.props.currentUser} wiki={this.props.wiki} reloadEntry={this.reloadEntry} reloadWiki={this.props.reloadWiki}></EntryEditForm>

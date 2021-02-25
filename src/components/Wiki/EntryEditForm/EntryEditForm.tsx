@@ -241,23 +241,22 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
     }
 
     buildHeadingEditElements = () => {
-        if(this.state.headingData.length > 0) {
-            for(const heading of this.state.headingData) {
-                this.setState({
-                    headingEditElements: this.state.headingEditElements.concat(
-                        <div>
-                            <Form.Control id={this.state.headingData.indexOf(heading).toString()} className="heading" as="input"
-                                          defaultValue={heading.title} name="title"
-                                          onChange={this.handleHeadingChange}></Form.Control>
-                            <Form.Control id={this.state.headingData.indexOf(heading).toString()} defaultValue={heading.text} as="textarea"
-                                          rows={4} name="text" onChange={this.handleHeadingChange}></Form.Control>
-                            <Button onClick={() => this.handleDeleteHeadingSubmit(heading.id.toString())}
-                                    variant="danger">Delete</Button>
-                        </div>
-                    )
-                })
-            }
+        let headingElements: JSX.Element[] = [];
+
+        for(const heading of this.props.initHeadingData) {
+            headingElements.push(
+                <div>
+                    <Form.Control id={this.state.headingData.indexOf(heading).toString()} className="heading" as="input"
+                                  defaultValue={heading.title} name="title"
+                                  onChange={this.handleHeadingChange}></Form.Control>
+                    <Form.Control id={this.state.headingData.indexOf(heading).toString()} defaultValue={heading.text} as="textarea"
+                                  rows={4} name="text" onChange={this.handleHeadingChange}></Form.Control>
+                    <Button onClick={() => this.handleDeleteHeadingSubmit(heading.id.toString())}
+                            variant="danger">Delete</Button>
+                </div>
+            )
         }
+        this.setState({headingEditElements: headingElements});
     }
 
     componentDidUpdate(prevProps: Readonly<entryEditFormProps>, prevState: Readonly<entryEditFormState>, snapshot?: any) {
@@ -285,19 +284,16 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
     }
 
     componentDidMount() {
-        setTimeout( () => {
-            this.setState({
-                entryData: this.props.entryData,
-                sideBarData: this.props.sideBarData,
-                sideBarElements: [],
-                headingData: this.props.initHeadingData,
-                headingEditElements: []
-            }, () => {
-                this.buildSideBarElements();
-                this.buildHeadingEditElements();
-            });
-        }, 200)
-
+        this.setState({
+            entryData: this.props.entryData,
+            sideBarData: this.props.sideBarData,
+            sideBarElements: [],
+            headingData: this.props.initHeadingData,
+            headingEditElements: []
+        }, () => {
+            this.buildSideBarElements();
+            this.buildHeadingEditElements();
+        });
     }
 
     render(){
