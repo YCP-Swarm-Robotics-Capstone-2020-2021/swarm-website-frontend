@@ -115,9 +115,17 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
 
     handleEditFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        let responseUpdateEntry = await updateEntry(this.state.entryData);
-        if(!responseUpdateEntry.ok){
-            console.log('Entry update failed...');
+
+        if(this.state.entryData !== this.props.entryData){
+            let responseUpdateEntry = await updateEntry(this.state.entryData,
+                {
+                    context: this.state.entryData.title,
+                    textAdded: this.state.entryData.text,
+                    user: this.props.currentUser.id
+                });
+            if(!responseUpdateEntry.ok){
+                console.log('Entry update failed...');
+            }
         }
 
         let responseUpdateWiki = await updateWiki(this.state.wikiData);
@@ -126,9 +134,20 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
         }
 
         for(const heading of this.state.headingData){
-            let responseHeading = await updateHeadings(heading);
-            if(!responseHeading.ok){
-                console.log("Heading '"+heading.title+"' update failed...");
+            let originalHeadingData = this.props.initHeadingData.filter(function(headingOriginal){
+                return headingOriginal.id === heading.id;
+            })[0]
+
+            if(originalHeadingData !== heading){
+                let responseHeading = await updateHeadings(heading,
+                    {
+                        context: heading.title,
+                        textAdded: heading.text,
+                        user: this.props.currentUser.id
+                    });
+                if(!responseHeading.ok){
+                    console.log("Heading '"+heading.title+"' update failed...");
+                }
             }
         }
 
@@ -222,23 +241,22 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
     }
 
     buildHeadingEditElements = () => {
-        if(this.state.headingData.length > 0) {
-            for(const heading of this.state.headingData) {
-                this.setState({
-                    headingEditElements: this.state.headingEditElements.concat(
-                        <div>
-                            <Form.Control id={this.state.headingData.indexOf(heading).toString()} className="heading" as="input"
-                                          defaultValue={heading.title} name="title"
-                                          onChange={this.handleHeadingChange}></Form.Control>
-                            <Form.Control id={this.state.headingData.indexOf(heading).toString()} defaultValue={heading.text} as="textarea"
-                                          rows={4} name="text" onChange={this.handleHeadingChange}></Form.Control>
-                            <Button onClick={() => this.handleDeleteHeadingSubmit(heading.id.toString())}
-                                    variant="danger">Delete</Button>
-                        </div>
-                    )
-                })
-            }
+        let headingElements: JSX.Element[] = [];
+
+        for(const heading of this.props.initHeadingData) {
+            headingElements.push(
+                <div>
+                    <Form.Control id={this.state.headingData.indexOf(heading).toString()} className="heading" as="input"
+                                  defaultValue={heading.title} name="title"
+                                  onChange={this.handleHeadingChange}></Form.Control>
+                    <Form.Control id={this.state.headingData.indexOf(heading).toString()} defaultValue={heading.text} as="textarea"
+                                  rows={4} name="text" onChange={this.handleHeadingChange}></Form.Control>
+                    <Button onClick={() => this.handleDeleteHeadingSubmit(heading.id.toString())}
+                            variant="danger">Delete</Button>
+                </div>
+            )
         }
+        this.setState({headingEditElements: headingElements});
     }
 
     componentDidUpdate(prevProps: Readonly<entryEditFormProps>, prevState: Readonly<entryEditFormState>, snapshot?: any) {
@@ -266,19 +284,16 @@ class EntryEditForm extends React.Component<entryEditFormProps, entryEditFormSta
     }
 
     componentDidMount() {
-        setTimeout( () => {
-            this.setState({
-                entryData: this.props.entryData,
-                sideBarData: this.props.sideBarData,
-                sideBarElements: [],
-                headingData: this.props.initHeadingData,
-                headingEditElements: []
-            }, () => {
-                this.buildSideBarElements();
-                this.buildHeadingEditElements();
-            });
-        }, 200)
-
+        this.setState({
+            entryData: this.props.entryData,
+            sideBarData: this.props.sideBarData,
+            sideBarElements: [],
+            headingData: this.props.initHeadingData,
+            headingEditElements: []
+        }, () => {
+            this.buildSideBarElements();
+            this.buildHeadingEditElements();
+        });
     }
 
     render(){

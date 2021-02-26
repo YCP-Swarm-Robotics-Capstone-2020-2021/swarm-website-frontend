@@ -68,7 +68,7 @@
     border: none !important;
 }
 
-.comment{
+.comment, .change{
     margin-left: auto;
     margin-right: auto;
     margin-top: 2%;
@@ -80,7 +80,7 @@
     border: none !important;
 }
 
-.comment .toast-header{
+.comment .toast-header, .change .toast-header{
     background-color: #181a1b;
     border-bottom: none;
     color: white;

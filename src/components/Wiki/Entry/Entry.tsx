@@ -5,13 +5,14 @@ import EntryEditForm from "../EntryEditForm/EntryEditForm";
 import {entryData} from "../../../utils/getInterfaces/entryData";
 import {commentData} from "../../../utils/getInterfaces/commentData";
 import {headingData} from "../../../utils/getInterfaces/headingData";
+import {changeData} from "../../../utils/getInterfaces/changeData";
 import {newCommentData} from "../../../utils/postInterfaces/newCommentData";
 
 import './Entry.css';
 import {sideBarData} from "../../../utils/getInterfaces/sideBarData";
 import {userData} from "../../../utils/getInterfaces/userData";
 import {wikiData} from "../../../utils/getInterfaces/wikiData";
-import {getEntry, getComment, getUser, getHeading, getSideBar, postComment, deleteComment} from "./apiCalls";
+import {getEntry, getComment, getUser, getHeading, getSideBar, postComment, deleteComment, getAllChanges} from "./apiCalls";
 const logo = require('../../../images/swarmLogoIcon.png');
 
 /*
@@ -38,6 +39,8 @@ interface entryState{
     newComment: newCommentData
     headings: headingData[]
     headingElements: JSX.Element[]
+    changes: changeData[]
+    changeElements: JSX.Element[]
 }
 
 interface entryProps{
@@ -64,6 +67,8 @@ class Entry extends React.Component<entryProps, entryState>{
             newComment: {text: '', user: 0},
             headings: [],
             headingElements: [],
+            changes: [],
+            changeElements: []
         };
     }
 
@@ -76,7 +81,9 @@ class Entry extends React.Component<entryProps, entryState>{
             commentElements: [],
             newComment: {text: '', user: 0},
             headings: [],
-            headingElements: []
+            headingElements: [],
+            changes: [],
+            changeElements: []
         }, () => {
             this.getEntry();
         })
@@ -216,6 +223,31 @@ class Entry extends React.Component<entryProps, entryState>{
                 })
             }
         }
+
+        //get change data/build elements, reverse sort as to sort (newest -> oldest)
+        let responseChanges = await getAllChanges(this.props.id);
+        let jsonChanges = await responseChanges.json();
+
+        for(const change of jsonChanges){
+            let responseUser = await getUser(change['user_id']);
+            let jsonUser = await responseUser.json();
+            this.setState({
+                changes: this.state.changes.concat(change as changeData),
+                changeElements: this.state.changeElements.concat(
+                    <Toast className={'change'}>
+                        <Toast.Header>
+                            <Image src={logo} roundedCircle width={25} height={25}/>
+                            <strong className={'ml-2 mr-auto'}>{jsonUser['username']}</strong>
+                            <small className="mr-1">{change['dateTime'].substring(0,10)+" "+change['dateTime'].substring(11,19)}</small>
+                        </Toast.Header>
+                        <Toast.Body>
+                            <h5>{change['context']}</h5>
+                            <p>{change['textAdded']}</p>
+                        </Toast.Body>
+                    </Toast>
+                )
+            })
+        }
     }
 
 
@@ -239,7 +271,7 @@ class Entry extends React.Component<entryProps, entryState>{
 
     render(){
         let editTabElements: JSX.Element = <></>
-        if(this.props.currentUser.accountLevel === 0 && this.state.data.id !== 0 && this.state.headings !== []){
+        if(this.props.currentUser.accountLevel === 0 && this.state.data.id !== 0 && this.state.headings.length === this.state.data.headings.length){
             editTabElements =
                 <Tab eventKey="edit" title="Edit" transition={false}>
                     <EntryEditForm initHeadingData={this.state.headings} entryData={this.state.data} sideBarData={this.state.sideBar} currentUser={this.props.currentUser} wiki={this.props.wiki} reloadEntry={this.reloadEntry} reloadWiki={this.props.reloadWiki}></EntryEditForm>
@@ -298,6 +330,9 @@ class Entry extends React.Component<entryProps, entryState>{
 
                     {this.state.commentElements}
 
+                </Tab>
+                <Tab eventKey="changes" title="Changes" transition={false}>
+                    {this.state.changeElements}
                 </Tab>
                 {editTabElements}
             </Tabs>

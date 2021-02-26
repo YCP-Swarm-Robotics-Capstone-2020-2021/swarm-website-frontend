@@ -56,16 +56,32 @@ export async function postHeading(heading: newHeadingData, change: newChangeData
     }
 }
 
-export async function updateEntry(entry: entryData){
-    let response = await fetch(url+'/entry/'+entry.id, {
-        method: "PUT",
-        body: JSON.stringify(entry),
+export async function updateEntry(entry: entryData, change: newChangeData){
+    let changeResponse = await fetch(url+'/change', {
+        method: 'POST',
+        body: JSON.stringify(change),
         headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json'
         }
     })
 
-    return response;
+    if(!changeResponse.ok){
+        console.log("Saving new change failed...");
+        return changeResponse;
+    }else{
+        let changeJson = await changeResponse.json();
+        entry.log.push(changeJson['id']);
+
+        let response = await fetch(url+'/entry/'+entry.id, {
+            method: "PUT",
+            body: JSON.stringify(entry),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+
+        return response;
+    }
 }
 
 export async function updateWiki(wiki: wikiData){
@@ -80,16 +96,31 @@ export async function updateWiki(wiki: wikiData){
     return response;
 }
 
-export async function updateHeadings(heading: headingData){
-    let response = await fetch(url+'/heading/'+heading.id, {
-        method: "PUT",
-        body: JSON.stringify(heading),
+export async function updateHeadings(heading: headingData, change: newChangeData){
+    let changeResponse = await fetch(url+'/change', {
+        method: 'POST',
+        body: JSON.stringify(change),
         headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json'
         }
     })
 
-    return response;
+    if(!changeResponse.ok){
+        console.log("Saving new change failed...");
+        return changeResponse;
+    }else {
+        let changeJson = await changeResponse.json();
+        heading.log.push(changeJson['id']);
+        let response = await fetch(url + '/heading/' + heading.id, {
+            method: "PUT",
+            body: JSON.stringify(heading),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+
+        return response;
+    }
 }
 
 export async function deleteHeading(headingId: string){

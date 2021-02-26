@@ -94,3 +94,14 @@ export async function deleteComment(commentId: number){
     })
     return response;
 }
+
+export async function getAllChanges(entryId: string){
+    let response = await fetch(url+'/entry/get_all_changes?id='+entryId, {
+        method: "GET",
+        headers:  {
+            "Content-Type": "application/json"
+        }
+    })
+
+    return response;
+}
