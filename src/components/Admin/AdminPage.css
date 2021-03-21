@@ -1,6 +1,9 @@
 .dashboardContainer{
     margin: 2rem !important;
 }
+.sideHeaders{
+    padding: 10px;
+}
 .sideDashboard{
     color: white;
     background: #343A40;

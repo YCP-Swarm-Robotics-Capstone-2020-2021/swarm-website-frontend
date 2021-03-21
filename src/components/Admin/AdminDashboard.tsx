@@ -10,7 +10,13 @@ class AdminDashboard extends React.Component<any, any>{
                     <Row>
                         <Col sm={3}>
                             <div className={'sideDashboard'}>
-                                hello world Side Dashboard
+                                <div className={'sideHeaders'}>
+                                    <h4><a href={'/'}>Users</a></h4>
+                                    <h4><a href={'/'}>Visualization</a></h4>
+                                    <h4><a href={'/'}>Statistics</a></h4>
+                                    <h4><a href={'/'}>Verify</a></h4>
+                                    <h4><a href={'/'}>Settings</a></h4>
+                                </div>
                             </div>
                         </Col>
                         <Col sm={9}>
