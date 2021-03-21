@@ -20,7 +20,7 @@ class AdminDashboard extends React.Component<any, any>{
                             </div>
                         </Col>
                         <Col sm={9}>
-                            <div>
+                            <div className={'adminDashboardMain'}>
                                 hello world Admin Dashboard
                             </div>
                         </Col>
