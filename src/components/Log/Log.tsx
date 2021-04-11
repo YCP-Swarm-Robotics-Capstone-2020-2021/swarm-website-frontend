@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './Logs.css';
+import './Log.css';
 import backgroundImageStyling from '../../styles/backgroundImageStyling';
 import MainNavbar from "../../utils/MainNavbar";
 import {RouteComponentProps} from "react-router-dom";
