@@ -27,7 +27,9 @@ class Log extends React.Component<LogProps, LogState>{
 
     render(){
         return(
-            <MainNavbar logo={logo}/>
+            <section style={background}>
+                <MainNavbar logo={logo}/>
+            </section>
         )
     }
 }
