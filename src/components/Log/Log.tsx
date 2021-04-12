@@ -48,7 +48,7 @@ class Log extends React.Component<{}, LogState>{
 
     render(){
         // Render list of Logs
-        let rowList: JSX.Element[] = []
+        let rowList: JSX.Element[] = [];
         for(const log of this.state.logs){
             rowList.push(
                 <LogRow id={log.id} dateTime={log.dateTime} deviceID={log.deviceID} filePath={log.filePath}/>
