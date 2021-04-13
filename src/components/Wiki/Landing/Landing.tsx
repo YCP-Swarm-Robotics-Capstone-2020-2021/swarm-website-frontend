@@ -17,8 +17,6 @@ interface landingState{
 }
 
 /**
- * route: /wiki/{id}
- * 
  * Displays stats for a given wiki and also the wiki description
  * 
  * TODO:
