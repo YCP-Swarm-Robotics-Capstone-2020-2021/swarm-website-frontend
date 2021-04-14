@@ -1,13 +1,15 @@
 #card{
-    background-color: #181a1b;
+    /* background-color: rgb(46, 51, 56); */
     height: 85vh;
-    width: 85%;
-    margin-left: 7.5%;
+    width: 75%;
+    margin-left: 12.5%;
     margin-top: 2%;
     border-radius: 0.5rem;
 
 }
 
-#topRow{
-    width: 100%;
-}
+/* #topRow{
+    color: white;
+    background-color: rgb(46, 51, 56);
+    width: 85%;
+} */

@@ -6,7 +6,7 @@ import LogStruct from './LogStruct';
 import backgroundImageStyling from '../../styles/backgroundImageStyling';
 import MainNavbar from "../../utils/MainNavbar";
 import {url} from '../../utils/DetermineUrl';
-import {ListGroup, Card} from "react-bootstrap";
+import {ListGroup, Table} from "react-bootstrap";
 
 const logo = require('../../images/swarmLogoIcon.png');
 
@@ -57,15 +57,18 @@ class Log extends React.Component<{}, LogState>{
         return(
             <section style={background}>
                 <MainNavbar logo={logo}/>
-                    <Card id="card" bg="dark" text="white">
-                        <ListGroup horizontal>
-                            <ListGroup.Item id="topRow" variant="dark">Device ID</ListGroup.Item>
-                            <ListGroup.Item id="topRow" variant="dark">Date and Time</ListGroup.Item>
-                        </ListGroup>
-                        <ListGroup>
-                            {rowList}
-                        </ListGroup>
-                    </Card>
+                    <div id="card">
+                    <Table striped hover size="sm" variant="dark" responsive >
+                        <thead className="text-center">
+                            <th>Log ID #</th>
+                            <th>Device Name</th>
+                            <th>Date</th>
+                        </thead>
+                        <tbody>
+                        {rowList}
+                        </tbody>
+                        </Table>
+                    </div>
             </section>
         )
     }

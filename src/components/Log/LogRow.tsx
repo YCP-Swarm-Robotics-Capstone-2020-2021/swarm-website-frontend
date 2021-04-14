@@ -10,18 +10,20 @@ class LogRow extends React.Component<LogStruct, {}>{
     }
 
      // If the user clicks on a row, redirect to the selected Log
-     navToLog() {
+    navToLog() {
         console.log('Navigating to log file');
     }
     
     render(){
-        const date = new Date(this.props.dateTime);
+        // Convert date time to string
+        const date = new Date(this.props.dateTime); //.toString();
 
         return(
-            <ListGroup horizontal onClick={this.navToLog}>
-                <ListGroup.Item id="topRow" variant="dark">{this.props.deviceID}</ListGroup.Item>
-                <ListGroup.Item id="topRow" variant="dark">{date.toLocaleDateString('en-us', {hour: '2-digit', minute:'2-digit'})}</ListGroup.Item>
-            </ListGroup>
+            <tr className="text-center" onClick={this.navToLog}>
+                <th>{this.props.id}</th>
+                <th>{this.props.deviceID}</th>
+                <th>{date.toDateString()}</th>
+            </tr>
         )
     }
 }
