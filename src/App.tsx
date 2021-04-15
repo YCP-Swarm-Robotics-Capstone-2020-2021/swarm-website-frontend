@@ -11,7 +11,7 @@ import PersonalPage from './components/PersonalPage/PersonalPage';
 import WikiNotFound from './components/Wiki/WikiNotFound/WikiNotFound';
 import Dog from './components/Dog/Dog';
 import Visualization from "./components/Visualization/Visualization";
-import Log from "./components/Log/Log";
+import Runs from "./components/Runs/Runs";
 
 function  App(){
     return(
@@ -25,7 +25,7 @@ function  App(){
                 <Route path='/personalpage' component={PersonalPage} exact/>
                 <Route path='/visualization' component={Visualization}/>
                 <Route path='/dog' component={Dog} exact/>
-                <Route path='/log' component={Log} />
+                <Route path='/runs' component={Runs} />
                 <Route component={Error} />
             </Switch>
         </main>

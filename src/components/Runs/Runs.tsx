@@ -8,7 +8,7 @@ import backgroundImageStyling from '../../styles/backgroundImageStyling';
 const logo = require('../../images/swarmLogoIcon.png');
 const background = backgroundImageStyling();
 
-const Log: React.FC<{}> = () => {
+const Runs: React.FC<{}> = () => {
     return(
         <section style={background}>
             <MainNavbar logo={logo}/>
@@ -23,4 +23,4 @@ const Log: React.FC<{}> = () => {
     )
 }
 
-export default Log
+export default Runs

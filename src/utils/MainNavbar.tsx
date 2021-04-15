@@ -116,7 +116,7 @@ class MainNavbar extends React.Component<Props, State>{
                         <Nav className="mr-auto">
                             <Nav.Link href="/home">Home</Nav.Link>
                             <Nav.Link href="https://visualization.swarmrobotics.io/" target={'_blank'}>Visualization</Nav.Link>
-                            <Nav.Link href="/log">Logs</Nav.Link>
+                            <Nav.Link href="/runs">Runs</Nav.Link>
                             <Nav.Link href="/gallery">Gallery</Nav.Link>
                             <Dropdown id="wikiDropdown">
                                 <Dropdown.Toggle variant="success">
