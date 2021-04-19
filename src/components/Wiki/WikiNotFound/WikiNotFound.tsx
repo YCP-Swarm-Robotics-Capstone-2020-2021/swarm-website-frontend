@@ -8,6 +8,7 @@ import {wikiData} from "../../../utils/getInterfaces/wikiData";
 
 import './WikiNotFound.css';
 import backgroundImageStyling from "../../../styles/backgroundImageStyling";
+import {cookies} from "../../../utils/Cookies";
 
 //get navbar logo
 const logo = require('../../../images/swarmLogoIcon.png');
@@ -31,6 +32,7 @@ class WikiNotFound extends React.Component<{}, wikiNotFoundState>{
         fetch(url+'/wiki',{
             method: 'GET',
             headers: {
+                "Authorization": "Bearer " + cookies.get("access"),
                 'Content-Type': 'application/json'
             }
         })

@@ -1,10 +1,12 @@
 import {url} from '../../../utils/DetermineUrl';
 import {newCommentData} from "../../../utils/postInterfaces/newCommentData";
+import {cookies} from "../../../utils/Cookies";
 
 export async function getEntry(entryId: string){
     let response = await fetch(url+'/entry/'+entryId, {
         method: 'GET',
         headers:{
+            "Authorization": "Bearer " + cookies.get("access"),
             'Content-Type': 'application/json'
         }
     })
@@ -15,6 +17,7 @@ export async function getComment(commentId: string){
     let response = await fetch(url+'/comment/'+commentId, {
         method: 'GET',
         headers:{
+            "Authorization": "Bearer " + cookies.get("access"),
             'Content-Type': 'application/json'
         }
     })
@@ -25,6 +28,7 @@ export async function getUser(userId: string){
     let response = await fetch(url+'/user/'+userId, {
         method: 'GET',
         headers:{
+            "Authorization": "Bearer " + cookies.get("access"),
             'Content-Type': 'application/json'
         }
     })
@@ -35,6 +39,7 @@ export async function getHeading(headingId: string){
     let response = await fetch(url+'/heading/'+headingId, {
         method: 'GET',
         headers:{
+            "Authorization": "Bearer " + cookies.get("access"),
             "Content-type": "application/json"
         }
     })
@@ -45,6 +50,7 @@ export async function getSideBar(sideBarId: string){
     let response = await fetch(url+'/sidebar/'+sideBarId, {
         method: 'GET',
         headers:{
+            "Authorization": "Bearer " + cookies.get("access"),
             'Content-Type': 'application/json'
         }
     })
@@ -56,6 +62,7 @@ export async function postComment(comment: newCommentData, comments: number[], e
         method: "POST",
         body: JSON.stringify(comment),
         headers: {
+            "Authorization": "Bearer " + cookies.get("access"),
             "Content-Type": 'application/json'
         }
     })
@@ -72,6 +79,7 @@ export async function postComment(comment: newCommentData, comments: number[], e
             method: 'PATCH',
             body: JSON.stringify({comments: comments}),
             headers: {
+                "Authorization": "Bearer " + cookies.get("access"),
                 'Content-Type': 'application/json'
             }
         })
@@ -89,6 +97,7 @@ export async function deleteComment(commentId: number){
     let response = await fetch(url+'/comment/'+commentId, {
         method: "DELETE",
         headers: {
+            "Authorization": "Bearer " + cookies.get("access"),
             "Content-Type": "application/json"
         }
     })
@@ -99,6 +108,7 @@ export async function getAllChanges(entryId: string){
     let response = await fetch(url+'/entry/get_all_changes?id='+entryId, {
         method: "GET",
         headers:  {
+            "Authorization": "Bearer " + cookies.get("access"),
             "Content-Type": "application/json"
         }
     })

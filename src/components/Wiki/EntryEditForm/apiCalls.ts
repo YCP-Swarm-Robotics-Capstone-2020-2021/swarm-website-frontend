@@ -4,6 +4,7 @@ import {newChangeData} from "../../../utils/postInterfaces/newChangeData";
 import {entryData} from "../../../utils/getInterfaces/entryData";
 import {wikiData} from "../../../utils/getInterfaces/wikiData";
 import {headingData} from "../../../utils/getInterfaces/headingData";
+import {cookies} from "../../../utils/Cookies";
 
 export async function postHeading(heading: newHeadingData, change: newChangeData, entryData: entryData){
     let changeResponse = await fetch(url+'/change', {
@@ -27,6 +28,7 @@ export async function postHeading(heading: newHeadingData, change: newChangeData
             method: "POST",
             body: JSON.stringify(heading),
             headers: {
+                "Authorization": "Bearer " + cookies.get("access"),
                 "Content-Type": "application/json"
             }
         })
@@ -42,6 +44,7 @@ export async function postHeading(heading: newHeadingData, change: newChangeData
                 method: 'PATCH',
                 body: JSON.stringify({headings: entryData.headings.concat(headingJson['id'])}),
                 headers: {
+                    "Authorization": "Bearer " + cookies.get("access"),
                     'Content-Type': 'application/json'
                 }
             })
@@ -61,6 +64,7 @@ export async function updateEntry(entry: entryData, change: newChangeData){
         method: 'POST',
         body: JSON.stringify(change),
         headers: {
+            "Authorization": "Bearer " + cookies.get("access"),
             'Content-Type': 'application/json'
         }
     })
@@ -76,6 +80,7 @@ export async function updateEntry(entry: entryData, change: newChangeData){
             method: "PUT",
             body: JSON.stringify(entry),
             headers: {
+                "Authorization": "Bearer " + cookies.get("access"),
                 "Content-Type": "application/json"
             }
         })
@@ -89,6 +94,7 @@ export async function updateWiki(wiki: wikiData){
         method: "PUT",
         body: JSON.stringify(wiki),
         headers: {
+            "Authorization": "Bearer " + cookies.get("access"),
             "Content-Type": "application/json"
         }
     })
@@ -101,6 +107,7 @@ export async function updateHeadings(heading: headingData, change: newChangeData
         method: 'POST',
         body: JSON.stringify(change),
         headers: {
+            "Authorization": "Bearer " + cookies.get("access"),
             'Content-Type': 'application/json'
         }
     })
@@ -115,6 +122,7 @@ export async function updateHeadings(heading: headingData, change: newChangeData
             method: "PUT",
             body: JSON.stringify(heading),
             headers: {
+                "Authorization": "Bearer " + cookies.get("access"),
                 "Content-Type": "application/json"
             }
         })
@@ -127,6 +135,7 @@ export async function deleteHeading(headingId: string){
     let response = await fetch(url+'/heading/delete_heading?id='+headingId, {
         method: "GET",
         headers:  {
+            "Authorization": "Bearer " + cookies.get("access"),
             "Content-Type": "application/json"
         }
     })
@@ -138,6 +147,7 @@ export async function deleteWiki(wiki: wikiData){
     let response = await fetch(url+'/wiki/delete_wiki?id='+wiki.id, {
         method: "GET",
         headers:  {
+            "Authorization": "Bearer " + cookies.get("access"),
             "Content-Type": "application/json"
         }
     })
@@ -149,6 +159,7 @@ export async function deleteEntry(entry: entryData){
     let response = await fetch(url+'/entry/delete_entry?id='+entry.id, {
         method: "GET",
         headers:  {
+            "Authorization": "Bearer " + cookies.get("access"),
             "Content-Type": "application/json"
         }
     })
