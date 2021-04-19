@@ -30,6 +30,7 @@ class MainNavbar extends React.Component<Props, State>{
         let response = await fetch(url+'/wiki', {
             method: "GET",
             headers: {
+                "Authorization": "Bearer " + cookies.get("access"),
                 "Content-Type": "application/json"
             }
         })
@@ -48,6 +49,7 @@ class MainNavbar extends React.Component<Props, State>{
             method: "POST",
             body: JSON.stringify(this.state.newWiki),
             headers:{
+                "Authorization": "Bearer " + cookies.get("access"),
                 "Content-Type": 'application/json'
             }
         })
