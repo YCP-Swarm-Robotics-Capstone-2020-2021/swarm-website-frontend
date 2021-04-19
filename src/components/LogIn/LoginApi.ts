@@ -13,7 +13,7 @@ interface LoginData{
 
 export async function requestToken(email: string, password: string){
     const response = await fetch(
-        url + 'token', {
+        url + '/token', {
             method: 'POST',
             headers:{
                 'Content-Type': 'application/json'

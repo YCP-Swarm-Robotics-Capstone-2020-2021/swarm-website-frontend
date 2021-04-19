@@ -4,7 +4,7 @@ import {Button, Form} from "react-bootstrap";
 import './LogIn.css';
 import Image from "../../utils/Image";
 import {Link, RouteComponentProps} from "react-router-dom";
-import {LoginState, verifyUser} from "./LoginApi";
+import {LoginState, requestToken, verifyUser} from "./LoginApi";
 import {cookies} from '../../utils/Cookies';
 
 const loginLogo = require('../../images/swarmLogoIcon.png');
@@ -57,6 +57,12 @@ class LogIn extends React.Component<LoginProps, LoginState> {
     handleSubmit = async (e: React.FormEvent)=> {
 
         e.preventDefault();
+
+        const tokenResponse = await requestToken(this.state.data.email, this.state.data.password);
+        if(tokenResponse){
+            cookies.set('refresh', tokenResponse.refresh);
+            cookies.set('access', tokenResponse.access);
+        }
 
         const response = await verifyUser(this.state.data.email, this.state.data.password);
 
