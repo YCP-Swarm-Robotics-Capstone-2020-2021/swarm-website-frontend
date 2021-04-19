@@ -3,9 +3,9 @@ import {findUser} from '../../components/SignUp/SignUpApi'
 
 export default async function verifyUserIsLoggedIn(){
     //Preform a system check with cookies to make sure the user is logged in
-    const username = cookies.get('username');
+    const email = cookies.get('email');
 
-    const response = await findUser(username);
+    const response = await findUser(email);
 
     return !response.Status;
 
