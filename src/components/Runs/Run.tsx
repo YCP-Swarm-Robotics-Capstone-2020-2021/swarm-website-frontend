@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Container, Row, Col, Spinner} from "react-bootstrap";
+import {Container, Row, Col, Spinner, Button} from "react-bootstrap";
 import {url} from "../../utils/DetermineUrl";
 import runData from "../../utils/getInterfaces/runData";
 
@@ -40,6 +40,11 @@ const Run: React.FC<runProps> = (props: runProps) => {
                     {
                         loading ? <Spinner animation={'border'}/> : <h3>{data.runID + data.deviceID + data.dateTime}</h3>
                     }
+                </Col>
+            </Row>
+            <Row className={'justify-content-center mt-2'}>
+                <Col className={'text-center'}>
+                    <Button type={'button'} variant={'success'} onClick={() => {props.changeView('table')}}>Search Runs</Button>
                 </Col>
             </Row>
         </Container>
