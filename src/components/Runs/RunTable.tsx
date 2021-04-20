@@ -5,6 +5,10 @@ import {url} from '../../utils/DetermineUrl';
 import runData from '../../utils/getInterfaces/runData';
 import './styles/RunTable.css'
 
+interface runTableProps{
+    changeView: (view: string) => void
+}
+
 /**
  * Render out a filter for
  * - date (initial today)
@@ -13,7 +17,7 @@ import './styles/RunTable.css'
  *
  *  Render out a table of runs based on filter result
  */
-const RunTable: React.FC<{}> = () => {
+const RunTable: React.FC<runTableProps> = (props: runTableProps) => {
     const [runs, setRuns] = useState<runData[]>([]);
     const [devices, setDevices] = useState<string[]>([]);
     const [date, setDate] = useState(new Date().toLocaleDateString('en-us'));
@@ -118,7 +122,7 @@ const RunTable: React.FC<{}> = () => {
                     loading ? <tr className={'text-center'}><td colSpan={3}><Spinner animation={'border'}/></td></tr> :
                         runs.map((run) => {
                             let date = new Date(run.dateTime);
-                            return <tr className={'text-center'} key={'runRow'+run.id}>
+                            return <tr className={'text-center'} key={'runRow'+run.id} onClick={() => {props.changeView(run.id.toString())}}>
                                 <td>{run.runID}</td>
                                 <td>{run.deviceID}</td>
                                 <td>{date.toDateString()}</td>
