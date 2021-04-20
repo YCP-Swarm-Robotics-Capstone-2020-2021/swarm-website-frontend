@@ -18,3 +18,7 @@
 #runTableFilter select:hover{
     cursor: pointer;
 }
+
+#runTable tbody tr:hover{
+    cursor: pointer;
+}

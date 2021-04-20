@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Table, Spinner, InputGroup, FormControl, Form, Container, Row, Col} from 'react-bootstrap';
+import {Table, Spinner, InputGroup, FormControl, Form, Container, Row, Col, Button} from 'react-bootstrap';
 
 import {url} from '../../utils/DetermineUrl';
 import runData from '../../utils/getInterfaces/runData';
@@ -22,6 +22,12 @@ const RunTable: React.FC<{}> = () => {
 
     const handleFilter = (e: React.FormEvent<HTMLFormElement>) => {
         //will have to check that 'date' state var is indeed a valid date
+    }
+
+    //reset date/description/device to default state
+    //TODO: reset description/device
+    const resetFilter = () => {
+        setDate(new Date().toLocaleDateString('en-us'));
     }
 
     useEffect(() => {
@@ -77,7 +83,7 @@ const RunTable: React.FC<{}> = () => {
                         </Col>
                     </Row>
                     <Row>
-                        <Col sm={12} md={6} lg={4} xl={4} className={'mt-2'}>
+                        <Col xs={12} sm={8} md={6} lg={4} xl={4} className={'mt-2'}>
                             <InputGroup>
                                 <InputGroup.Prepend><InputGroup.Text>Device</InputGroup.Text></InputGroup.Prepend>
                                 <FormControl name='device' as={'select'}>
@@ -89,6 +95,10 @@ const RunTable: React.FC<{}> = () => {
                                     }
                                 </FormControl>
                             </InputGroup>
+                        </Col>
+                        <Col className={'mt-2'} xs={8} sm={4} md={4} lg={4} xl={4}>
+                            <Button className={'float-left mr-2'} type={'submit'} variant={'success'}>Filter</Button>
+                            <Button className={'float-left'} type={'button'} variant={'danger'} onClick={resetFilter}>Reset</Button>
                         </Col>
                     </Row>
                 </Form>
