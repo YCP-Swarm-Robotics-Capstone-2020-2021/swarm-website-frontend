@@ -17,6 +17,7 @@ const RunTable: React.FC<{}> = () => {
     const [runs, setRuns] = useState<runData[]>([]);
     const [devices, setDevices] = useState<string[]>([]);
     const [date, setDate] = useState(new Date().toLocaleDateString('en-us'));
+    const [description, setDescription] = useState('');
     const [invalidDate, setInvalidDate] = useState(false);
     const [loading, setLoading] = useState(true);
 
@@ -25,9 +26,10 @@ const RunTable: React.FC<{}> = () => {
     }
 
     //reset date/description/device to default state
-    //TODO: reset description/device
+    //TODO: reset device
     const resetFilter = () => {
         setDate(new Date().toLocaleDateString('en-us'));
+        setDescription('');
     }
 
     useEffect(() => {
@@ -78,7 +80,7 @@ const RunTable: React.FC<{}> = () => {
                         <Col sm={12} md={8} lg={9} xl={9} className={'mt-2'}>
                             <InputGroup>
                                 <InputGroup.Prepend><InputGroup.Text>Description</InputGroup.Text></InputGroup.Prepend>
-                                <FormControl name='description' as={'input'}/>
+                                <FormControl name='description' as={'input'} value={description} onChange={e => setDescription(e.target.value)}/>
                             </InputGroup>
                         </Col>
                     </Row>
