@@ -56,6 +56,9 @@ const Run: React.FC<runProps> = (props: runProps) => {
                                     <FormControl value={data.deviceID} disabled={true}/>
                                 </InputGroup>
                             </Col>
+                            <Col className={'text-center mt-2'} xs={12} sm={6} md={4} lg={4} xl={4}>
+                                <Button variant={'success'} onClick={() => {props.changeView('table')}}>Search Runs</Button>
+                            </Col>
                         </Row>
                         <Row className={'justify-content-center mt-2'}>
                             <Col className={'text-center'}>
