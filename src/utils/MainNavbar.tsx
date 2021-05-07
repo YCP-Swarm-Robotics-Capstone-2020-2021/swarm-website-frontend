@@ -96,6 +96,9 @@ class MainNavbar extends React.Component<Props, State>{
 
     handleLogout(){
         cookies.remove('username');
+        cookies.remove('access');
+        cookies.remove('email');
+        cookies.remove('refresh')
     }
 
     render(){
