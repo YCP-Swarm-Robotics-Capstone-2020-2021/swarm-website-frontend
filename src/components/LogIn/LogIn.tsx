@@ -68,7 +68,6 @@ class LogIn extends React.Component<LoginProps, LoginState> {
 
         if(response.Status){
             cookies.set('email', this.state.data.email);
-            cookies.set('username', response.username);
             this.props.history.push('/home')
         }else{
             this.setState({failedLogin: true});

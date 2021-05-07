@@ -7,6 +7,7 @@ export default async function verifyUserIsLoggedIn(){
 
     const response = await findUser(email);
 
+    cookies.set('username', response.username);
     return !response.Status;
 
 
