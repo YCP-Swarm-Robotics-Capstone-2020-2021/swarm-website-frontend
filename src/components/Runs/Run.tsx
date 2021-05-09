@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Container, Row, Col, Spinner, Button, InputGroup, FormControl, Form} from "react-bootstrap";
 import {url} from "../../utils/DetermineUrl";
 import runWithJSONData from '../../utils/getInterfaces/runWithJSONData';
+import {getS3Object} from "../../utils/getS3Object";
 
 import './styles/Run.css';
 
@@ -29,6 +30,9 @@ const Run: React.FC<runProps> = (props: runProps) => {
 
             if(!response.ok) return console.log('Fetching run data failed...');
             const json = await response.json();
+
+            //get json from s3 bucket
+            json['Success']['run'] = await getS3Object("swarm-logs-bucket", "Run_Allstop/LOG_Dolphin0_25_2_2021_____07_14_52.alog.json");
 
             setData(json['Success'] as runWithJSONData);
             setPrettyDate(new Date(json['Success']['dateTime']).toLocaleDateString('en-us'));

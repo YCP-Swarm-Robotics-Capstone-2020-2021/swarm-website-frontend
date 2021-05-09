@@ -112,9 +112,11 @@ const RunTable: React.FC<runTableProps> = (props: runTableProps) => {
 
             <Table id='runTable' variant="dark" size="md" striped hover>
                 <thead className="text-center">
-                <th>Run ID #</th>
-                <th>Device Name</th>
-                <th>Date</th>
+                    <tr>
+                        <th>Run ID #</th>
+                        <th>Device Name</th>
+                        <th>Date</th>
+                    </tr>
                 </thead>
                 <tbody>
                 {
