@@ -8,6 +8,8 @@ import './styles/Run.css';
 
 interface runProps {
     id: string,
+    accessKey: string,
+    secretKey: string,
     changeView: (view: string) => void
 }
 
@@ -32,7 +34,7 @@ const Run: React.FC<runProps> = (props: runProps) => {
             const json = await response.json();
 
             //get json from s3 bucket
-            json['Success']['run'] = await getS3Object("swarm-logs-bucket", "Run_Allstop/LOG_Dolphin0_25_2_2021_____07_14_52.alog.json");
+            json['Success']['run'] = await getS3Object("swarm-logs-bucket", "Run_Allstop/LOG_Dolphin0_25_2_2021_____07_14_52.alog.json", props.accessKey, props.secretKey);
 
             setData(json['Success'] as runWithJSONData);
             setPrettyDate(new Date(json['Success']['dateTime']).toLocaleDateString('en-us'));

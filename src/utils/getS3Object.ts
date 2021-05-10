@@ -1,6 +1,6 @@
 import {S3} from "@aws-sdk/client-s3";
 
-export async function getS3Object(bucket: string, key: string){
+export async function getS3Object(bucket: string, key: string, accessKey: string, secretKey: string){
     const params = {
         Bucket: bucket,
         Key: key,
@@ -10,8 +10,8 @@ export async function getS3Object(bucket: string, key: string){
     const s3 = new S3({
         region: 'us-east-1',
         credentials: {
-            accessKeyId: "",
-            secretAccessKey: "",
+            accessKeyId: accessKey,
+            secretAccessKey: secretKey,
         }
     });
 
