@@ -23,6 +23,10 @@ interface entryMenuState{
     lastUpdated: string
 }
 
+/**
+ * Display a list of entries users can click on to view,
+ * also displays the last updated date for the parent wiki
+ */
 class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
     constructor(props: entryMenuProps) {
         super(props);
@@ -35,7 +39,7 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
         }
     }
 
-    //need to reloadWiki as the Wiki component passes the entry list via props.
+    //clear out state and call passed in reloadWiki() function to get new prop data
     reloadEntryMenu = () => {
         this.setState({
             entryList: [],
@@ -47,35 +51,36 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
         })
     }
 
-    //modal hide
+    //used to hide/show the #addEntryModal element below
     handleHide = () => {
         this.setState({
             addEntryModalShow: false
         })
     }
-
-    //modal show
     handleShow = () => {
         this.setState({
             addEntryModalShow: true
         })
     }
 
-    //update state when title is change in form
+    //state update handlers for the #addEntryModal element below
     handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             newTitle: e.target.value
         });
     }
-
-    //update state when text is change in form
     handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             newText: e.target.value
         });
     }
 
-    //submit data based on updated state
+    /**
+     * Form submission handler for the #addEntryModal element below
+     * 
+     * On successful submission hide #addEntryModal and call reloadEntryMenu() to
+     * refresh the list of entries/prop data
+     */
     handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         let result = await postEntry({
@@ -96,6 +101,12 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
         }
     }
 
+    /**
+     * Build the 'entryList' state array with <ListGroupItem/>
+     * 
+     * When the <ListGroupItem/>s are clicked the 'action' prop is called, which is
+     * from the <Wiki/> parent component, simply switches which <Entry/> is displayed/loaded
+     */
     buildEntryMenu = async () => {
         for(const entryId of this.props.entries){
             let response = await getEntryMenuMember(entryId);
@@ -117,6 +128,9 @@ class EntryMenu extends React.Component<entryMenuProps, entryMenuState>{
         }
     }
 
+    /**
+     * Fetch the last updated date for the wiki, filter out the time using substring() 
+     */
     getLastUpdatedDate = async () => {
         let response = await getLastUpdatedDate(this.props.wikiId);
 
