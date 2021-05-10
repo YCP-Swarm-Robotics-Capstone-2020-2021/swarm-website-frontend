@@ -4,7 +4,7 @@ import {Button, Form} from "react-bootstrap";
 import './LogIn.css';
 import Image from "../../utils/Image";
 import {Link, RouteComponentProps} from "react-router-dom";
-import {LoginState, verifyUser} from "./LoginApi";
+import {LoginState, requestToken, verifyUser} from "./LoginApi";
 import {cookies} from '../../utils/Cookies';
 
 const loginLogo = require('../../images/swarmLogoIcon.png');
@@ -29,7 +29,7 @@ class LogIn extends React.Component<LoginProps, LoginState> {
             redirect: false,
             failedLogin: false,
             data: {
-                username: '',
+                email: '',
                 password: ''
             }
         }
@@ -58,10 +58,16 @@ class LogIn extends React.Component<LoginProps, LoginState> {
 
         e.preventDefault();
 
-        const response = await verifyUser(this.state.data.username, this.state.data.password);
+        const tokenResponse = await requestToken(this.state.data.email, this.state.data.password);
+        if(tokenResponse){
+            cookies.set('refresh', tokenResponse.refresh);
+            cookies.set('access', tokenResponse.access);
+        }
+
+        const response = await verifyUser(this.state.data.email, this.state.data.password);
 
         if(response.Status){
-            cookies.set('username', this.state.data.username);
+            cookies.set('email', this.state.data.email);
             this.props.history.push('/home')
         }else{
             this.setState({failedLogin: true});
@@ -77,10 +83,10 @@ class LogIn extends React.Component<LoginProps, LoginState> {
                     <Form onSubmit={this.handleSubmit}>
                         <Image id='loginLogo' src={String(loginLogo)} alt='Swarm Robotics Logo'/>
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Text className={'text-center loginText'}>Username</Form.Text>
+                            <Form.Text className={'text-center loginText'}>Email</Form.Text>
                             <Form.Control className={'loginTextInput text-center'}
-                                          onChange={this.handleChange} type="username"
-                                          name={"username"} required placeholder="Enter Username"/>
+                                          onChange={this.handleChange} type="email"
+                                          name={"email"} required placeholder="Enter Email"/>
                         </Form.Group>
 
                         <Form.Group controlId="formBasicPassword">

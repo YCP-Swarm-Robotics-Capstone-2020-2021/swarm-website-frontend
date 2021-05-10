@@ -1,11 +1,13 @@
 import {url} from '../../../utils/DetermineUrl';
 import {newEntryData} from "../../../utils/postInterfaces/newEntryData";
 import {newChangeData} from "../../../utils/postInterfaces/newChangeData";
+import {cookies} from "../../../utils/Cookies";
 
 export async function getEntryMenuMember(entryId: number){
     const response = await fetch(url+'/entry/' + entryId, {
         method: 'GET',
         headers: {
+            "Authorization": "Bearer " + cookies.get("access"),
             'Content-Type': 'application/json'
         }
     })
@@ -17,6 +19,7 @@ export async function getLastUpdatedDate(wikiId: number){
     const response  = await fetch(url+'/wiki/get_last_updated?id='+wikiId, {
         method: 'GET',
         headers: {
+            "Authorization": "Bearer " + cookies.get("access"),
             'Content-Type': 'application/json'
         }
     })
@@ -28,6 +31,7 @@ export async function postEntry(entry: newEntryData, change: newChangeData, wiki
     const responseSideBar = await fetch(url+'/sidebar', {
         method: 'POST',
         headers: {
+            "Authorization": "Bearer " + cookies.get("access"),
             'Content-Type': 'application/json'
         }
     })
@@ -44,6 +48,7 @@ export async function postEntry(entry: newEntryData, change: newChangeData, wiki
             method: 'POST',
             body: JSON.stringify(change),
             headers: {
+                "Authorization": "Bearer " + cookies.get("access"),
                 'Content-Type': 'application/json'
             }
         })
@@ -60,6 +65,7 @@ export async function postEntry(entry: newEntryData, change: newChangeData, wiki
                 method: 'POST',
                 body: JSON.stringify(entry),
                 headers: {
+                    "Authorization": "Bearer " + cookies.get("access"),
                     'Content-Type': 'application/json'
                 }
             })
@@ -76,6 +82,7 @@ export async function postEntry(entry: newEntryData, change: newChangeData, wiki
                     method: 'PATCH',
                     body: JSON.stringify({entries: entries.concat(entryId)}),
                     headers: {
+                        "Authorization": "Bearer " + cookies.get("access"),
                         'Content-Type': 'application/json'
                     }
                 })

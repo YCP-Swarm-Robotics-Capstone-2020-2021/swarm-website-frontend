@@ -1,4 +1,5 @@
 import {url} from '../../utils/DetermineUrl'
+import {cookies} from "../../utils/Cookies";
 
 export interface SignUpState{
     userCreateSuccess: boolean,
@@ -16,10 +17,10 @@ interface SignUpData{
     email: string
 }
 
-export async function findUser(username: string){
+export async function findUser(email: string){
     const response = await fetch(
-        url + "/user/find_user?username=" +
-        username, {
+        url + "/user/find_user?email=" +
+        email, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
