@@ -17,13 +17,13 @@ const loadingSpinner = <Row className={'justify-content-center'}><Col className=
 
 const Run: React.FC<runProps> = (props: runProps) => {
     const [loading, setLoading] = useState(true);
-    const [data, setData] = useState<runWithJSONData>({id: 0, dateTime: '', deviceID: '', runID: 0, logId: 0, run:''});
+    const [data, setData] = useState<runWithJSONData>({id: 0, dateTime: '', deviceID: '', runID: 0, logId: 0, run:'', filePath: ''});
     const [prettyDate, setPrettyDate] = useState('');
 
     useEffect(() => {
         const load = async () => {
             //TOOD: fetch run data from /api/run/{props.id} or /api/run?id={props.id}
-            const response = await fetch(url+'/run/get_run_json?id='+props.id, {
+            const response = await fetch(url+'/run/'+props.id, {
                 method: 'GET',
                 headers:{
                     'Content-Type': 'application/json'
@@ -34,10 +34,10 @@ const Run: React.FC<runProps> = (props: runProps) => {
             const json = await response.json();
 
             //get json from s3 bucket
-            json['Success']['run'] = await getS3Object("swarm-logs-bucket", "Run_Allstop/LOG_Dolphin0_25_2_2021_____07_14_52.alog.json", props.accessKey, props.secretKey);
+            json['run'] = await getS3Object("swarm-logs-bucket", json['filePath'], props.accessKey, props.secretKey);
 
-            setData(json['Success'] as runWithJSONData);
-            setPrettyDate(new Date(json['Success']['dateTime']).toLocaleDateString('en-us'));
+            setData(json as runWithJSONData);
+            setPrettyDate(new Date(json['dateTime']).toLocaleDateString('en-us'));
 
             setLoading(false);
         }

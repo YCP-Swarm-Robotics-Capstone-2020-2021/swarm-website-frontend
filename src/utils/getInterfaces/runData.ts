@@ -3,5 +3,6 @@ export default interface runData{
     dateTime: string,
     deviceID: string,
     runID: number,
-    logId: number
+    logId: number,
+    filePath: string
 }

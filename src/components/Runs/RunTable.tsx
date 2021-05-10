@@ -36,6 +36,10 @@ const RunTable: React.FC<runTableProps> = (props: runTableProps) => {
         setDescription('');
     }
 
+    const selectRun = (id: number) => {
+        props.changeView(id.toString())
+    }
+
     useEffect(() => {
         //load runs from api route '/run'
         const load = async () => {
@@ -116,6 +120,7 @@ const RunTable: React.FC<runTableProps> = (props: runTableProps) => {
                         <th>Run ID #</th>
                         <th>Device Name</th>
                         <th>Date</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -124,10 +129,17 @@ const RunTable: React.FC<runTableProps> = (props: runTableProps) => {
                     loading ? <tr className={'text-center'}><td colSpan={3}><Spinner animation={'border'}/></td></tr> :
                         runs.map((run) => {
                             let date = new Date(run.dateTime);
-                            return <tr className={'text-center'} key={'runRow'+run.id} onClick={() => {props.changeView(run.id.toString())}}>
-                                <td>{run.runID}</td>
-                                <td>{run.deviceID}</td>
-                                <td>{date.toDateString()}</td>
+
+                            let visualButton = <></>
+                            if(run.deviceID === 'Narwhal'){
+                                visualButton = <Button variant={'success'} href={'https://visualization.swarmrobotics.io?script='+run.filePath.replace('.json', '.script')} target={'_blank'}>Visualize</Button>
+                            }
+
+                            return <tr className={'text-center'} key={'runRow'+run.id}>
+                                <td onClick={() => {selectRun(run.id)}}>{run.runID}</td>
+                                <td onClick={() => {selectRun(run.id)}}>{run.deviceID}</td>
+                                <td onClick={() => {selectRun(run.id)}}>{date.toDateString()}</td>
+                                <td>{visualButton}</td>
                             </tr>
                         })
                 }
