@@ -1,0 +1,13 @@
+.dashboardContainer{
+    margin-top: 2rem;
+}
+.sideHeaders{
+    padding: 10px;
+}
+.adminDashboardMain{
+    background: #EDF2F6;
+}
+.sideDashboard{
+    color: white;
+    background: #343A40;
+}
