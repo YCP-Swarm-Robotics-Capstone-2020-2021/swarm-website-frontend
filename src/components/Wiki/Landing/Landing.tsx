@@ -16,6 +16,12 @@ interface landingState{
     allContributors: number[]
 }
 
+/**
+ * Displays stats for a given wiki and also the wiki description
+ * 
+ * TODO:
+ *  - add some kind of graph for activity over time (currently a placeholder)
+ */
 class Landing extends React.Component<landingProps, landingState>{
     constructor(props: landingProps) {
         super(props);
@@ -26,15 +32,18 @@ class Landing extends React.Component<landingProps, landingState>{
         }
     }
 
+    //for each entry id, get all of its data
     buildLandingStats = async () => {
         for(const entryId of this.props.entries){
             let response = await getEntryStats(entryId);
             let json = await response.json();
 
+            //increment total comments for a wiki, add number of comments for each entry
             this.setState({
                 numComments: this.state.numComments + json['comments'].length
             })
 
+            //get a list of unique contributor ids, the length of the 'allContributors' state var is then rendered below
             json['contributors'].forEach((contributorId: number) => {
                 if(!this.state.allContributors.includes(contributorId)){
                     this.setState({

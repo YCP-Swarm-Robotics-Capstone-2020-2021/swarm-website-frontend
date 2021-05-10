@@ -16,7 +16,7 @@ import {getEntry, getComment, getUser, getHeading, getSideBar, postComment, dele
 const logo = require('../../../images/swarmLogoIcon.png');
 
 /*
-* There's a warning that gets produced in the console when interacting with the Tab component below (switching b/t details/comment/details tabs)
+* There's a warning that gets produced in the console when interacting with the Tab component below (switching b/t details/comment/edit tabs)
 * react-bootstrap is aware of this warning but they do not have a fix for it yet it seems.
 *
 * warning:
@@ -50,7 +50,9 @@ interface entryProps{
     reloadWiki: () => void
 }
 
-//component has no props, hence {}
+/**
+ * Displays a chosen entry chosen in <EntryMenu/> in the <Wiki/> components #rightPane div
+ */
 class Entry extends React.Component<entryProps, entryState>{
     constructor(props: entryProps) {
         super(props);
@@ -72,6 +74,7 @@ class Entry extends React.Component<entryProps, entryState>{
         };
     }
 
+    //used whenever a comment/heading/any kind of update is posted and we need updated entry data
     reloadEntry = () => {
         this.setState({
             data: {id: 0, title: '', text: '', sideBar: 0, comments: [], contributors: [], headings: [], log: []},
@@ -89,13 +92,13 @@ class Entry extends React.Component<entryProps, entryState>{
         })
     }
 
+    //used to hide/show the #replyModal below
     handleReplyHide = () => {
         this.setState({
             replyModalShow: false,
             replyModalQuote: ""
         })
     }
-
     handleReplyShow = (commentId: string) => {
         //@ts-ignore
         let commentText = document.getElementById("commentText" + commentId).textContent.toString();
@@ -103,17 +106,17 @@ class Entry extends React.Component<entryProps, entryState>{
         let commentUser = document.getElementById("commentUser" + commentId).textContent.toString();
         this.setState({
             replyModalShow: true,
-            replyModalQuote: commentUser+": \""+commentText+"\""
+            replyModalQuote: commentUser+": \""+commentText+"\"" //get the comment a user is replying to's comment, will be put in #replyModal's textarea
         })
     }
 
+    //used to hide/show the #deleteCommentModal below
     handleDeleteCommentShow = (commentId: number): void => {
         this.setState({
             deleteCommentShow: true,
             commentToDelete: commentId
         });
     }
-
     handleDeleteCommentHide = () => {
         this.setState({
             deleteCommentShow: false,
@@ -121,7 +124,7 @@ class Entry extends React.Component<entryProps, entryState>{
         });
     }
 
-    //update state when text is change in form
+    //update state when text is change in new comment form
     handleCommentTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             newComment: {
@@ -131,6 +134,7 @@ class Entry extends React.Component<entryProps, entryState>{
         });
     }
 
+    //form submission handler for posting a new comment, if successful call reloadEntry() to get updated data
     handleNewCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         let result = await postComment({
@@ -143,6 +147,7 @@ class Entry extends React.Component<entryProps, entryState>{
         }
     }
 
+    //form submission handler for deleting a comment, if successful hide the #deleteCommentModal and call reloadEntry() to get updated data
     handleDeleteCommentSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         let response = await deleteComment(this.state.commentToDelete);
@@ -155,6 +160,7 @@ class Entry extends React.Component<entryProps, entryState>{
         }
     }
 
+    //Get the chosen entry's data and build the needed state JSX.Element arrays (comments, headings, etc.)
     getEntry = async () => {
         //get entry data
         let responseEntries = await getEntry(this.props.id);
@@ -250,8 +256,10 @@ class Entry extends React.Component<entryProps, entryState>{
         }
     }
 
-
-
+    /**
+     * When selected entry is change in the <EntryMenu/> component, reload the given entry.
+     * This is needed as we can go from entry to entry without unmounting this component, so we need to refetch the data.
+     */
     componentDidUpdate(prevProps: Readonly<entryProps>, prevState: Readonly<entryState>) {
         if(prevProps.id !== this.props.id){
             this.setState({
@@ -264,12 +272,19 @@ class Entry extends React.Component<entryProps, entryState>{
         }
     }
 
+
+    /**
+     * When going from <Landing/> to <Entry/> we have to call the getEntry() func on component mount.
+     * ComponentDidUpdate() handles from going from <Entry/> to <Entry/>
+     */
     componentDidMount() {
         //get entry object
         this.getEntry();
     }
 
     render(){
+
+        //if we're still waiting on data to be fetched, don't display the edit tab.
         let editTabElements: JSX.Element = <></>
         if(this.props.currentUser.accountLevel === 0 && this.state.data.id !== 0 && this.state.headings.length === this.state.data.headings.length){
             editTabElements =

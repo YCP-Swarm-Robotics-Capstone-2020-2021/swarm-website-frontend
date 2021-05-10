@@ -1,0 +1,24 @@
+/* background/color changes for the form fields/input group fields of the run table filter */
+#runTableFilter .input-group-prepend .input-group-text{
+    background-color: #3e444a;
+    color: white;
+    border: none;
+}
+
+#runTableFilter .form-control{
+    background-color: #343a40;
+    color: white;
+    border: none;
+}
+
+#runTableFilter .form-control:focus{
+    box-shadow: none;
+}
+
+#runTableFilter select:hover{
+    cursor: pointer;
+}
+
+#runTable tbody tr:hover{
+    cursor: pointer;
+}

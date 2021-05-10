@@ -18,6 +18,10 @@ interface wikiNotFoundState{
     wikiList: JSX.Element[];
 }
 
+/**
+ * Informs user that a given wiki id in route /wiki/{id} is not valid
+ * and fetches a list of valid wikis to display to them
+ */
 class WikiNotFound extends React.Component<{}, wikiNotFoundState>{
     constructor(props: {}) {
         super({});
@@ -28,6 +32,7 @@ class WikiNotFound extends React.Component<{}, wikiNotFoundState>{
     }
 
     componentDidMount() {
+        //get a list of valid wiki's, and build an array of <Link/>s to render below
         fetch(url+'/wiki',{
             method: 'GET',
             headers: {
